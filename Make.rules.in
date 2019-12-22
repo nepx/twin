@@ -90,7 +90,7 @@ TWIN_RCFLAGS  = $(TWIN_APISIZE:32=-DTWIN32) \
 # DLL (native library) building macros (FIXME: should be using libtool).
 
 DLL_EXT       = @DLL_EXT@
-DLL_LDFLAGS   = @DLL_LDFLAGS@
+DLL_LDFLAGS   = @DLL_LDFLAGS@ -m32
 DLL_LIBS      = -ltwin$(TWIN_APISIZE) $(blddir)/dlls/libdll/libdll.a -lc
 
 # Standard macros from autoconf.

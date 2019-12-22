@@ -5054,7 +5054,7 @@ fi
 
 if test -z "$no_x"
 then
-	X_LIBS="$X_LIBS -lX11"
+	X_LIBS="$X_LIBS -lX11 -ldl"
 fi
 
 
@@ -5430,7 +5430,7 @@ fi
 
 
 TWIN_CFLAGS=-m32
-LIBTWIN_LDFLAGS=-shared
+LIBTWIN_LDFLAGS="-shared -m32"
 DLL_LDFLAGS="-shared -Wl,-Bsymbolic"
 DLL_EXT=so
 

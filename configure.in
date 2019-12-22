@@ -268,7 +268,7 @@ dnl
 
 dnl Default to using GCC values...
 TWIN_CFLAGS=-m32
-LIBTWIN_LDFLAGS=-shared
+LIBTWIN_LDFLAGS="-shared -m32"
 DLL_LDFLAGS="-shared -Wl,-Bsymbolic"
 DLL_EXT=so
 

@@ -141,7 +141,7 @@ include $(blddir)/Make.rules
 XWINOBJ = WinMain.o TwinRT.res.o
 
 $(XWIN): $(LIBTWIN) $(XWINOBJ)
-	$(CC) $(LDFLAGS) -o $@ $(XWINOBJ) $(X_LIBS) -L. -ltwin$(TWIN_APISIZE) $(TWIN_DBMALLOC)
+	$(CC) $(LDFLAGS) -o $@ $(XWINOBJ) -L. -ltwin$(TWIN_APISIZE) $(TWIN_DBMALLOC) $(X_LIBS)
 
 #############################################################################
 #
