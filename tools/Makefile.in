@@ -1,0 +1,25 @@
+# Makefile.in for mksrc tool (to generate 32bit binary support files).
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ..
+
+target          = mksrc
+
+C_SRCS          = mksrc.c
+
+AUX_DISTCLEAN   = aux-distclean
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(CC) $(LDFLAGS) -o $@ $(OBJS)
+
+aux-distclean:
+	$(RM) $(target)
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

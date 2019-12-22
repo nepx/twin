@@ -1,0 +1,395 @@
+
+	Willows TWIN Libraries Frequently Asked Questions
+	April 12, 1999
+
+===============================================================================
+
+		Table of Contents
+
+Section 1:	General Information
+
+	1.1  	What are the Willows TWIN Libraries?
+	1.2	What are the license restrictions?
+	1.3	What is the availability of the sources?
+	1.4	What resources are available to help use Willows TWIN?
+	1.5	What is Twine?
+	1.6	Why is there two development projects?
+	1.7	What now for the two projects?
+
+Section 2: 	The Emulator
+
+	2.1	What is the Willows TWIN emulator?
+	2.2	Do I need Microsoft Windows installed to run?
+	2.3	What applications are supported by the binary emulator?
+	2.3.1	Windows 3.x Accessories
+	2.3.2	Microsoft Windows Games
+	2.3.3	Microsoft Windows Office 16bit applications
+	2.3.4	Microsoft Win32 (NT) applications
+	2.3.5	Petzold Win32 sample applications (Win32 compiled versions)
+
+Section 3:	Library Functionality
+
+	3.1	Does TWIN provide OLE 2.0 support?  
+	3.2	Can Willows TWIN Cut and Paste to the X Clipboard?
+	3.3	What additional Windows Libraries are supported?
+	3.4	What about printing?  Printer fonts?  Print Drivers?
+	3.5	What about Windows fonts?  Font API's, truetype, etc.
+	3.6	What about MFC?
+	3.7	What about Win32 binary support?
+
+Section 4:	Misc...
+
+	4.1	Is platform XYZ supported?
+	4.2	How do I add support for XYZ?
+	4.3	What is the status of the Macintosh port?
+
+Section 5:	Troubleshooting Q&A
+
+===============================================================================
+
+Section 1:	General Information
+
+1.1 	What are the Willows TWIN Libraries?
+
+	Willows TWIN Libraries are a cross platform implementation of
+	the Windows Win32 API.  It is available to support both Windows
+	3.x 16bit interface as well as the Windows 95/NT 32bit
+	interface.
+
+	As far as this software is concerned, we are a cross between source
+	level products such as Mainsoft and Bristol, and the binary software 
+	efforts such as Wabi, Insignia Solutions and WINE.
+
+	TWIN has three notable features:
+		1)	Runs on all major Unix platforms, not just Intel.
+		2)	TWIN is not just a Unix solution, TWIN supports 
+			several operating systems, and graphics environments.
+		3)	Supports Intel code execution even on RISC platforms,
+			through CPU emulation, allowing print drivers, and 
+			third party dll's to run.
+
+	The Willows TWIN Libraries are released as a set of interdependent
+	shared libraries implementing the Windows API.  The core Windows API's
+	are implemented in libtwin*.so, and represent the API's provided
+	by USER, KERNEL and GDI.  The remaining Windows API provided by
+	SHELL, VERSION, COMMDLG, COMCTL32, WINSOCK, OLE, MMSYSTEM, KEYBOARD
+	SOUND and MMSYSTEM, are implemented in their own shared libraries.
+	An integrated debugger is also in its own shared library.
+
+1.2	What are the license restrictions?
+
+   	The Willows TWIN Libraries are licensed under the GNU Library GPL, v2.
+   	This means you get the sources for the complete library, and all tools
+   	necessary to rebuild the libraries.  A copy of this license is provided
+	in COPYING.LIB that comes with the distribution.
+
+1.3	What is the availability of the sources?
+
+	The software is available from http://www.willows.com/.  We anticipate 
+	that it will be mirrored to several sites very soon.  The software is 
+	being released under the GNU Library General Public License (LGPL), 
+	in hopes that others will find it useful and make contributions to it.
+
+1.4	What resources are available to help use Willows TWIN?
+
+	Two mailing lists are provided; one for developer oriented issues, 
+	the other for TWIN user issues.  Please see http://www.willows.com/
+	to join either of these mailing lists, or to get further information.
+
+1.5	What is Twine?
+
+	Twine is a fork of the TWIN source tree by the folks at CodeWeavers.
+	You can find out more about them at http://www.codeweavers.com/.
+
+1.6	Why are there two development projects?
+
+	The main reason why the Twine fork was created is the goals of Willows
+	and goals of CodeWeavers are different.  For Willows, it is most
+	important to free the TWIN source code under the LGPL.  The folks at
+	CodeWeavers believe that this is a secondary goal, i.e. any new code
+	they write for TWIN will be licensed under the WINE license (WINEL).
+	For the maintainer and Willows, having a free implementation of the
+	Win32 API, in the long term, is more important than sacrificing our
+	freedom to get that extra functionality in the short term.
+
+1.7	What now for the two projects?
+
+	Since modifications to the original TWIN code are still under LGPL,
+	the maintainer will integrate such changes back into TWIN.  Because
+	source under the WINE license can be incorporated into LGPL software,
+	they too will be integrated into TWIN where possible, i.e. where the
+	architecture will not change.
+
+	An effort will be made to keep the two source trees from diverging.
+	But like many forks, the trees are expected to diverge.
+
+===============================================================================
+
+Section 2:	Using The Emulator
+
+2.1	What is the Willows TWIN emulator?
+
+	As mentioned above, the Willows TWIN libraries support Intel
+	code execution.  This execution is called binary emulation. 
+	This emulation can be enabled or disabled in the core library
+	components.  When enabled, a program can use this feature to
+	execute Windows application binaries.  One such program is the
+	Willows TWIN emulator.  This emulator is a sample application
+	that utilizes the binary emulation feature of the Willows TWIN
+	libraries.
+
+2.2	Do I need Microsoft Windows installed to run?
+
+	No, you do not need Microsoft Windows installed.  We can use, but do
+	not require, any Microsoft Windows components.  There are Windows
+	applications that TWIN can run, but they may require additional 
+	components from Microsoft Windows that TWIN does not provide.
+
+2.3	What applications are supported by the binary emulator?
+
+	The following is the current state of the emulator, based on the
+	Willows TWIN libraries.
+
+	Following each application is a number meaning:
+	1	Crashes the emulator.  Application does not work at all.
+	2	Application likely to crash emulator, some functionality.
+	3	No crashes, minimal functionality available.
+	4	No crashes, some features do not work.
+	5	Application runs Perfectly.
+
+2.3.1	Windows 3.x Accessories
+
+	calc.exe*      		5	
+	calendar.exe*  		5
+	cardfile.exe*  		5
+	charmap.exe*   		5
+	clipbrd.exe*   		5
+	clock.exe*     		5
+	control.exe*  		3 
+	notepad.exe*   		5
+	pbrush.exe*    		5
+	printman.exe*  		1
+	progman.exe*   		1	missing some undocumented api's
+	recorder.exe*  		-
+	regedit.exe*   		4	does not update setup.reg file
+	sol.exe*       		5
+	taskman.exe*   		5
+	terminal.exe*  		5
+	vershow.exe*		5
+	winfile.exe*		3	missing some undocumented api's
+	winhelp.exe*		5
+	wintutor.exe*		-
+	winver.exe*		5
+	write.exe*		4	some minor font problems
+
+2.3.2	Microsoft Windows Games
+
+	pegged.exe*    		5
+	cruel.exe*     		5
+	reversi.exe*   		5
+	freecell.exe*  		5
+	winmine.exe*		5
+	golf.exe*      		5
+	mshearts.exe*  		5
+	tic.exe*       		5
+	tp.exe*        		5
+
+2.3.3	Microsoft Windows Office 16bit applications
+
+	For the following applications, we have not rigorously tested them,
+	so can only put out comments about the state of the application.
+
+	winword.exe		
+			comes up runs, loads/saves files, enter data, 
+			etc.  Have exercised most menu options, except
+			those dealing with ole. Have some font problems
+			and printing is erratic.
+	excel4.exe
+	excel5.exe
+			comes up runs, loads/saves files, enter data, 
+			etc.  Have exercised most menu options, except
+			those dealing with ole.
+	powerpnt.exe
+			comes up runs, loads/saves files, enter data, 
+			etc.  Have exercised most menu options, except
+			those dealing with ole.
+	project.exe
+			comes up runs, loads/saves files, enter data, 
+			etc.  Have exercised some menu options. 
+	access.exe
+			currently does not come up at all, but we have
+			had it come up and exercised some menu options.
+			Have loaded a database successfully, but could
+			not execute many functions.
+
+2.3.4	Microsoft Win32 (NT) applications
+
+	The following applets are used for testing the Win32 binary emulation.
+
+	winver.exe
+	calc.exe
+	clock.exe
+
+2.3.5	Petzold Win32 sample applications (Win32 compiled versions)
+
+	Of the approximately 80 .exe files built under windows NT, well
+	over half of them operate correctly, and several others show
+	major functionality.
+
+===============================================================================
+
+Section 3:	Library Functionality
+
+3.1	Does TWIN provide OLE 2.0 support?  
+
+	No.  
+
+3.2	Can Willows TWIN Cut and Paste to the X Clipboard?
+
+	Yes, applications can cut and paste between each other and X11.
+
+3.3	What additional Windows libraries are supported by Willows TWIN?
+
+   	The TWIN Libraries support commdlg.dll functions, with all the user
+   	options for customization etc.  This includes OpenFile/Savefile, 
+	ChooseFont, ChooseColor, Find/Replace.... 
+
+	The 32bit version, supports the common controls.  The only major 
+	common control NOT supported at this time is the Rich-Text Edit
+	control.
+
+	The TWIN libraries does support the shell.dll interfaces, including 
+	those to the registration database, although the data is not currently 
+	persistent from one invocation to the next.
+
+3.4     What about printing?  Printer fonts?  Print Drivers?
+
+   	Printing is done precisely as under Windows.  Our print driver uses 
+	the DDK interface to printers, including escapes, printer dialogs, etc.
+	Our extension to the printing system is that the output of a printer.drv
+	is captured by the TWIN Library, and via settings in system.ini, and 
+	then re-directed, printed, saved to a file, spooled to the system 
+	printer etc.
+
+3.5	What about Window fonts?  Font API's, truetype, etc.
+
+	Windows Font API, CreateFont..., GetTextMetrics..., EnumFont...
+	These API's are supported just as they are in Windows.  We take the
+	font request and use a font search algorithm that utilises font
+	aliasing, height and character attributes, bold, italic..., and
+	generates a platform dependent font request.  On X11, this turns
+	into load/query font calls, while on a Mac, this turns into TrueType
+	font requests.  
+
+	The additional TrueType specific API's, getabcchar, GetOutline...
+	are only supported if a TrueType font server is running, and you have
+	the same ability to paint the characters as you have with Windows.
+
+	The Font Metric requests are likewise handled in the same fashion,
+	with the TWIN Libraries returning the appropriate values for a given
+	request, so that any drawing dependent on those measurements will be
+	correct.
+
+3.6: 	What about MFC?
+
+	MFC, we've taken the source for MFC, that comes with Visual C++, 
+	and compiled it, after serious massaging of Microsoft specific 
+	constructs.  With it, we were able to compile and run the sample 
+	code using our Libraries.  
+
+	The sample C++, MFC code runs natively, and can do dynamic linking
+	ala LoadLibrary(), of an Intel DLL, (the meter.dll sample source), the 
+	transition from native C++ ported code to Intel 16bit code was 
+	completely transparent to the application, it did GetProcAddress, 
+	etc. and did a straight call to the address returned, without doing 
+	any fancy data conversion.  Using the GNU C++ compilers, we have
+	been able to support applications using MFC 4.x. 
+
+3.7	What about win32 binary support?
+
+	At this time, our Intel interpreter only supports 16bit instructions,
+	so RISC platforms are NOT supported by the win32 binary loader.  Until
+	then only Intel based platforms will have support for win32 binaries.
+
+===============================================================================
+
+Section 4:	Misc...
+
+4.1	Is platform XYZ supported?
+
+	Currently, only the following platforms are tested:
+
+	GNU/Linux		x86
+	Solaris 2.5.1		Sparc
+
+	The following are supported but not tested:
+
+	OSF			DEC Alpha
+	HPUX 11.x		HP-PA
+	AIX 4.3.1		PowerPC
+	IRIX			SGI
+	SunOS 5			Sparc
+	SCO			x86
+	GNU/Linux		Arm (StrongARM)
+	GNU/Linux		PowerPC
+
+	Basically, Willows TWIN libraries will compile on any Unix (TM)
+	platform with the GNU tool set installed, i.e. GCC, GNU make,
+	bison, flex, etc.
+
+4.2	Will platform XYZ be supported, and how can I help?
+
+	Willows TWIN libraries is being developed on GNU/Linux and also
+	tested on Solaris, because these are the only platforms
+	available to the maintainers.
+
+	If you wish the maintainers to support or test each release on
+	certain platforms, you can provide access to these platforms or
+	download the snapshots and compile them and contribute patches
+	back to the project.
+
+4.3	What is the status of the Macintosh port?
+
+	Currently, the Macintosh support has stalled due to the lack of
+	hardware.  Though a Platform Abstraction Layer (PAL) is
+	available (on the ftp site, not with the standard
+	distribution), it has not been updated for quite some time.
+
+	The biggest problem with the Macintosh port is the build
+	environment.  The Willows TWIN libraries are built using
+	command line tools, but the Mac does not have the type of tools
+	necessary for the build procedure.  Therefore, it is very hard
+	to keep this port up-to-date.
+
+	Also, the Mac PAL does not support the Mac OS X Server.  A new
+	PAL driver will have to be written for this graphics backend.
+
+===============================================================================
+
+Section 5:	Troubleshooting Q&A
+
+1. Does xwin* work without your printer driver installed? 
+
+   Remove the printer specification from your win.ini file.  Applications
+   will still run, but not be able to print.
+
+2. Have you modified all entries in setup.reg to reflect the new location
+   of where the files are?
+
+3. Have you added the [truetype] line to your win.ini file?
+
+4. Does xwin* run with no arguments?
+
+   This is key to make sure that Willows TWIN Shared Libraries can be found
+   and loaded.
+
+5. Are you modifying and using the right TWIN configuration file, ie. there
+   is not a twinrc file in the directory where your apps reside?
+
+6. There is a /tmp directory, and you have C: mapped to /?
+
+7. Does openpath have : separator?
+
+===============================================================================
+
+[End of FAQ]

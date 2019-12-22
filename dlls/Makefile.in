@@ -1,0 +1,49 @@
+# Makefile.in for native shared libraries.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ..
+
+AUX_DEPEND      = aux-depend
+AUX_MOSTLYCLEAN = aux-mostlyclean
+AUX_CLEAN       = aux-clean
+AUX_DISTCLEAN   = aux-distclean
+
+C_SRCS          = dummy
+
+#####################################################################
+#
+# all the known dll's (shared libraries)
+#
+# We build all native libraries because we support both 16bit and
+# 32bit applications at the same time.
+#
+#####################################################################
+
+DLLS      = commdlg shell keyboard version system lzexpand toolhelp comm \
+            winsock ddeml sound w32sys win87em winspool
+DLLS32    = commctrl advapi32 msvcrt
+
+NATDLLS   = libdll $(DLLS) $(DLLS32)
+
+#####################################################################
+
+include $(blddir)/Make.rules
+
+all:
+	@for i in $(NATDLLS); do ( cd $(blddir)/dlls/$$i && $(MAKE) ); done
+
+install:
+	@for i in $(NATDLLS); do ( cd $(blddir)/dlls/$$i && $(MAKE) install-lib ); done
+
+aux-depend:
+	-for i in $(NATDLLS); do ( cd $(blddir)/dlls/$$i && $(MAKE) depend ); done
+
+aux-mostlyclean:
+	-for i in $(NATDLLS); do ( cd $(blddir)/dlls/$$i && $(MAKE) mostlyclean ); done
+
+aux-clean:
+	-for i in $(NATDLLS); do ( cd $(blddir)/dlls/$$i && $(MAKE) clean ); done
+
+aux-distclean:
+	-for i in $(NATDLLS); do ( cd $(blddir)/dlls/$$i && $(MAKE) distclean ); done

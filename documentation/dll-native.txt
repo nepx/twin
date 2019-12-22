@@ -1,0 +1,52 @@
+
+Willows Dynamic Link Libraries, DLL's
+:
+
+A Willow DLL is a shared library that has an extra object file linked into the
+library.  This extra object file is built from a module description file,  and
+contains the exported entry points of the library.  This extra object file 
+provides support to three functions within the Willows Library.
+
+	1) Resolve references to functions within the library when the 
+	   GetProcAddress function is called.
+	
+	2) Provide the mechanism for the Willows Library to call any LibMain
+	   and wep entry points to initialize and/or terminate the library.
+
+	3) Allows the library to be referenced at run-time by a handle which
+	   can be passed to any of the functions that load resources from the
+	   dynamic link library such as LoadResource, LoadBitmap, LoadString or
+	   any of the other resource types that may be bound to an application,
+	   including user-defined resources.
+
+If the shared library is only being linked to the application and not dynamically
+being accessed, and all function entry points are known at link time, then the
+shared library is not required to link with the dynamic link library module and
+does not need to provide a module description file.
+
+If a shared library is to become a dynamic link library, then a module 
+description file is required.  The module description file should contain the
+following entry points:
+
+	1) 	NAME	
+		This is the name of the dynamic link library.
+	
+	2) 	DESCRIPTION
+		This is a simple description of what the module is.
+
+	3)	EXPORTS
+		These are the exported entry points, with an optional ordinal
+		number that can be used in place of the function name.
+
+The module description file should then be compiled with the Willows Module
+Descriptor Compiler, mdc, and the object linked with the shared library.
+When building the dynamic link library with the module description file, the
+library libdll.a should also be linked to the library.  This provides stub 
+functions for LibMain, wep and a replacement for the library resource table,
+if no resources are going to be included with the library.  If the library 
+has resources, it should provide a resource table that should be compiled
+with the Willows Resource Compiler, rc with the object file from that linked
+to the shared library.
+
+
+

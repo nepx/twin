@@ -1,0 +1,11 @@
+
+WIN_OPENLOG="/users/log"
+export WIN_OPENLOG
+
+LD_LIBRARY_PATH=$PWD/win
+export LD_LIBRARY_PATH
+
+alias win=$PWD/win/xwin
+alias win32=$PWD/win/xwin32
+
+export TWINDIR=`pwd`

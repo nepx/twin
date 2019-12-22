@@ -1,0 +1,41 @@
+
+Library	TOOLHELP
+
+Segments
+
+HEAPSIZE  1024
+
+EXPORTS
+	GlobalHandleToSel	@50
+	GlobalFirst		@51
+	GlobalNext		@52
+	GlobalInfo		@53
+	GlobalEntryHandle	@54
+	GlobalEntryModule	@55
+	LocalInfo		@56
+	LocalFirst		@57
+	LocalNext		@58
+	ModuleFirst		@59
+	ModuleNext		@60
+	ModuleFindName		@61
+	ModuleFindHandle	@62
+	TaskFirst		@63
+	TaskNext		@64
+	TaskFindHandle		@65
+	StackTraceFirst		@66
+	StackTraceNext		@68
+	ClassFirst		@69
+	ClassNext		@70
+	SystemHeapInfo		@71
+	MemManInfo		@72
+	NotifyRegister		@73
+	NotifyUnRegister	@74
+	InterruptRegister	@75
+	InterruptUnRegister	@76
+	TerminateApp		@77
+	MemoryRead		@78
+	MemoryWrite		@79
+	TimerCount		@80
+	TaskSetCSIP		@81
+	TaskGetCSIP		@82
+	TaskSwitch		@83

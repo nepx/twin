@@ -1,0 +1,21 @@
+# Makefile.in for apidemo sample application.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ../..
+
+target          = windemo
+
+C_SRCS          = windemo.c
+RC_SRCS         = windemo.rc
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(CC) -o $@ $(OBJS) $(X_LIBS) -L$(blddir)/windows -lshell -lkeyboard
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

@@ -1,0 +1,25 @@
+# Makefile.in for mmsystem dll.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ..
+curdir          = `pwd`
+
+target          = libmmsystem.$(DLL_EXT)
+
+C_SRCS          = MultiMedia.c MMBin.c MCI.c MMIF.c midi.c \
+                  mmdrv.c wave.c mmaux.c
+RC_SRCS         = MultiMedia.rc
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(CC) $(DLL_LDFLAGS) -o $@ $(OBJS) -L$(blddir)/windows $(DLL_LIBS)
+	$(RM) $(blddir)/windows/$@
+	$(LN_S) $(curdir)/$@ $(blddir)/windows/$@
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

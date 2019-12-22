@@ -1,0 +1,21 @@
+# Makefile.in for treeview sample application.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ../..
+
+target          = treeview
+
+C_SRCS          = TViewApp.c TVDialog.c
+RC_SRCS         = TViewApp.rc
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(CC) -o $@ $(OBJS) -L$(blddir)/windows -lshell -lcomctl32
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

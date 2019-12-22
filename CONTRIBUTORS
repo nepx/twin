@@ -1,0 +1,27 @@
+This file contains a list of people who have contributed patches for bug
+fixes or additional functionality.  Contributors who provide comments,
+suggestions, and bug reports should be mentioned somewhere, but maybe
+not this file.
+
+Jacques-Olivier Goussard <Jacques_Goussard@cimmetry.com>
+	Lots of bug fixes and enhancements.
+
+Alberto Vignani <vignani@tin.it>
+	Maintainer of intp32 for DOSEMU project.
+
+Korotchenko A. A. <kaa@relex.ru>
+	Implementation of sysi86 code for FreeBSD.
+
+Gilles Depeyrot <Gilles.Depeyrot@wanadoo.fr>
+	Bug fixes
+	Patch maintainer
+
+jonathan <jonathan@corvu.com.au>
+	Bug fixes
+
+Thomas Boutell <boutell@boutell.com>
+	Bug fixes
+
+Donn Miller <dmmiller@cvzoom.net>
+	Bug fixes
+

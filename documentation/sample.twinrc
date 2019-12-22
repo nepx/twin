@@ -1,0 +1,68 @@
+# sample of ~/.twinrc
+# configuration file for twin library
+
+#
+# System defined variables.
+#
+
+[boot]
+#display=:0.0
+windows=/willows/windows
+temp=/tmp
+openpath=/willows/windows:/willows/bin:/willows/bin/demo
+
+debugger=1
+#noditherpure=0
+#colormap=0
+hiresfonts=1
+#vgamode=0
+#syncmode=0
+#nothreads=0
+#fatalerr=0
+#handlerr=0
+#noapistubs=0
+#nopaging=0
+#nochangecase=0
+#mapcurdir=0
+#colormask=0
+#failerr=1
+#warnerr=1
+#fixmeerr=1
+#stuberr=1
+
+[xdos]
+C=/
+#D=/cdrom
+
+[windows]
+#doubleclickrate=250
+#fontface=Helv
+#fontsize=18
+#fontweight=700
+
+#menusize=14
+#menuweight=400
+#dlgsize=12
+#dlgweight=700
+
+#iconfontface=Helv
+#iconfontsize=14
+
+#
+# These are retrieved directly by the TWIN library.
+#
+
+[colors]
+Background=192 192 192
+
+[fontsubstitutes]
+terminal=fixed,8,72
+
+[version]
+version   = win 98
+win 3.1   = 0x85000a03
+winnt 3.5 = 0x031b0503
+winnt 4.0 = 0x05650004
+win 95    = 0x80000004
+win 98    = 0x80000004
+version\winver.exe = win 3.1

@@ -1,0 +1,28 @@
+# Makefile.in for dos emulation library.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ..
+
+target          = libmsdos.a
+
+C_SRCS          = dos_int86.c dos_call.c dos_create.c dos_date.c \
+                  dos_error.c dos_timer.c dos_findfile.c \
+                  int_21.c fn_36.c fn_38.c \
+                  int_10.c int_11.c int_12.c int_13.c int_15.c int_1a.c \
+                  int_25.c int_2a.c int_2f.c int_31.c int_3d.c int_5c.c \
+                  mfs_config.c mfs_fileio.c mfs_findfile.c mfs_regexp.c \
+                  msclib.c mfs_core.c fat_core.c fat_fileio.c fat_findfile.c \
+                  fat_lib.c
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(AR) $@ $(OBJS)
+	$(RANLIB) $@
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

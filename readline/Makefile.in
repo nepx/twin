@@ -1,0 +1,23 @@
+# Makefile.in for readline library (used by debugger).
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ..
+
+target          = libreadline.a
+
+C_SRCS          = complete.c editline.c sysunix.c
+
+AUX_CFLAGS      = -DANSI_ARROWS -DHAVE_TCGETATTR -DHIDE -DUSE_DIRENT -DSYS_UNIX
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(AR) $@ $(OBJS)
+	$(RANLIB) $@
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

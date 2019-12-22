@@ -1,0 +1,92 @@
+ChangeLog			3.1.8
+	Added support for using debug malloc libraries. Added support
+	in configure for turning TRACING on/off, and made win16 binary
+	support optional.  Note: unlike win32 binary support, the win16
+	support has not been moved to a separate .dll yet.  The only
+	reason to remove win16 binary support is to save over 330k of
+	text and data, 1.01mb vs 1.34mb.  
+
+	Additional space can be removed from the library in the
+	following area's, and will be evaluated on subsequent releases.
+
+	xdos		remove int21 support, and use only windows API's.
+	xdos		remove support for FAT filesystems.
+	pal/x11 	remove winsock low-level driver support.
+	libtwin 	remove remaining thunks code.
+	libtwin		remove support for GetProcAddress().
+
+	This is the sizes of the individual libraries WITHOUT binary
+	support. Note, this is without TRACE and DEBUG support as well.
+
+	text	data	bss	dec	hex	filename
+	153584 	19716  	52     	173352 	2a528  	win/libcomctl32.so
+	4348   	2060   	28     	6436   	1924   	win/libcomm.so
+	65989  	30904  	160    	97053  	17b1d  	win/libcommdlg.so
+	9658   	1512   	924    	12094  	2f3e   	win/libddeml.so
+	60781  	22672  	2760   	86213  	150c5  	win/libdebug.so
+	4082   	2284   	28     	6394   	18fa   	win/libkeyboard.so
+	4968   	840    	4148   	9956   	26e4   	win/liblz32.so
+	22824  	10124  	620    	33568  	8320   	win/libmmsystem.so
+	4774   	1328   	28     	6130   	17f2   	win/libolecli.so
+	2567   	724    	60     	3351   	d17    	win/libolesvr.so
+	9579   	2268   	72     	11919  	2e8f   	win/libshell.so
+	2124   	576    	28     	2728   	aa8    	win/libsound.so
+	2011   	548    	28     	2587   	a1b    	win/libsystem.so
+	8687   	2008   	28     	10723  	29e3   	win/libtoolhelp.so
+	673543 	228344 	116688 	1018575	f8acf  	win/libtwin32.so
+	2136   	488    	28     	2652   	a5c    	win/libver.so
+	1769   	416    	28     	2213   	8a5    	win/libwin87em.so
+	14844  	3916   	256    	19016  	4a48   	win/libwinsock.so
+
+	This is the sizes of the individual libraries WITH binary
+	support. Note, this is *WITH* TRACE and DEBUG support.
+
+	text	data	bss	dec	hex	filename
+	153659 	19740  	52     	173451 	2a58b  	win/libcomctl32.so
+	5911   	2968   	28     	8907   	22cb   	win/libcomm.so
+	75005  	31240  	416    	106661 	1a0a5  	win/libcommdlg.so
+	10461  	1892   	924    	13277  	33dd   	win/libddeml.so
+	60781  	22672  	2760   	86213  	150c5  	win/libdebug.so
+	6277   	3580   	28     	9885   	269d   	win/libkeyboard.so
+	5576   	1004   	4148   	10728  	29e8   	win/liblz32.so
+	34768  	20600  	620    	55988  	dab4   	win/libmmsystem.so
+	8700   	2920   	28     	11648  	2d80   	win/libolecli.so
+	5010   	1372   	60     	6442   	192a   	win/libolesvr.so
+	12688  	4604   	72     	17364  	43d4   	win/libshell.so
+	3055   	988    	28     	4071   	fe7    	win/libsound.so
+	2683   	852    	28     	3563   	deb    	win/libsystem.so
+	10945  	3736   	28     	14709  	3975   	win/libtoolhelp.so
+	920047 	293588 	131572 	1345207	1486b7 	win/libtwin32.so
+	4804   	616    	28     	5448   	1548   	win/libver.so
+	1844   	440    	28     	2312   	908    	win/libwin87em.so
+	34411  	5288   	280    	39979  	9c2b   	win/libwinsock.so
+
+ChangeLog			3.1.7
+	Significant bug fixes.  Modified the resource handlers, and
+	method for win32 binaries to access resources based on HINSTANCE.
+
+	
+ChangeLog			3.1.6
+	Converted all remaining builtin dll's to shared libraries.
+		olecli,olisvr,version,comm,system,win87em
+
+	Fixed bugs in ./win/Profile.c
+		did not read properly from fat file systems
+
+	Fixed WinHelp() function to default to use winhelp.exe, but
+		lookup to see if an alias (twinhelp.exe) is defined.
+
+ChangeLog			3.1.5.1   April 21 1998
+	Bugs Fixed
+	./win/WinInit.c
+		1st argument to application popped off
+		fixes having notepad try to load ./win/xwin32
+
+	./win/Profile.c
+		fixes overwrite of buffer reading [extensions]
+		section.
+
+	./win/Debug.c
+		added Debug.c to resolve TWIN_DebuggerProc unresolved
+		reference in intp32.a
+

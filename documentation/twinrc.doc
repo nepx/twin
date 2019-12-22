@@ -1,0 +1,101 @@
+
+In the [boot] section, the variables control, windows and openpath have
+previously been defined and described.  These additional variables are
+defined: 
+
+display=<server name>
+        implemented=yes
+        default=:0.0, if DISPLAY not set
+
+        Allows a X display server to be defined in lieu of using the
+        environment variable DISPLAY.  Must have permission to connect
+        to that display. 
+
+fatal={0|1}
+        implemented=yes
+        default=0
+
+        If set to non-zero, a message box will be displayed if/when the
+        application calls the Window API, FatalAppExit(), otherwise the
+        application will just terminate. 
+
+temp=<directory>
+        implemented=yes
+        default=/tmp, if TMP is not set
+        
+        This allows an alternative directory to be used rather than the
+        /tmp directory.  If the variable TMP is set, it will override
+        this value. 
+
+tasking={0|1}
+        implemented=yes
+        default=1
+
+        If set to 0, the library will not allow more than 1 win16 binary
+        application to execute.  By typing ALT-F10, depending on your
+        window manager, a dialog box will be started allowing additional
+        applications to be started, and scheduled round-robin. 
+
+In the [windows] section of the .twinrc file, the following are defined: 
+
+DoubleClickRate=<double click time in milliseconds>
+        implemented=yes
+        default=250
+        
+        This allows the double click time to be set.  This is specific to
+        the twin libraries. 
+
+FontFace=<facename>
+        implemented=yes
+        default=Helv
+
+        This allows the font facename of the system font to be defined. 
+
+FontSize=<font size>
+        implemented=yes
+        default=18
+
+        This allows the font size of the system font to be defined. 
+
+FontWeight=<font weight>
+        implemented=yes
+        default=700, for win16, 400 for win32
+
+        This allows the weight of the system font to be defined. 
+
+IconFontFace=<facename>
+        implemented=yes
+        default=Helv
+
+        This allows the font facename for icons in MDI windows to be
+        defined. 
+
+IconFontSize=<font size>
+        implemented=yes
+        default=14
+
+        This allows the font size of the text used for icons to be
+        defined. 
+
+In the [xdos] section, the following are defined:  mode=value
+        implemented=no
+        default=250
+
+        This is what will be returned by the dos interrupt for Get
+        Equipment Flag. 
+
+memory=value
+        implemented=no
+        default=640
+
+        This is what will be returned to describe the amount of
+        conventional memory. 
+
+extended=value
+        implemented=no
+        default=15k
+
+        This is what will be returned to describe the amount of
+        extended memory.
+
+

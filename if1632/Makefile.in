@@ -1,0 +1,26 @@
+# Makefile.in for 16bit binary support files.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ..
+
+target          = libbin16.a
+
+BIN_C_SRCS_0    = Bin16.c
+BIN_C_SRCS_1    = LocalMem.c ConvertMsg.c Callback.c GenericIF.c \
+                  SpecialIF.c  HookIF.c MemoryIF.c PrintIF.c PrinterBin.c \
+                  CommIF.c BitmapBin.c OEMRoutines.c OEMTab.c make_thunk.c \
+                  invoke_binary.c ValidateModule.c KrnCatch.c
+C_SRCS          = $(BIN_C_SRCS_$(TWIN_BIN16))
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(AR) $@ $(OBJS)
+	$(RANLIB) $@
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

@@ -1,0 +1,14 @@
+
+#
+# read log file
+# show functions called
+#
+echo "Using log file $WIN_OPENLOG"
+
+grep "API CALL" /tmp/log |while read s a l n f p
+do 
+	echo $f  
+done |tr "(:" "  " |while read ff pp
+do 
+	echo $ff	
+done |sort |uniq -c |sort -n

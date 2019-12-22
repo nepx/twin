@@ -1,0 +1,24 @@
+# Makefile.in for pe32 dll.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ..
+curdir          = `pwd`
+
+target          = libpe32.$(DLL_EXT)
+
+C_SRCS          = LoadPE.c Resources32.c
+RC_SRCS         = PE.rc
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(CC) $(DLL_LDFLAGS) -o $@ $(OBJS) -L$(blddir)/windows $(DLL_LIBS)
+	$(RM) $(blddir)/windows/$@
+	$(LN_S) $(curdir)/$@ $(blddir)/windows/$@
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

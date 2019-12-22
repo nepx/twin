@@ -1,0 +1,41 @@
+# Makefile.in for commdlg dll.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ../..
+curdir          = `pwd`
+
+target          = libcommdlg.$(DLL_EXT)
+
+C_SRCS          = ChooseColor.c ChooseFont.c Commdlg.c \
+                  FindReplDlg.c GetOpenFileName.c PrintDlg.c \
+                  CommdlgIF.c CommdlgIT.c
+RC_SRCS         = Commdlg.rc
+
+AUX_C_SRCS      = commdlg32.c commdlg32Bin.c
+
+AUX_RCFLAGS     = -I$(top_srcdir) -ECommdlg_LibMain
+
+AUX_CLEAN       = aux-clean
+AUX_DISTCLEAN   = aux-distclean
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(CC) $(DLL_LDFLAGS) -o $@ $(OBJS) -L$(blddir)/windows $(DLL_LIBS)
+	$(RM) $(blddir)/windows/$@
+	$(LN_S) $(curdir)/$@ $(blddir)/windows/$@
+
+commdlg32.c commdlg32Bin.c: commdlg32.d
+	$(blddir)/tools/mksrc $< commdlg32 COMMDLG
+
+aux-clean:
+	$(RM) commdlg32.[ch] commdlg32Bin.[ch]
+
+aux-distclean: aux-clean
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

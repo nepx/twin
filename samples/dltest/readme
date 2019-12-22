@@ -1,0 +1,5 @@
+;; test 1 is opening a shared library
+;; test 2 is looking up, and executing exported function
+;; test 3 is opening a shared library, w/ .init function
+;; test 4 is looking up a function in lib2, that exists in lib1
+;; test 5 is looking up a variable in lib2, that exists in lib1

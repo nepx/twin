@@ -1,0 +1,598 @@
+
+dnl Process this file with autoconf to produce a configure script.
+AC_REVISION($Revision: 1.37 $)
+AC_INIT(windows/WinInit.c)
+AC_CONFIG_HEADER(include/platform.h)
+AC_CONFIG_AUX_DIR(scripts)
+
+#############################################################################
+#
+#	The purpose of this configure script is to generate the
+#	following files:
+#
+#	Makefile.config
+#
+#	This file describes the Willows Twin Library configuration
+#	including:
+#		1) where the sources are
+#		2) what the target is, linux, sunos,...
+#		3) what CPU we are running on
+#		4) whether building Debug or Release version of library
+#		5) whether building for win16 or win32
+#			use ./configure --enable-win16
+#		6) Where the libraries and binaries will be kept.
+#		7) CC, CFLAGS, etc.
+#		8) what thread package to use, ours, generic or none
+#		9) whether to build interpreter or not
+#		10) what flags are needed to build shared libraries
+#		11) what platform specific files need to be included
+#
+#############################################################################
+
+dnl **** MFC support macros ****
+
+TWIN_APISIZE=32
+TWIN_MAC=0
+TWIN_MACOCX=0
+MFC_DEFINES="-D_AFX_PORTABLE -D_AFX_OLD_EXCEPTIONS"
+MFC_DEFINES="$MFC_DEFINES -DNO_WINSOCK"
+MFC_DEFINES="$MFC_DEFINES -D_AFX_NO_SOCKET_SUPPORT"
+MFC_DEFINES="$MFC_DEFINES -D_AFX_NO_DEBUG_CRT"
+MFC_DEFINES="$MFC_DEFINES -D_AFX_NO_OLE_SUPPORT"
+MFC_DEFINES="$MFC_DEFINES -D_AFX_NO_DAO_SUPPORT"
+MFC_DEFINES="$MFC_DEFINES -D_AFX_NO_OCC_SUPPORT"
+MFC_DEFINES="$MFC_DEFINES -D_AFX_NO_DB_SUPPORT"
+MFC_DEFINES="$MFC_DEFINES -D_AFX_NO_INET_SUPPORT"
+MFC_DEFINES="$MFC_DEFINES -D_AFX_NO_RICHEDIT_SUPPORT"
+MFC_DEFINES="$MFC_DEFINES -D_AFX_NO_DOCOBJECT_SUPPORT"
+
+dnl **** Command-line arguments ****
+
+AC_ARG_ENABLE(bin16,
+[  --disable-bin16         disable support for win16 binaries],
+[if test "$enableval" = yes; then TWIN_BIN16=1; fi]
+[if test "$enableval" = no; then TWIN_BIN16=0; fi],
+[TWIN_BIN16=1])
+
+AC_ARG_ENABLE(bin32,
+[  --disable-bin32         disable support for win32 binaries],
+[if test "$enableval" = yes; then TWIN_BIN32=1; fi]
+[if test "$enableval" = no; then TWIN_BIN32=0; fi],
+[TWIN_BIN32=1])
+
+AC_ARG_ENABLE(intp,
+[  --enable-intp           use iX86 instruction-set interpreter],
+[if test "$enableval" = yes; then TWIN_INTP=1; fi]
+[if test "$enableval" = no; then TWIN_INTP=0; fi],
+[TWIN_INTP=0])
+
+AC_ARG_ENABLE(trace,
+[  --disable-trace         disable support for API tracing],
+[if test "$enableval" = yes; then TWIN_TRACE=1; fi]
+[if test "$enableval" = no; then TWIN_TRACE=0; fi],
+[TWIN_TRACE=1])
+
+AC_ARG_ENABLE(debugger,
+[  --disable-debugger      disable linux Intel built-in debugger],
+[if test "$enableval" = yes; then TWIN_DEBUGGER=1; fi]
+[if test "$enableval" = no; then TWIN_DEBUGGER=0; fi],
+[TWIN_DEBUGGER=1])
+
+AC_ARG_ENABLE(malloc,
+[  --enable-malloc         enable support for malloc tracing],
+[if test "$enableval" = yes; then TWIN_MALLOC=1; fi]
+[if test "$enableval" = no; then TWIN_MALLOC=0; fi],
+[TWIN_MALLOC=0])
+
+AC_ARG_WITH(dbmalloc,
+[  --with-dbmalloc         compile with debugging malloc lib (=lib)],
+[TWIN_DBMALLOC=${withval}])
+
+AC_ARG_WITH(mfcdir,
+[  --with-mfcdir           build MFC library (=mfc source dir)],
+[mfcdir=${withval}],
+[mfcdir=""])
+
+AC_ARG_WITH(samples,
+[  --with-samples          generate sample application Makefiles],
+[samples=$withval])
+
+AC_ARG_WITH(gnu_ld,
+[  --with-gnu-ld           using GNU linker],
+[gnu_ld=$withval],
+[gnu_ld=no])
+
+dnl **** Guess host/target/build system names ****
+
+AC_CANONICAL_SYSTEM
+
+case "$host" in
+   alpha-dec-osf* )
+	TARGET=osf
+	;;
+
+   *-*-hpux* )
+	TARGET=hpux
+	;;
+
+   *-ibm-aix* )
+	TARGET=aix
+	;;
+
+   *-sgi-irix* )
+	TARGET=irix
+	;;
+
+   *-*-solaris* )
+	TARGET=solaris
+	;;
+
+   *-*-sunos* )
+	TARGET=sunos
+	;;
+
+   alpha-*-linux* )
+	TARGET=linux
+	;;
+
+   arm-*-linux* )
+	TARGET=arm
+	;;
+
+   i*86-unknown-sco3.2v4* )
+	TARGET=sco
+	;;
+
+   i*86-unknown-freebsd* )
+	TARGET=freebsd
+	;;
+
+   i*86-*-linux* )
+	TARGET=linux
+	;;
+
+   i*86-*-cygwin* )
+	TARGET=cygwin
+	;;
+
+   powerpc-*-linux* )
+	TARGET=linux
+	;;
+
+   * )
+	AC_MSG_ERROR(You must add this platform to configure.in.)
+	;;
+esac
+
+dnl **** Check for some programs ****
+
+AC_PROG_CC
+if test -n "$mfcdir"
+then
+	AC_PROG_CXX
+fi
+AC_PATH_XTRA
+AC_PROG_YACC
+AC_PROG_LEX
+AC_PROG_RANLIB
+AC_PROG_LN_S
+AC_PROG_INSTALL
+AC_PROG_MAKE_SET
+
+dnl **** Check for some libraries ****
+
+dnl Check for -li386 for NetBSD
+AC_CHECK_LIB(i386,i386_set_ldt)
+
+dnl Check for -ldl/dld (dynamic loader)
+AC_CHECK_LIB(dl,dlopen)
+AC_CHECK_LIB(dld,shl_load)
+
+dnl Check for math library
+AC_CHECK_LIB(m,sqrt)
+
+dnl Check for -lX11
+if test -z "$no_x"
+then
+	X_LIBS="$X_LIBS -lX11"
+fi
+
+dnl **** Check for library headers ****
+
+AC_CHECK_HEADERS(dlfcn.h alloca.h)
+AC_CHECK_HEADERS(sys/statvfs.h sys/statfs.h sys/vfs.h sys/mount.h)
+
+dnl **** Check for library typedefs ****
+
+AC_CACHE_CHECK(
+	"whether va_list is a void pointer",
+	twin_cv_type_va_list_is_voidp,
+	AC_TRY_COMPILE(
+		[
+		#include <stdarg.h>
+		],
+		[
+		va_list va;
+		void *vp;
+		va = (va_list) vp;
+		],
+		twin_cv_type_va_list_is_voidp=yes,
+		twin_cv_type_va_list_is_voidp=no))
+if test "$twin_cv_type_va_list_is_voidp" = yes
+then
+	AC_DEFINE(TYPE_VA_LIST_IS_VOIDP)
+fi
+
+dnl
+dnl Fixups for system macros.
+dnl
+
+dnl **** Special fixups for specific compilers
+CDEP=true
+CXXDEP=true
+
+if test -n "$GCC" 
+then
+	CDEP="$CC -MM"
+	CXXDEP="$CXX -MM"
+	CC_save=$CC
+	CC="$CC -Werror -fPIC"
+	AC_CACHE_CHECK(
+		"whether -fPIC works with gcc on this platform",
+		twin_cv_gcc_fpic,
+		AC_TRY_COMPILE(
+			[
+			#include <stdio.h>
+			],
+			[
+			(void) printf("Hello world\n");
+			],
+			twin_cv_gcc_fpic=yes,
+			twin_cv_gcc_fpic=no))
+	CC="$CC_save -Wall"
+	if test "$twin_cv_gcc_fpic" = yes
+	then
+		CC="$CC -fPIC"
+	fi
+fi
+
+dnl
+dnl **** Special fixups for specific platforms
+dnl
+dnl Set compiler and linker flags.
+dnl
+
+dnl Default to using GCC values...
+TWIN_CFLAGS=
+LIBTWIN_LDFLAGS=-shared
+DLL_LDFLAGS="-shared -Wl,-Bsymbolic"
+DLL_EXT=so
+
+case "$host" in
+   alpha-dec-osf* )
+	TWIN_CFLAGS="-D_OSF_SOURCE"
+	if test -z "$GCC" 
+	then
+		TWIN_CFLAGS="$TWIN_CFLAGS -g 3 -taso -assume noaligned_objects"
+		DLL_LDFLAGS="-shared -init TWIN_LibEntry_\$(@:.so=)"
+	fi
+	;;
+
+   *-*-hpux* )
+	if test -z "$GCC" 
+	then
+		LIBTWIN_LDFLAGS=-b
+		DLL_LDFLAGS="+s -b +I TWIN_LibEntry_\$(@:.sl=) -c \$(DLL_RSRC).exp"
+		LIBS="$LIBS -Wl"
+	else
+		dnl Cause the environment variable SHLIB_PATH to be checked.
+		if test ${gnu_ld} = no
+		then
+			LIBTWIN_LDFLAGS="-shared -Wl,+s"
+			DLL_LDFLAGS="-shared -Wl,+s -Wl,+I -Wl,TWIN_LibEntry_\$(@:.sl=)"
+			LDFLAGS="-Wl,+s"
+		fi
+	fi
+	DLL_EXT=sl
+	AC_DEFINE(NEED_DBLCOPY_ALIGN)
+	;;
+
+   *-ibm-aix* )
+	TWIN_CFLAGS="-D_BSD"
+	if test -z "$GCC" 
+	then
+		LIBTWIN_LDFLAGS="-bM:SRE -bE:libtwin\$(TWIN_APISIZE).exports -bnoentry"
+		DLL_LDFLAGS="-bM:SRE -bE:\$(DLL_RSRC).exp -eTWIN_LibEntry_\$(@:.so.o=)"
+	fi
+	DLL_EXT=so.o
+	;;
+
+   *-sgi-irix* )
+	if test ${gnu_ld} = no
+	then
+		DLL_LDFLAGS="${DLL_LDFLAGS} -Wl,-init,TWIN_LibEntry_\$(@:.so=)"
+	fi
+	;;
+
+   *-*-solaris* )
+	if test -z "$GCC"
+	then
+		TWIN_CFLAGS="$TWIN_CFLAGS -KPIC"
+		LIBTWIN_LDFLAGS=-G
+		DLL_LDFLAGS="-G -Bsymbolic"
+	fi
+	AC_DEFINE(NEED_DBLCOPY_ALIGN)
+	;;
+
+   *-*-sunos* )
+   	if test -z "$GCC"
+	then
+		CC="/usr/lang/acc -Xa"
+		TWIN_CFLAG="-PIC"
+		LIBTWIN_LDFLAGS=
+		DLL_LDFLAGS=-Bsymbolic
+	fi
+	LIBS="$LIBS -lsocket"
+	AC_DEFINE(NEED_DBLCOPY_ALIGN)
+	;;
+
+   i*86-unknown-sco3.2v4* )
+	if test -z "$GCC"
+	then
+		TWIN_CFLAGS="-b elf -Kpic"
+		LIBTWIN_LDFLAGS=-G
+		DLL_LDFLAGS="-G -Bsymbolic"
+	fi
+	LIBS="$LIBS -lsocket"
+	;;
+
+   powerpc-*-linux* )
+	# egcs still broken on ppc
+	TWIN_CFLAGS=-g
+	;;
+esac
+
+dnl Determine the initialization method for shared libraries.
+if test -n "$GCC"
+then
+	AC_DEFINE(TWIN_GCCINIT)
+fi
+
+# System dependent MFC flags
+
+case "$target_cpu" in
+	i[[3456]]86 )
+		MFC_DEFINES="$MFC_DEFINES -D_X86_"
+	;;
+
+	mips )
+		MFC_DEFINES="$MFC_DEFINES -D_MIPS_"
+	;;
+
+	m68K )
+		MFC_DEFINES="$MFC_DEFINES -D_M68K_"
+	;;
+
+	alpha )
+		MFC_DEFINES="$MFC_DEFINES -D_ALPHA_"
+	;;
+
+	ppc* )
+		MFC_DEFINES="$MFC_DEFINES -D_PPC_"
+	;;
+
+esac
+
+dnl Determine some characteristics of the processor.
+AC_C_BIGENDIAN
+
+dnl **** Check for library functions ****
+
+AC_CHECK_FUNCS(settimeofday sysconf)
+AC_CHECK_FUNCS(statvfs statfs)
+
+if test "$ac_cv_func_statfs" = yes
+then
+	AC_CACHE_CHECK(
+		"whether statfs takes four parameters",
+		twin_cv_statfs_4parm,
+		AC_TRY_COMPILE(
+			[
+			#include <sys/types.h>
+			#include <sys/statfs.h>
+			],
+			[
+			struct statfs buf;
+			statfs("dummy", &buf, sizeof(buf), 0);
+			],
+			twin_cv_statfs_4parm=yes,
+			twin_cv_statfs_4parm=no))
+	if test "$twin_cv_statfs_4parm" = yes
+	then
+		AC_DEFINE(HAVE_STATFS_4PARAM)
+	fi
+fi
+
+dnl **** Normalize the TWIN_INTP and other CPU dependent variables ****
+
+case "$target_cpu" in
+    i*86 )
+	TWIN_CPU=X386
+    ;;
+
+    powerpc )
+	TWIN_CPU=ppc
+	TWIN_INTP=1
+	TWIN_DEBUGGER=0
+	TWIN_BIN32=0
+    ;;
+
+    hppa* )
+	TWIN_CPU=hppa
+	TWIN_INTP=1
+	TWIN_DEBUGGER=0
+	TWIN_BIN32=0
+    ;;
+
+    * )
+	TWIN_CPU=$target_cpu
+	TWIN_INTP=1
+	TWIN_DEBUGGER=0
+	TWIN_BIN32=0
+    ;;
+esac
+
+dnl **** Define macros for binary support ****
+
+if test "$TWIN_BIN16" = 1
+then
+	AC_DEFINE(TWIN_BIN16)
+fi
+
+if test "$TWIN_BIN32" = 1
+then
+	AC_DEFINE(TWIN_BIN32)
+fi
+
+dnl **** Other macros ****
+
+if test "$TWIN_MALLOC" = 1
+then
+	AC_DEFINE(WINMALLOC_CHECK)
+fi
+
+AC_DEFINE_UNQUOTED(TWIN_PLATFORM, "${target_os}")
+
+dnl *********************************
+
+AC_SUBST(TWIN_APISIZE)
+AC_SUBST(TWIN_BIN16)
+AC_SUBST(TWIN_BIN32)
+AC_SUBST(TWIN_TRACE)
+AC_SUBST(TWIN_DEBUGGER)
+AC_SUBST(TWIN_MALLOC)
+AC_SUBST(TWIN_DBMALLOC)
+AC_SUBST(TWIN_MAC)
+AC_SUBST(TWIN_MACOCX)
+AC_SUBST(mfcdir)
+AC_SUBST(TARGET)
+AC_SUBST(TWIN_INTP)
+AC_SUBST(TWIN_CPU)
+AC_SUBST(TWIN_CFLAGS)
+AC_SUBST(MFC_DEFINES)
+AC_SUBST(CDEP)
+AC_SUBST(CXXDEP)
+AC_SUBST(RCFLAGS)
+AC_SUBST(LIBTWIN_LDFLAGS)
+AC_SUBST(DLL_LDFLAGS)
+AC_SUBST(DLL_EXT)
+
+dnl
+dnl Print message if unable to build TWIN.
+dnl
+
+if test "$ac_cv_lib_dl" = no
+then
+	if test "$ac_cv_lib_dld" = no
+	then
+		AC_MSG_ERROR([platform does not support dynamic loading])
+	fi
+fi
+
+if test "$ac_cv_func_statvfs" = no
+then
+	if test "$ac_cv_func_statfs" = no
+	then
+		AC_MSG_ERROR([platform does not have statvfs nor statfs])
+	fi
+fi
+
+dnl **** Generate output files ****
+
+if test -n "$mfcdir"
+then
+	mfcmake="mfc/Makefile"
+fi
+
+if test -d ${srcdir}/samples
+then
+	if test "$samples" = yes
+	then
+		samples="samples/Makefile"
+		samples="$samples samples/windemo/Makefile"
+		samples="$samples samples/cdsdemo/Makefile"
+		samples="$samples samples/dlgdemo/Makefile"
+		samples="$samples samples/mdidemo/Makefile"
+		samples="$samples samples/msgdemo/Makefile"
+		samples="$samples samples/cliptext/Makefile"
+		samples="$samples samples/dlldemo/Makefile"
+		samples="$samples samples/wmfdemo/Makefile"
+		samples="$samples samples/hlpdemo/Makefile"
+		samples="$samples samples/prtdemo/Makefile"
+		samples="$samples samples/apidemo/Makefile"
+		samples="$samples samples/bindemo/Makefile"
+		samples="$samples samples/bindemo2/Makefile"
+		samples="$samples samples/bn2demo/Makefile"
+		samples="$samples samples/ctrldemo/Makefile"
+		samples="$samples samples/listview/Makefile"
+		samples="$samples samples/progbar/Makefile"
+		samples="$samples samples/treeview/Makefile"
+		samples="$samples samples/windemo32/Makefile"
+	fi
+fi
+
+AC_OUTPUT([
+Make.rules
+Makefile
+tools/Makefile
+tools/rc/Makefile
+controls/Makefile
+graphics/Makefile
+graphics/x11drv/Makefile
+if1632/Makefile
+memory/Makefile
+msdos/Makefile
+osdll/Makefile
+scheduler/Makefile
+windows/Makefile
+multimedia/Makefile
+ole/Makefile
+win32/Makefile
+dlls/Makefile
+dlls/advapi32/Makefile
+dlls/comm/Makefile
+dlls/commctrl/Makefile
+dlls/commdlg/Makefile
+dlls/ddeml/Makefile
+dlls/keyboard/Makefile
+dlls/libdll/Makefile
+dlls/lzexpand/Makefile
+dlls/msvcrt/Makefile
+dlls/shell/Makefile
+dlls/sound/Makefile
+dlls/system/Makefile
+dlls/toolhelp/Makefile
+dlls/w32sys/Makefile
+dlls/win87em/Makefile
+dlls/winsock/Makefile
+dlls/winspool/Makefile
+dlls/version/Makefile
+intp32/Makefile
+debugger/Makefile
+readline/Makefile
+programs/Makefile
+programs/prnsetup/Makefile
+$mfcmake
+$samples
+])
+
+echo
+echo "Configure finished.  Type 'make depend world' to compile TWIN."
+echo
+
+dnl Local Variables:
+dnl comment-start: "dnl "
+dnl comment-end: ""
+dnl comment-start-skip: "\\bdnl\\b\\s *"
+dnl compile-command: "autoconf"
+dnl End:

@@ -1,0 +1,39 @@
+# Makefile.in for shell dll.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ../..
+curdir          = `pwd`
+
+target          = libshell.$(DLL_EXT)
+
+C_SRCS          = Shell.c ShellIF.c Registry.c DragDrop.c About.c
+RC_SRCS         = About.rc
+
+AUX_C_SRCS      = shell32.c shell32Bin.c
+
+AUX_RCFLAGS     = -I$(top_srcdir)
+
+AUX_CLEAN       = aux-clean
+AUX_DISTCLEAN   = aux-distclean
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(CC) $(DLL_LDFLAGS) -o $@ $(OBJS) -L$(blddir)/windows $(DLL_LIBS)
+	$(RM) $(blddir)/windows/$@
+	$(LN_S) $(curdir)/$@ $(blddir)/windows/$@
+
+shell32.c shell32Bin.c: shell32.d
+	$(blddir)/tools/mksrc $< shell32 SHELL
+
+aux-clean:
+	$(RM) shell32.[ch] shell32Bin.[ch]
+
+aux-distclean: aux-clean
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

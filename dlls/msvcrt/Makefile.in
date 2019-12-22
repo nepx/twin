@@ -1,0 +1,37 @@
+# Makefile.in for msvcrt dll.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ../..
+curdir          = `pwd`
+
+target          = libmsvcrt.$(DLL_EXT)
+
+C_SRCS          = msvcrt.c
+RC_SRCS         = msvcrt.rc
+
+AUX_C_SRCS      = msvcrt32.c msvcrt32Bin.c
+
+AUX_CLEAN       = aux-clean
+AUX_DISTCLEAN   = aux-distclean
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(CC) $(DLL_LDFLAGS) -o $@ $(OBJS) -L$(blddir)/windows $(DLL_LIBS)
+	$(RM) $(blddir)/windows/$@
+	$(LN_S) $(curdir)/$@ $(blddir)/windows/$@
+
+msvcrt32.c msvcrt32Bin.c: msvcrt32.d
+	$(blddir)/tools/mksrc $< msvcrt32 MSVCRT
+
+aux-clean:
+	$(RM) msvcrt32.[ch] msvcrt32Bin.[ch]
+
+aux-distclean: aux-clean
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

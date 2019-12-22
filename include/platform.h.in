@@ -1,0 +1,242 @@
+/*  platform.h	1.0
+    Copyright 1997 Willows Software, Inc. 
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Library General Public License as
+published by the Free Software Foundation; either version 2 of the
+License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Library General Public License for more details.
+
+You should have received a copy of the GNU Library General Public
+License along with this library; see the file COPYING.LIB.  If
+not, write to the Free Software Foundation, Inc., 675 Mass Ave,
+Cambridge, MA 02139, USA.
+
+The maintainer of the Willows TWIN Libraries may be reached (Email) 
+at the address twin@willows.com	
+
+*/
+
+#ifndef platform__h
+#define platform__h
+
+/*********************************************************************
+ *
+ *  This file must be included by every module in our library, either
+ *  directly, or indirectly via windows.h.  The contents of this file
+ *  are the following types of things:
+ *
+ *    Platform-specific files that must be included in most/all modules.
+ *    Platform-specific capability definitions (TWIN_*) that drive
+ *        conditionally compiled code within the library.
+ *
+ *
+ *  The following are the available defines that can be made for each 
+ *  platform to enable/disable certain behaviour.  This overall list
+ *  must be kept up to date.  If a new capability is added, check all
+ *  platforms to see if the given entity should be defined for that
+ *  case.
+ *
+ *****************************************************************/
+
+/*
+ *  TWIN_ISCSYM_DEFINED		[OPTIONAL]
+ *
+ *      Set this if the platform already defines __iscsym().
+ *
+ * 	This macro is used in the winmapclib.h file, which is included
+ *	by any application using windows.h.
+ */
+#undef TWIN_ISCSYM_DEFINED
+
+/*
+ *  TWIN_BOOL_DEFINED		[OPTIONAL]
+ *
+ *	Set this if the platform already defines BOOL (and the definition is
+ *	compatible with the Windows definition).
+ *
+ * 	This macro is used in the windows.h file. 
+ */
+#undef TWIN_BOOL_DEFINED
+
+/*
+ *  TWIN_SHORT_DEFINED		[OPTIONAL]
+ *
+ *	Set this if the platform already defines SHORT (and the definition is
+ *	compatible with the Windows definition).
+ *
+ * 	This macro is used in the windows.h file. 
+ */
+#undef TWIN_SHORT_DEFINED
+
+/*
+ *  TWIN_USHORT_DEFINED		[OPTIONAL]
+ *
+ *	Set this if the platform already defines USHORT (and the definition is
+ *	compatible with the Windows definition).
+ *
+ * 	This macro is used in the windows.h file. 
+ */
+#undef TWIN_USHORT_DEFINED
+
+/*
+ *  TWIN_INT_DEFINED		[OPTIONAL]
+ *
+ *	Set this if the platform already defines INT (and the definition is
+ *	compatible with the Windows definition).
+ *
+ * 	This macro is used in the windows.h file. 
+ */
+#undef TWIN_INT_DEFINED
+
+/*
+ *  TWIN_UINT_DEFINED		[OPTIONAL]
+ *
+ *	Set this if the platform already defines UINT (and the definition is
+ *	compatible with the Windows definition).
+ *
+ * 	This macro is used in the windows.h file. 
+ */
+#undef TWIN_UINT_DEFINED
+
+/*
+ *  TWIN_LONG_DEFINED		[OPTIONAL]
+ *
+ *	Set this if the platform already defines LONG (and the definition is
+ *	compatible with the Windows definition).
+ *
+ * 	This macro is used in the windows.h file. 
+ */
+#undef TWIN_LONG_DEFINED
+
+/*
+ *  TWIN_ULONG_DEFINED		[OPTIONAL]
+ *
+ *	Set this if the platform already defines ULONG (and the definition is
+ *	compatible with the Windows definition).
+ *
+ * 	This macro is used in the windows.h file. 
+ */
+#undef TWIN_ULONG_DEFINED
+
+/*
+ *  TYPE_VA_LIST_IS_VOIDP
+ *
+ *	Set this if va_list on this platform is a void pointer.  Systems
+ *	like Alpha and PPC define va_list to be a data structure.
+ */
+#undef TYPE_VA_LIST_IS_VOIDP
+
+/*
+ *  TWIN_EMPTY_LSD_PRINTER		[OPTIONAL]
+ *
+ *	Set this if the platform requires an empty lsd printer table, if
+ *	the application does not intend to support printing.
+ */
+#undef TWIN_EMPTY_LSD_PRINTER
+
+/*
+ *  WORDS_BIGENDIAN
+ *
+ *	Set this if the processor byte order is bigendian.
+ *	Used by intp32.
+ */
+#undef WORDS_BIGENDIAN
+
+/*
+ *  NEED_DBLCOPY_ALIGN
+ *
+ *	Set this if the processor requires long long to be word aligned.
+ *	Used by intp32.
+ */
+#undef NEED_DBLCOPY_ALIGN
+
+/*
+ *  System header files needed for library.
+ */
+#undef HAVE_SYS_STATVFS_H
+#undef HAVE_SYS_STATFS_H
+#undef HAVE_SYS_VFS_H
+#undef HAVE_SYS_MOUNT_H
+#undef HAVE_DLFCN_H
+
+/*
+ * Library functions.
+ */
+#undef HAVE_SETTIMEOFDAY
+#undef HAVE_SYSCONF
+#undef HAVE_STATVFS
+#undef HAVE_STATFS
+#undef HAVE_STATFS_4PARAM
+
+/*
+ * Libraries.
+ */
+#undef HAVE_LIBDLD
+
+/*
+ *  TWIN_PLATFORM
+ *	
+ *	Set to the system name.
+ *
+ *	Defaults to "Unknown"
+ */
+#undef TWIN_PLATFORM
+
+/*
+ *  TWINRCFILE
+ *	
+ *	Set to the name of the users runtime configuration file. On unix, this
+ *	would be .twinrc, in the users home directory.
+ *
+ *	Defaults to "twinrc", if not set.
+ */
+#define TWINRCFILE ".twinrc"
+
+/*
+ * System specific defines.
+ */
+
+#undef TWIN_GCCINIT
+#undef TWIN_DRVINIT
+
+#if defined(linux)
+#define SYNC_CODE_DATA
+#endif
+
+#if defined(macintosh)
+#include <stdlib.h>
+#endif
+
+#ifdef __VMS
+#include <stdlib.h>
+#define  unlink(x) delete(x)
+#if __VMS_VER < 70000000
+ int strcasecmp(const char *, const char *);
+ int strncasecmp(const char *, const char *,size_t);
+#define TWINRCFILE "twinrc.dat"
+#endif
+#define TWIN_PLATFORM	"VMS"
+#endif
+
+/*****************************************************************/
+
+#define TWIN_SLASHSTRING	"/"
+#define TWIN_SLASHCHAR	 	'/'
+#define _EXTERN_ extern
+
+/*****************************************************************/
+
+/*
+ * Optional features for the library.
+ */
+
+#undef TWIN_BIN16
+#undef TWIN_BIN32
+#undef WINMALLOC_CHECK
+
+#endif  /* platform__h */

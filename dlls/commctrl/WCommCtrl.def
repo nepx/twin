@@ -1,0 +1,52 @@
+Library COMCTL32
+EXETYPE	WINDOWS
+STUB	'WINSTUB.EXE'
+CODE	PRELOAD MOVEABLE DISCARDABLE
+DATA	PRELOAD SINGLE
+
+HEAPSIZE 1024
+
+Win32
+
+EXPORTS
+	WEP			@1  RESIDENTNAME
+	InitCommonControls	@17
+	DrawInsert		@15
+	LBItemFromPt		@14
+	MakeDragList		@13
+	CreatePropertySheetPageA	@18
+	CreatePropertySheetPage		@12
+	CreatePropertySheetPageW	@19
+	DestroyPropertySheetPage	@23
+	PropertySheet 			@82
+	PropertySheetA			@83
+	PropertySheetA			@84
+	CreateStatusWindow		@6
+	CreateToolbarEx			@22
+	ImageList_Add			@38
+	ImageList_AddMasked 		@40   
+	ImageList_BeginDrag 		@41  
+	ImageList_Create 		@43 
+	ImageList_Destroy 		@44
+	ImageList_DragEnter 		@45
+	ImageList_DragLeave 		@46
+	ImageList_DragMove 		@47
+	ImageList_DragShowNolock 	@48
+	ImageList_Draw 			@49
+	ImageList_DrawEx 		@50
+	ImageList_EndDrag 		@53
+	ImageList_GetBkColor 		@54
+	ImageList_GetDragImage 		@55
+	ImageList_GetIcon 		@56
+	ImageList_GetIconSize 		@57
+	ImageList_LoadImage 		@61
+	ImageList_LoadImage 		@62
+	ImageList_LoadImageW 		@63
+	ImageList_Merge 		@64
+	ImageList_Remove 		@66
+	ImageList_Replace 		@67
+	ImageList_ReplaceIcon 		@68
+	ImageList_SetBkColor 		@69
+	ImageList_SetDragCursorImage    @70
+	ImageList_SetIconSize 		@76
+	ImageList_SetOverlayImage 	@78

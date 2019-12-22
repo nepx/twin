@@ -1,0 +1,511 @@
+Message Conversion in Level 2          
+
+This document describes how the interface layer machinery and additional API
+machinery is used to do conversion of messages between the binary and native
+worlds. This conversion is required to convert the data within a message that
+is being sent to a window, when the data is dependent on the way that the 
+control interpretes the message.  The main example is WM_USER which has a
+different message for each control.  The library only knows the native value,
+and the control has to convert the value when it is passing into the binary 
+world.  This is particularly important for superclassed controls, and source
+ports that use binary only controls.
+
+WM_CONVERT Message
+------------------
+
+The WM_CONVERT message is used to package binary-world messages so that they
+can be passed through the native world message handling machinery or native
+world messages so that they can be passed through binary world message handling
+machinery.
+
+The message code for WM_C0NVERT will be some internal MS Windows message code
+that will not otherwise appear in Willows Twin.
+
+The WM_CONVERT message wParam is a flag word with the following flags defined:
+
+    HSWMC_NATMSG: The encapsulated message is a native message in native
+        format.
+
+    HSWMC_BINMSG: The encapsulated message is a binary message.  The message
+        will be in native byte-rotation, but will otherwise be unconverted
+        from binary format (e.g. will still have sel:off addresses).
+
+    HSWMC_SIMSTACK: Standard SendMessage/WindowProc parameters for this
+        message are also on top of the simulated stack with a return address.
+        (HSWMC_BINMSG only.  This is useful for SendMessage optimization.)
+    
+    HSWMC_ALLOC: If set, the consumer of this message must free the storage
+        pointed to by lParam.
+
+    HSWMC_DEST_MASK: A mask for extracting one of the following values.  These
+        values indicate the kind of parameter passing to use in calling the
+        procedure in the targ field.
+
+    HSWMC_DEST_WINDOW_PROC: This message is destined for a standard window
+        handler procedure (WindowProc).
+    
+    HSWMC_DEST_DEF_FRAME: This message is destined for DefFrameProc.  The
+        hswnMDIClient parameter is saved in the hook_wParam field.
+
+    HSWMC_DEST_CALLWNDPROC: This message is destined for a CallWndProc 
+        (WH_CALLWNDPROC) hook. The code and wParam parameters for this call
+        are saved in the hook_code and hook_wParam fields.
+    
+    HSWMC_DEST_FILTER: This message is destined for a GetMsgProc, SysMsgProc,
+        or MessageProc (WH_GETMESSAGE, WH_MSGFILTER, WH_SYSMSGFILTER) hook.
+        The hook code parameter is saved in the hook_code field.
+    
+The WM_CONVERT message lParam is a native pointer to the following native
+structure.  This is true even for the binary form of the message which contains
+an unreconstructed native pointer.
+
+        typedef struct tagWMCONVERT
+            {   LPARAM  lParam;
+                WPARAM  wParam;
+                UINT    uMsg;
+                (long) targ ();     /* pass converted message to this proc */
+                int     hook_code;  /* used for HSWMC_DEST_CALLWNDPROC */
+                                    /* and HSWMC_DEST_FILTER */
+                WPARAM  hook_wParam;/* used for HSWMC_DEST_CALLWNDPROC */
+                                    /* and HSWMC_DEST_DEF_FRAME */
+            } WMCONVERT;
+
+The uMsg, wParam, and lParam fields will always be in native byte order, even
+if the HSWMC_BINMSG flag is set.  Storage for the targ, hook_code, and
+hook_wParam fields needs to be present, even if not filled in, because
+subsequent processing may fill them in.
+
+
+Windows, Classes, WindowProc, and SendMessage
+---------------------------------------------
+
+1.  Every Class has two C-callable conversion routines: bin_to_nat and
+    nat_to_bin with the following prototypes:
+
+        LRESULT nat_to_bin ( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam )
+    
+        LRESULT bin_to_nat ( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam )
+
+    These routines both convert all of the standard messages for the window
+    class they are associated with.
+
+    The nat_to_bin routine is a standard conversion routine for creating
+    native thunks for binary routines.  As such, it assumes the target procedure
+    sel:off has been set into the current ENV structure.
+
+    The bin_to_nat routine is not a standard conversion routine, and only
+    accepts WM_CONVERT messages.  It gets its target routine from the
+    WM_CONVERT message.
+
+    Both of these routines convert messages (as WindowProc parameters), call
+    the target routine, and convert return values, just as a normal conversion
+    routine would.  
+
+2.  Every Class and every Window has a WindowProc.  This will always be a
+    C-callable function pointer to either a native WindowProc or a native
+    thunk for a binary WindowProc.  In the latter case, the nat_to_bin
+    routine for the window class is used as the conversion routine in the
+    thunk.
+
+3.  When _86_SendMessage is called, it encapsulates the binary message in a
+    WM_CONVERT message, and calls SendMessage.  The wParam field must
+    contain HSWMC_BINMSG only.  SendMessage should never receive a WM_CONVERT
+    message.
+
+4.  When _86_CallWindowProc is called, the binary message is also encapsulated
+    in a WM_CONVERT message with the HSWMC_BINMSG flag, and CallWindowProc is
+    called.  The destination window procedure is converted into a native
+    thunk using the bin_to_nat conversion routine for the window class of the
+    destination window.  (If the binary procedure is really a binary thunk for
+    a native procedure, the process of creating this thunk will un-thunk the
+    binary thunk to its original native function pointer.)
+
+5.  When CallWindowProc is called, it checks whether it was passed a WM_CONVERT
+    message.  If it was passed a WM_CONVERT message and that message has
+    NULL in the targ field of the WMCONVERT structure, the it assigns the
+    window procedure function pointer (wndprcPrev) to the targ field.  (If
+    the targ field is not NULL, then the targ field is not updated.)
+
+    CallWindowProc then does normal CallWindowProc processing.
+
+6.  The nat_to_bin conversion routine for a window class (that is used in a
+    native thunk to a binary WindowProc for that class) does the
+    following:
+    
+        For a WM_CONVERT message (which must be HSWMC_BINMSG): Unpack the
+        original binary message onto the simulated stack and calls
+        invoke_binary.
+
+        For other messages: converts the message onto the simulated stack and
+        calls invoke_binary.
+
+    (Some tools for aiding the creation of such conversion routines are
+    discussed below under WindowProc Conversion Routines.)
+
+7.  A native WindowProc that receives a WM_CONVERT message can do one of
+    two things.  The most natural, is to not recognize the message and pass
+    it to DefWindowProc along with any other message it does not handle.
+    (What DefWindowProc does with it is described below.) Alternatively, the
+    WindowProc can handle the message by unpackaging the binary message, and
+    doing its own conversions on it.  (This might be reasonable for high
+    frequency messages from the binary world to default native window
+    handlers.)
+
+8.  When _86_DefWindowProc is called, it packages up its binary message in
+    a WM_CONVERT message (with HSWMC_BINMSG), sets a pointer to DefWindowProc
+    in the targ field of the WMCONVERT structure, and calls DefWindowProc
+    which will convert the binary message and pass the converted message
+    to itself (as pointed to by the targ field).
+
+9.  When DefWindowProc gets a WM_CONVERT message, it will have come from one
+    of two places: a native WindowProc that didn't know how to deal with it,
+    or _86_DefWindowProc.  In either case DefWindowProc needs to convert the
+    message and pass it to the targ procedure in the WMCONVERT structure.
+    To do this, it gets the window class bin_to_nat message converter and
+    calls it with the WM_CONVERT message.  The bin_to_nat message converter
+    converts the binary message to native format and calls the the targ
+    function in the WMCONVERT structure.  If DefWindowProc was called from
+    a native WindowProc, the targ field will point to that WindowProc.  If
+    DefWindowProc was called from _86_DefWindowProc, the targ field will point
+    to DefWindowProc.
+
+10. When a binary routine calls _86_SetWindowLong with nOffset==GWL_WNDPROC,
+    the WindowProc of a window is changed.  The conversion routine creates a
+    native thunk for the new binary WindowProc using the nat_to_bin conversion
+    routine for the window class.  This thunk is passed to SetWindowLong who
+    returns the old native WindowProc pointer.  A binary thunk is created from
+    this old WindowProc pointer.  (If the old pointer was a native thunk, then
+    the original binary routine is recovered rather than a new thunk created.)
+    The conversion routine for this thunk just fails, as the returned pointer
+    should only be called from the binary world by passing it to
+    _86_CallWindowProc (who will de-thunk it first).  Exactly the same thing
+    happens if _86_SetClassLong is called with nIndex==GCLWNDPROC.
+
+11. When a native routine calls SetClassLong or SetWindowLong with
+    nIndex==GCL_WNDPROC or nOffset==GWL_WNDPROC,  the native WindowProc
+    pointer is updated and the old native WindowProc returned.  
+
+12. A native .dll that has an interface layer may register window classes that
+    need special conversion routines.  The conversion routines may be
+    associated with the class by calling SetClassLong with nIndex==GCL_BINTONAT
+    or nIndex==GCL_NATTOBIN.  (Binary routines may not call SetClassLong with
+    these values for nIndex.)
+
+13. The find and replace dialog boxes in the common dialog module register a
+    message, FINDMSGSTRING, which they pass to arbitrary windows.  This
+    message is non-trivial because its lParam points to a structure in
+    memory.  The message must be treated as a standard message and converted
+    by all standard message handlers (typically a native to binary translation).
+    Presumably, the converter will do a RegisterWindowMessage(FINDMSGSTRING) to
+    determine the message code.  (See Vol. 1, pg. 153)
+
+
+
+
+The Message Queue and Message Loop
+----------------------------------
+
+1.  The message queue is kept in native format, but may contain WM_CONVERT
+    messages that encapsulate binary messages.  In that case, the WMCONVERT
+    structure associated with the message will be part of the queue element.
+
+2.  The _86_PostMessage routined encapsulates binary messages into WM_CONVERT
+    messages and passes them to PostMessage.  If it is passed a WM_CONVERT
+    message (which must be HSWMC_NATMSG) it recovers the original native
+    message and passes it to PostMessage.
+
+3.  QueueAddMessage (called by PostMessage) puts a message on the message
+    queue.  If it is passed a WM_CONVERT message (which must be HSWMC_BINMSG),
+    it copies the WMCONVERT structure onto the queue with the message.  (Note
+    that the targ, hook_code, and hook_wParam fields will NEVER be used in
+    this case.)
+
+4.  QueueGetMessage (called by GetMessage) gets a message from the message
+    queue.  If the message removed from the queue is a WM_CONVERT message,
+    then it places the WMCONVERT structure in the queue element in a circular
+    buffer and updates the lParam of the WM_CONVERT message to point to the
+    buffer element.  It also sets the HSWMC_ALLOC flag in the wParam of the
+    WM_CONVERT message.
+    
+5.  The _86_GetMessage routine calls GetMessage with the address of a local
+    message buffer (and the other parameters from the binary world).  If the
+    message returned to this buffer is a WM_CONVERT message (which must be
+    HSWMC_BINMSG), _86_GetMessage extracts the original binary message and
+    returns it to the binary message buffer whose address it was passed.  If
+    the message returned is not a WM_CONVERT message, then _86_GetMessage does
+    one of the following things:
+
+        If the message is a common message that can be converted by byte
+        rotation, this is done and the converted message placed in the
+        binary message buffer.  This includes keyboard messages.
+
+        If the message is a common message that may be examined by the binary
+        GetMessage loop and requires more conversion than byte rotation, then
+        this conversion is done and the converted message is placed in the
+        binary message buffer.  Resources for the conversion must be allocated
+        from circular pools.  These will include segment numbers for converting
+        string addresses and data areas in a binary segment for converting
+        data structures.
+
+        For all other cases, a binary WM_CONVERT message with the HSWMC_NATMSG
+        and HSWMC_ALLOC flags is placed in the binary message buffer.  The
+        lParam is a byte reversed native pointer to a newly allocated slot in
+        a circular buffer of WM_CONVERT messages.  This buffer slot has the
+        original NATIVE message placed in it.
+
+6.  When _86_TranslateAccelerator, _86_TranslateMessage, or TranslateMDISysAccel
+    are called from the binary world, the conversion routines first check to
+    see if the message passed to them is a keyboard message.  If not, the
+    conversion routine just returns without calling the native API routine.
+    If the message is a keyboard message, then byte-reversal conversion is done
+    on it and the native API routine (TranslateAccelerator, TranslateMessage,
+    or TranslateMDISysAccel) called.  Note that keyboard and mouse messages
+    will never be encapsulated for GetMessage.
+???? how to handle _86_IsDialogMessage 
+
+7.  The _86_DispatchMessage routine packages the binary message in a
+    WM_CONVERT message before calling DispatchMessage.  These have only the
+    HSWMC_BINMSG flag.  If a WM_CONVERT message (with HSWMC_NATMSG) is passed
+    to _86_DispatchMessage, it extracts the original native message and 
+    passes it to DispatchMessage.
+
+8.  Note that anyone who removes a message from a WM_CONVERT message (thereby
+    consuming the WM_CONVERT message) must check the HSWMC_ALLOC flag and, if
+    it is present, free the WMCONVERT structure pointed to by the message.
+    This applies to _86_DispatchMessage and the WindowProc conversion
+    routines.  Because of the way such messages are created, no more than a
+    few (usually one) will exist with HSWMC_ALLOC set at any given time.
+    Thus, a small circular buffer of WMCONVERT structures could be used to
+    allocate from, and freeing the structures would then be a non-operation.
+
+
+Hooks
+-----
+
+1.  When a binary routine calls _86_SetWindowsHookEx, the procedure
+    for the filter function is combined with a conversion routine into a
+    native thunk, and passed to SetWindowsHookEx.  The conversion routine
+    depends on the kind of hook function that is being set as given by the
+    idHook parameter.  The actual function of the conversion routine is
+    described below for each kind of hook.  (The returned value from
+    SetWindowsHookEx is a handle and does not need to be thunked by
+    _86_SetWindowsHookEx.)
+
+2.  When a hook is called, we have a native message and a native hook routine,
+    so we can just call the hook with the message (in the correct data
+    structure for the type of hook).  The only problem at this point is a
+    WM_CONVERT message (which must be HSWMC_BINMSG).  
+    
+    If a WM_CONVERT message is being passed to a true native hook routine
+    (rather than a native thunk for a binary routine), then the original binary
+    message must be removed and converted, so the hook routine can see the
+    actual message.  This is done by setting the correct hook mask in the
+    WM_CONVERT message, filling in the hook_code and hook_wParam fields of
+    the WMCONVERT structure, setting the hook routine address in the targ field
+    of the WMCONVERT structure, finding the bin_to_nat conversion routine for
+    the destination window (the standard routine if no destination window), 
+    and passing the modified message to this routine.  It will convert the
+    message correctly and call the hook routine.
+
+    In the case of HW_DEBUG hooks, the WM_CONVERT message is just passed
+    directly to the hook routine (see below).  In the case of WH_CBT, 
+    WH_HARDWARE, WH_KEYBOARD, WH_MOUSE hooks, the conversion does not depend on
+    the target window, so the binary message can be converted by a standard
+    routine for each of these hook types.
+
+3.  When a native thunk is called from a hook routine, the conversion routine
+    bound into the thunk gets control.  In the general case does one of the
+    following:
+
+        WM_CONVERT message (which must be HSWMC_BINMSG): it removes the
+        original binary message and passes it to the binary hook routine.
+
+        (Common messages: it converts the message and passes it to the
+        binary hook routine.  This is an optimization and could be omitted.)
+
+        Other messages: it finds the bin_to_nat conversion routine for the
+        window class of the target window (using the common bin_to_nat if
+        there is no window).  It then packages the native message in a
+        WM_CONVERT message with the HSWMC_NATMSG flag and the correct hook
+        routine mask.  It passes this message to the bin_to_nat conversion
+        routine, which converts the parameters and calls the binary hook
+        routine.
+
+4.  The above covers WH_CALLWNDPROC, WH_GETMESSAGE, WH_MSGFILTER,
+    and WH_SYSMSGFILTER.  Exceptions to the above are:
+
+        WH_CBT: this hook has its own set of messages, not related to the
+        target window class.  Thus the conversion routine can convert them
+        directly.
+
+        WH_DEBUG: this hook routine will just be passed WM_CONVERT messages
+        (with HSWMC_NATMSG flag) directly for all native messages.  The
+        assumption is that it will be native/binary aware if it is running
+        in a native/binary environment.
+
+        WH_HARDWARE, WH_JOURNALPLAYBACK, WH_JOURNALRECORD, WH_KEYBOARD,
+        WH_MOUSE:  each of these has its own conversion routines that just
+        directly converts the simple message types that are passed to these
+        hooks, handling the specialized parameter format directly.
+    
+5.  The _86_CallNextHookEx routine converts its parameters in the standard
+    way, encapsulating any embedded messages into WM_CONVERT messages.  Because
+    each kind of hook routine has a different way of passing parameters
+    (generally what lParam points to), _86_CallNextHookEx needs to know what
+    kind of hook is being called.  (How is this done?  Can this information be
+    passed in the code parameter to the hook routines?)
+
+6.  All of the conversion routines can ignore message translation if the code
+    parameter passed to the hook routine is negative (which indicates that the
+    message should be ignored).
+
+7.  Do we need to worry about DefHookProc (which uses procedure instances 
+    instead of handles).  This is now obsolete, but will probably still be
+    in applications.  Also SetWindowsHook.
+
+8.  The common dialog box module hook function stored in the lpfnHook field of
+    the OPENFILENAME structure is a hook function that is passed to and used by
+    GetOpenFileName.  The _86_GetOpenFileName must make a thunk for this
+    procedure (if it is not NULL) using the nat_to_bin conversion routine for
+    a dialog box window. (See Vol. 1, pg. 155)
+
+
+Other Related Functions
+-----------------------
+
+1.  CallMsgFilter:  This can be used to call the current message filter hook
+    (whatever that is: WH_GETMESSAGE, WH_MSGFILTER, WH_SYSMSGFILTER?).
+    It works just as if a message were taken off the queue. (Maybe it is the
+    thing called when a message is taken off the queue to get the hook called?)
+    The _86_CallMsgFilter routine just encapsulates the message in the
+    MSG structure in a WM_CONVERT message before calling CallMsgFilter.
+
+2.  SendDlgItemMessage:  This is just a wrapper around SendMessage that finds
+    the right window to send the message to.
+
+3.  SendDriverMessage, DefDriverProc:  Beyond the present scope.
+
+4.  PostAppMessage:  This is just like PostMessage, except to another
+    application.  There should be no implications for message conversion as
+    long as the user is doing sensible things (only passing handles of
+    storage whose format is agreed upon).
+
+5.  DefDlgProc, DefFrameProc, and DefMDIChildProc should all handle conversion
+    of WM_CONVERT messages in the same way that DefWindowProc does.
+
+
+WindowProc Conversion Routines
+------------------------------
+
+A discussing of common bin_to_nat and nat_to_bin routines and how they 
+simplify the creation of specialized (window-class-specific) bin_to_nat and
+nat_to_bin routines.
+
+
+The common nat_to_bin routine, like all window bin_to_nat routines, has the
+following prototype:
+
+    LRESULT
+    hsw_common_nat_to_bin ( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam )
+
+It's behavior is as follows:
+
+    For a WM_CONVERT message that is HSWMC_BINMSG, it recovers the
+    original binary message, sets it up in the current ENV structure according
+    to the WM_HOOK_MASK field of the messages wParam, and calls invoke_binary.
+    It converts the return value by byte rotation after invoke_binary returns.
+
+    For a WM_CONVERT message that is HSWMC_NATMSG, there must be a WM_HOOK_MASK
+    field value indicating a hook is being called.  It proceeds according to
+    one of the following two steps with the encapsulated message, except that
+    it sets up the parameters in the current ENV according to the WM_HOOK_MASK
+    field.
+
+    For a common (WM_...) message, it converts the message including handling
+    any pointers in lParam, sets the message up in the current ENV structure
+    for a WindowProc call, and calls invoke_binary.  It converts the return
+    value after invoke_binary returns by byte rotation.
+
+    For any other message, it convert the message by byte rotation only,
+    sets the message up in the current ENV structure for a WindowProc call,
+    and calls invoke_binary.  It converts the return value after invoke_binary
+    returns by byte rotation.
+
+This routine is the default nat_to_bin routine for any window created by a
+user.  Specialized nat_to_bin routines for particular window classes can do
+most of the work of conversion by calling hsw_common_nat_to_bin.  A specialized
+nat_to_bin should do the following:
+
+    Check the message code.  For any message peculiar to the particular
+    window class whose lParam requires conversions other than byte rotation,
+    do the conversion and provide a substitute lParam that will be correct
+    once byte rotation is done.  This may involve creating dummy data
+    structures and allocating selector values.
+
+    For a WM_CONVERT message that is HSWMC_NATMSG (indicating a hook is being
+    called) check the message code of the encapsulated message.  If it 
+    indicates a message peculiar to this window class that requires lParam
+    conversion, convert the lParam as above without removing the surrounding
+    WM_CONVERT message.
+
+    Call hsw_common_nat_to_bin with all of the same parameters, substituting
+    the specially converted lParam if there was one.
+
+    When hsw_common_nat_to_bin returns, free any resources allocated in the
+    first step.
+
+    Return the value returned by hsw_common_nat_to_bin.
+
+
+The common bin_to_nat routine, like all window bin_to_nat routines, has the
+following prototype:
+
+    LRESULT
+    hsw_common_bin_to_nat ( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam )
+
+It will accept only WM_CONVERT messages, which may be HSWMC_NATMSG or
+HSWMC_BINMSG.  Its behavior is as follows:
+
+    For a WM_CONVERT message that is HSWMC_NATMSG, it recovers the original
+    native message and calls the target routine from the WMCONVERT structure
+    with the parameters called for by the WM_HOOK_MASK field.  It returns
+    the value returned by the target routine.
+
+    For a WM_CONVERT message that is HSWMC_BINMSG, it recovers the encapsulated
+    binary message and converts it.  For common (WM_...) messages, it
+    converts the message including handling of any pointers in lParam.  For
+    non-common messages, it converts the message by byte-reversal only.  It
+    then calls the target routine from the WMCONVERT structure with the
+    parameters called for by the WM_HOOK_MASK field and returns the value
+    returned by the target routine.
+
+This routine is the default bin_to_nat routine for any window created by a
+user.  Specialized bin_to_nat routines for particular window classes can do
+most of the work of conversion by calling hsw_common_bin_to_nat.  A specialized
+bin_to_nat should do the following:
+
+    For a WM_CONVERT message with HSWMC_NATMSG, just call hsw_common_bin_to_nat
+    with the same parameters (do not recover the original message) and return
+    the value returned.
+
+    For a WM_CONVERT message with HSWMC_BINMSG, look at the encapsulated binary
+    message.  If the code is for a message peculiar to the particular
+    window class whose lParam requires conversions other than byte rotation,
+    do the conversion and provide a substitute lParam that will be correct
+    once byte rotation is done.  Pass the original WM_CONVERT message (whose
+    WMCONVERT structure may have been altered) to hsw_common_bin_to_nat and
+    return the value returned.
+
+    For a WM_CONVERT message that is HSWMC_NATMSG (indicating a hook is being
+    called) check the message code of the encapsulated message.  If it 
+    indicates a message peculiar to this window class that requires lParam
+    conversion, convert the lParam as above without removing the surrounding
+    WM_CONVERT message.
+
+    Call hsw_common_nat_to_bin with all of the same parameters, substituting
+    the specially converted lParam if there was one.
+
+    When hsw_common_nat_to_bin returns, free any resources allocated in the
+    first step.
+
+    Return the value returned by hsw_common_nat_to_bin.

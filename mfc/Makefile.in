@@ -1,0 +1,142 @@
+# Makefile.in for MFC native dll.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ..
+curdir          = `pwd`
+mfcdir          = @mfcdir@
+
+target          = libmfc.$(DLL_EXT)
+
+# Requires G++, since we use -fno-for-scope.
+AUX_CXXFLAGS    = -fno-for-scope @MFC_DEFINES@ -I$(srcdir) -I$(mfcdir)/include
+AUX_LIBS        = -lkeyboard -lshell -lcomctl32 -lcommdlg
+#AUX_DEPEND      = aux-depend
+
+# Components of MFC.
+
+OBJ_SRCS        = objcore.cpp except.cpp \
+                  validadd.cpp dumpcont.cpp dumpflt.cpp \
+                  arccore.cpp arcobj.cpp arcex.cpp \
+                  arcstrm.cpp
+
+DIAG_SRCS       = dumpinit.cpp dumpout.cpp \
+                  afxasert.cpp afxmem.cpp afxabort.cpp
+
+FILES_SRCS      = filecore.cpp filetxt.cpp filemem.cpp fileshrd.cpp \
+                  filex.cpp filest.cpp
+
+COLL1_SRCS      = array_b.cpp array_d.cpp array_p.cpp array_o.cpp \
+                  array_s.cpp array_u.cpp array_w.cpp \
+                  list_o.cpp list_p.cpp list_s.cpp
+
+COLL2_SRCS      = map_pp.cpp map_pw.cpp map_so.cpp \
+                  map_sp.cpp map_ss.cpp map_wo.cpp map_wp.cpp plex.cpp
+
+MISC_MAC_0      = mtcore.cpp mtex.cpp
+MISC_MAC_1      =
+MISC_SRCS       = strcore.cpp strex.cpp timecore.cpp \
+                  afxdbcs.cpp afxstate.cpp \
+                  afxtls.cpp $(MISC_MAC_$(TWIN_MAC))
+
+WINDOWS_SRCS    = wincore.cpp winfrm.cpp winfrm2.cpp winfrmx.cpp \
+                  winmdi.cpp tooltip.cpp winmini.cpp winhand.cpp \
+                  winmain.cpp barcore.cpp bartool.cpp bardlg.cpp \
+                  barstat.cpp bardock.cpp dockcont.cpp dockstat.cpp \
+                  dcprev.cpp dcmeta.cpp trckrect.cpp
+
+DIALOG_SRCS     = winctrl1.cpp winctrl2.cpp winctrl3.cpp winctrl4.cpp \
+                  winbtn.cpp dlgcore.cpp dlgdata.cpp dlgfloat.cpp \
+                  dlgprop.cpp dlgcomm.cpp dlgfile.cpp dlgprnt.cpp \
+                  dlgclr.cpp dlgfnt.cpp ccdata.cpp dlgtempl.cpp
+
+WINMISC_MAC_0_0 =
+WINMISC_MAC_0_1 = winocc.cpp
+WINMISC_MAC_1_0 =
+WINMISC_MAC_1_1 =
+WINMISC_SRCS    = wingdi.cpp wingdix.cpp winstr.cpp winmenu.cpp \
+                  auxdata.cpp afxcrit.cpp afxtrace.cpp \
+                  winutil.cpp $(WINMISC_MAC_$(TWIN_MAC)_$(TWIN_MACOCX))
+
+DOCVIEW_MAC_0   = docmapi.cpp
+DOCVIEW_MAC_1   =
+DOCVIEW_SRCS    = cmdtarg.cpp doccore.cpp doctempl.cpp \
+                  docsingl.cpp docmulti.cpp docmgr.cpp \
+                  viewcore.cpp viewprnt.cpp winsplit.cpp viewscrl.cpp \
+                  viewform.cpp viewprev.cpp \
+                  viewcmn.cpp $(DOCVIEW_MAC_$(TWIN_MAC))
+
+APP_SRCS        = thrdcore.cpp appcore.cpp appinit.cpp appterm.cpp \
+                  appui.cpp appui2.cpp appui3.cpp appgray.cpp appdlg.cpp \
+                  app3d.cpp appprnt.cpp apphelp.cpp apphelpx.cpp \
+                  filelist.cpp
+
+# Not yet supported.
+DB_MAC_0        = daocore.cpp daodfx.cpp daoview.cpp
+DB_MAC_1        =
+DB_SRCS         = dbcore.cpp dbrfx.cpp dbview.cpp dbflt.cpp \
+                  dblong.cpp dbvar.cpp $(DB_MAC_$(TWIN_MAC))
+
+SOCKET_SRCS     = sockcore.cpp
+
+OLEREQ_SRCS     = olelock.cpp
+
+OLE_MAC_0       = oleasmon.cpp
+OLE_MAC_1       = olebar.cpp
+OLE_MACOCX_0_0  =
+OLE_MACOCX_0_1  = occmgr.cpp occevent.cpp occcont.cpp occsite.cpp \
+                  occlock.cpp occddx.cpp occddxf.cpp occdlg.cpp \
+                  oledocvw.cpp oledocob.cpp oledoctg.cpp \
+		  oledocip.cpp $(OLE_MAC_$(TWIN_MAC))
+OLE_MACOCX_1_0  =
+OLE_MACOCX_1_1  =
+OLE_SRCS        = oleinit.cpp olecli1.cpp olecli2.cpp \
+                  olecli3.cpp olecnvrt.cpp oledobj1.cpp oledobj2.cpp \
+                  oledisp1.cpp oledisp2.cpp oledlgs1.cpp oledlgs2.cpp \
+                  oledlgs3.cpp oledata.cpp \
+                  oledoc1.cpp oledoc2.cpp oledrop1.cpp oledrop2.cpp \
+                  olemsgf.cpp oleenum.cpp olefact.cpp oleipfrm.cpp \
+                  olelink.cpp olemisc.cpp olestrm.cpp olesvr1.cpp \
+                  olesvr2.cpp olereg.cpp oletsvr.cpp oleui1.cpp \
+                  oleui2.cpp oleunk.cpp oleverb.cpp olecall.cpp \
+                  olevar.cpp viewrich.cpp oledll.cpp oletyplb.cpp \
+                  olemon.cpp $(OLE_MACOCX_$(TWIN_MAC)_$(TWIN_MACOCX))
+
+OLECTL_SRCS     = ctlcache.cpp ctlcore.cpp ctlconn.cpp \
+                  ctldata.cpp ctlevent.cpp ctlmodul.cpp \
+                  ctlframe.cpp ctlfont.cpp ctlinplc.cpp \
+                  ctllic.cpp oleconn.cpp ctlobj.cpp ctlpict.cpp \
+                  ctlpropx.cpp ctlppg.cpp ctlprop.cpp \
+                  ctlpset.cpp ctlpstg.cpp ctlpstm.cpp \
+                  ctlrefl.cpp ctlreg.cpp ctltrack.cpp \
+                  ctlview.cpp olepset.cpp ctlpbag.cpp \
+                  olepro32.cpp ctlquick.cpp ctlnownd.cpp \
+                  ppgcolor.cpp ppgfont.cpp ppgpict.cpp \
+                  ppgstock.cpp
+
+CXX_SRCS        = $(OBJ_SRCS) \
+                  $(DIAG_SRCS) \
+                  $(FILES_SRCS) \
+                  $(COLL1_SRCS) $(COLL2_SRCS) \
+                  $(MISC_SRCS) \
+                  $(WINDOWS_SRCS) \
+                  $(DIALOG_SRCS) \
+                  $(WINMISC_SRCS) \
+                  $(DOCVIEW_SRCS) \
+                  $(APP_SRCS)
+
+VPATH           = @mfcdir@/src
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(CXX) $(DLL_LDFLAGS) -o $@ $(OBJS) -L$(blddir)/windows $(DLL_LIBS)
+	$(RM) $(blddir)/windows/$@
+	$(LN_S) $(curdir)/$@ $(blddir)/windows/$@
+
+aux-depend:
+	for i in $(CXX_SRCS); do ( $(CXXDEP) $(TWIN_CFLAGS) $(CXXFLAGS) $(mfcdir)/src/$$i >> .depend ) || true; done
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

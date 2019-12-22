@@ -1,0 +1,26 @@
+
+Library	COMM
+
+Segments
+
+Exports
+	inicom		@1
+	setcom		@2
+	setque		@3
+	reccom		@4
+	sndcom		@5
+	ctx		@6
+	trmcom		@7
+	stacom		@8
+	cextfcn		@9
+	cflush		@10
+	cevt		@11
+	cevtGet		@12
+	csetbrk		@13
+	cclrbrk		@14
+	getdcb		@15
+	SuspendOpenCommPorts @17
+	ReactivateOpenCommPorts @18
+	CommWriteString @19
+	ReadCommString  @20
+	EnableNotification @100

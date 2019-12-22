@@ -1,0 +1,7 @@
+
+Library	WIN87EM
+
+Segments
+
+Exports
+	WIN87EM @1

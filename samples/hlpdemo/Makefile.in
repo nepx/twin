@@ -1,0 +1,21 @@
+# Makefile.in for hlpdemo sample application.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ../..
+
+target          = hlpdemo
+
+C_SRCS          = hlpdemo.c
+RC_SRCS         = hlpdemo.rc
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(CC) -o $@ $(OBJS) $(X_LIBS) -L$(blddir)/windows -lshell
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

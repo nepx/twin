@@ -1,0 +1,21 @@
+# Makefile.in for cdsdemo sample application.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ../..
+
+target          = cdsdemo
+
+C_SRCS          = cdsdemo.c
+RC_SRCS         = cdsdemo.rc
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(CC) -o $@ $(OBJS) $(X_LIBS) -L$(blddir)/windows -lshell -lcommdlg
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

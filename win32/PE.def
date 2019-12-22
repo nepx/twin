@@ -1,0 +1,6 @@
+
+
+Library	PE32
+
+EXPORTS
+	ExecPE                  @3

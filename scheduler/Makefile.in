@@ -1,0 +1,22 @@
+# Makefile.in for scheduler module.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ..
+
+target          = libsched.a
+
+C_SRCS          = Threads.c Critical.c Interlock.c CreateProcess.c \
+                  ThreadLocal.c Hotkey.c
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(AR) $@ $(OBJS)
+	$(RANLIB) $@
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

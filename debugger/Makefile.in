@@ -1,0 +1,49 @@
+# Makefile.in for debugger library.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ..
+curdir          = `pwd`
+
+target          = libdebug.$(DLL_EXT)
+
+C_SRCS          = break.c db_disasm.c display.c hash.c expr.c info.c memory.c \
+                  source.c stabs.c types.c registers.c stack.c glue.c
+AUX_C_SRCS      = y.tab.c lex.yy.c
+
+LIBREADLINE     = $(blddir)/readline/libreadline.a
+
+AUX_CFLAGS      = -DUSE_READLINE -D_GNU_SOURCE
+AUX_DEPEND      = aux-depend
+AUX_CLEAN       = aux-clean
+AUX_DISTCLEAN   = aux-distclean
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(CC) $(DLL_LDFLAGS) -o $@ $(OBJS) -L$(blddir)/windows $(DLL_LIBS) $(LIBS) $(LIBREADLINE)
+	$(RM) $(blddir)/windows/$@
+	$(LN_S) $(curdir)/$@ $(blddir)/windows/$@
+
+y.tab.c y.tab.h: dbg.y
+	$(YACC) -d $<
+
+lex.yy.c lex.yy.h: debug.l
+	$(LEX) -I $<
+
+aux-depend: $(AUX_C_SRCS)
+	for i in $(AUX_C_SRCS); do ( $(CDEP) $(TWIN_CFLAGS) $(CFLAGS) $$i >> .depend ); done
+
+aux-clean:
+	$(RM) y.tab.c y.tab.h lex.yy.c lex.yy.h
+
+aux-distclean: aux-clean
+
+y.tab.o: y.tab.c
+lex.yy.o: lex.yy.c
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

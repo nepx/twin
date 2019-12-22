@@ -1,0 +1,18 @@
+
+Library	COMMDLG
+
+Segments
+
+Win32
+
+Exports
+	GetOpenFileName	@1
+	GetSaveFileName @2
+	ChooseColor	@5
+	FindText	@11
+	ReplaceText	@12
+	ChooseFont	@15
+	PrintDlg	@20
+	CommDlgExtendedError @26
+	GetFileTitle	@27
+	

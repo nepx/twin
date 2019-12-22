@@ -1,0 +1,37 @@
+# Makefile.in for advapi32 dll.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ../..
+curdir          = `pwd`
+
+target          = libadvapi32.$(DLL_EXT)
+
+C_SRCS          = advapi.c
+RC_SRCS         = advapi32.rc
+
+AUX_C_SRCS      = advapi32.c advapi32Bin.c
+
+AUX_CLEAN       = aux-clean
+AUX_DISTCLEAN   = aux-distclean
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(CC) $(DLL_LDFLAGS) -o $@ $(OBJS) -L$(blddir)/windows -lshell $(DLL_LIBS)
+	$(RM) $(blddir)/windows/$@
+	$(LN_S) $(curdir)/$@ $(blddir)/windows/$@
+
+advapi32.c advapi32Bin.c: advapi32.d
+	$(blddir)/tools/mksrc $< advapi32 ADVAPI32
+
+aux-clean:
+	$(RM) advapi32.[ch] advapi32Bin.[ch]
+
+aux-distclean: aux-clean
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

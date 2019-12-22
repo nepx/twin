@@ -1,0 +1,6 @@
+#!/bin/sh
+
+nm ../win/libtwin32.so |grep " T " |while read a b c
+do 
+	echo $c
+done >twin32.defined

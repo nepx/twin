@@ -1,0 +1,191 @@
+# Makefile.in for core twin library and xwin module.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ..
+
+###########################################################################
+#
+# Define the two major components here
+#	LIBTWIN
+#	XWIN
+#
+###########################################################################
+
+LIBTWIN         = libtwin$(TWIN_APISIZE).$(DLL_EXT)
+XWIN            = xwin$(TWIN_APISIZE)
+
+target          = $(LIBTWIN)
+
+LIBTWIN_LDFLAGS = @LIBTWIN_LDFLAGS@
+
+############################################################################
+#
+# The library objects
+#
+
+GDI_C_SRCS      = FancyRgn.c WSprintf.c DrawText.c Dither.c Caret.c \
+                  Palette.c MapMode.c ConvertArray.c \
+                  DisplayDC.c DisplayGraphics.c DisplayObjects.c \
+                  DisplayText.c DisplayClipping.c DeviceData.c LSDevices.c \
+                  Metafile.c Metaplay.c MetaGraphics.c MetaObjects.c \
+                  WImageIO.c WBmp.c DrawFrame.c
+
+PRINT_C_SRCS    = PrinterGraphics.c PrintManager.c PrinterDC.c
+
+KERN_C_SRCS     = Kernel.c Module.c ObjEngine.c FileSys.c Net.c System.c \
+                  WinHelp.c KrnAtoms.c KrnFileIO.c Events.c KrnTask.c \
+                  File32.c FormatMessage.c Beep.c WinSockUtil.c Keyboard.c \
+                  IOEmu.c SysMisc.c DPMI.c Locale.c version.c
+
+USER_C_SRCS     = Resources.c  SysMetrics.c Dialog.c Profile.c Strings.c \
+                  MenuProc.c MenuAPI.c UsrCursor.c DefWnd.c Messages.c \
+                  Rect.c WSysMenu.c WinConfig.c Time.c Comm.c \
+                  Clipboard.c  StubAPI.c
+
+WIN_C_SRCS      = WindowPos.c WindowBytes.c WindowCreate.c WindowProps.c \
+                  WindowRedraw.c WindowDC.c MDI.c Hook.c Classes.c
+
+LIB_C_SRCS      = LoadLibrary.c ModTable.c WinInit.c IsBinary.c \
+                  LoadModule.c LoadDLL.c
+
+RSC_C_SRCS      = RscTemplate.c ConvertRes.c
+RSC_RC_SRCS     = RscData.rc
+
+DLL_C_SRCS      = MessageBox.c 
+
+DBG_C_SRCS      = utils.c MsgCode.c
+
+DRV_C_SRCS      = Driver.c Debug.c
+
+#
+# 32bit binary support files
+#
+
+BIN32_AUX_C_SRCS = user32.c user32Bin.c \
+                   gdi32.c gdi32Bin.c \
+                   kernel32.c kernel32Bin.c
+BIN32_C_SRCS_0  =
+BIN32_C_SRCS_1  = Strings32.c Profile32.c vsprintf32.c lib32.c
+BIN32_C_SRCS    = $(BIN32_C_SRCS_$(TWIN_BIN32))
+BIN32_s_SRCS_0  =
+BIN32_s_SRCS_1  = if32.s
+BIN32_s_SRCS    = $(BIN32_s_SRCS_$(TWIN_BIN32))
+
+#
+# Define the files to include for executing win16 binaries
+#
+# Use native CPU processor or interpreter
+# (see win/make_thunk.c for a list of native CPU processors supported)
+#
+
+INTP_C_SRCS_0   = Exec.c Exec$(TARGET).c
+INTP_C_SRCS_1   = DPMInotify.c Execintp.c
+INTP_C_SRCS     = $(INTP_C_SRCS_$(TWIN_INTP))
+INTP_S_SRCS_0   = ExecUtl.S
+INTP_S_SRCS_1   =
+INTP_S_SRCS     = $(INTP_S_SRCS_$(TWIN_INTP))
+
+API_C_SRCS      = $(GDI_C_SRCS) $(PRINT_C_SRCS) $(KERN_C_SRCS) \
+                  $(USER_C_SRCS) $(WIN_C_SRCS) $(LIB_C_SRCS) \
+                  $(RSC_C_SRCS) $(DLL_C_SRCS) $(DBG_C_SRCS)
+
+# The ALLOBJ macro is, surprisingly, all of the object modules.
+
+C_SRCS          = $(API_C_SRCS) \
+                  $(DRV_C_SRCS) \
+                  $(BIN32_C_SRCS) \
+                  $(INTP_C_SRCS)
+S_SRCS          = $(INTP_S_SRCS)
+s_SRCS          = $(BIN32_s_SRCS)
+RC_SRCS         = $(RSC_RC_SRCS)
+
+AUX_C_SRCS      = $(BIN32_AUX_C_SRCS)
+
+AUX_RCFLAGS     = -I$(top_srcdir)
+
+AUX_CLEAN       = aux-clean
+AUX_DISTCLEAN   = aux-distclean
+
+#
+# External archives to link w/ twin
+#
+
+INTP_LIBS_0     =
+INTP_LIBS_1     = $(blddir)/intp32/libintp32.a
+LIBTWIN_LIBS    = $(blddir)/controls/libctl.a \
+                  $(blddir)/graphics/libgdi.a \
+                  $(blddir)/graphics/x11drv/libx11.a \
+                  $(blddir)/if1632/libbin16.a $(INTP_LIBS_$(TWIN_INTP)) \
+                  $(blddir)/memory/libmemory.a \
+                  $(blddir)/msdos/libmsdos.a \
+                  $(blddir)/osdll/libosdll.a \
+                  $(blddir)/scheduler/libsched.a
+
+VPATH           = @srcdir@
+
+#############################################################################
+#
+# Default target
+#
+#############################################################################
+
+include $(blddir)/Make.rules
+
+#############################################################################
+#
+# The binary emulator 'xwin[32]'
+#
+#############################################################################
+
+XWINOBJ = WinMain.o TwinRT.res.o
+
+$(XWIN): $(LIBTWIN) $(XWINOBJ)
+	$(CC) $(LDFLAGS) -o $@ $(XWINOBJ) $(X_LIBS) -L. -ltwin$(TWIN_APISIZE) $(TWIN_DBMALLOC)
+
+#############################################################################
+#
+# The twin libraries
+#
+#############################################################################
+
+libtwin32.$(DLL_EXT): $(LIBTWIN_LIBS) $(OBJS)
+	$(CC) $(LIBTWIN_LDFLAGS) -o $@ $(OBJS) $(X_LIBS) $(LIBS) $(LIBTWIN_LIBS)
+
+##########################################################################
+#
+# Generated source files
+#
+##########################################################################
+
+user32.c user32Bin.c: user32.d
+	$(blddir)/tools/mksrc $< user32 USER
+
+gdi32.c gdi32Bin.c: gdi32.d
+	$(blddir)/tools/mksrc $< gdi32 GDI
+
+kernel32.c kernel32Bin.c: kernel32.d
+	$(blddir)/tools/mksrc $< kernel32 KERNEL
+
+##########################################################################
+#
+# Make utilities
+#
+##########################################################################
+
+install: install-lib
+	$(INSTALL) $(XWIN) $(bindir)/$(XWIN)
+
+aux-clean:
+	$(RM) user32.[ch] user32Bin.[ch]
+	$(RM) gdi32.[ch] gdi32Bin.[ch]
+	$(RM) kernel32.[ch] kernel32Bin.[ch]
+	$(RM) xwin32
+
+aux-distclean: aux-clean
+
+# End of Makefile
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

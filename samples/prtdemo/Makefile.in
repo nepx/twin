@@ -1,0 +1,21 @@
+# Makefile.in for prtdemo sample application.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ../..
+
+target          = prtdemo
+
+C_SRCS          = prtdemo.c
+RC_SRCS         = prtdemo.rc
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(CC) -o $@ $(OBJS) $(X_LIBS) -L$(blddir)/windows -lshell -lcommdlg
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

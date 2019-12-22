@@ -1,0 +1,197 @@
+/*************************************************************************
+
+	@(#)RscData.rc	1.31
+    	Copyright 1997 Willows Software, Inc. 
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Library General Public License as
+published by the Free Software Foundation; either version 2 of the
+License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Library General Public License for more details.
+
+You should have received a copy of the GNU Library General Public
+License along with this library; see the file COPYING.LIB.  If
+not, write to the Free Software Foundation, Inc., 675 Mass Ave,
+Cambridge, MA 02139, USA.
+
+
+For more information about the Willows Twin Libraries.
+
+	http://www.willows.com	
+
+To send email to the maintainer of the Willows Twin Libraries.
+
+	mailto:twin@willows.com 
+
+**************************************************************************/
+
+#include "windows.h"
+#include "RscData.h"
+
+32767 BITMAP resources/oldclose.bmp		; OBM_OLD_CLOSE
+32766 BITMAP resources/obmsize.bmp		; OBM_SIZE
+32765 BITMAP resources/oldupar.bmp		; OBM_OLD_UPARROW
+32764 BITMAP resources/olddnar.bmp		; OBM_OLD_DNARROW
+32763 BITMAP resources/oldrgar.bmp		; OBM_OLD_RGARROW
+32762 BITMAP resources/oldlfar.bmp		; OBM_OLD_LFARROW
+32761 BITMAP resources/obmbtsiz.bmp		; OBM_BTSIZE
+32760 BITMAP resources/obmcheck.bmp		; OBM_CHECK
+32759 BITMAP resources/obmchbxs.bmp		; OBM_CHECKBOXES
+32758 BITMAP resources/obmbtncn.bmp		; OBM_BTNCORNERS
+32757 BITMAP resources/oldredu.bmp		; OBM_OLD_REDUCE
+32756 BITMAP resources/oldzoom.bmp		; OBM_OLD_ZOOM
+32755 BITMAP resources/oldrest.bmp		; OBM_OLD_RESTORE
+32754 BITMAP resources/obmclose.bmp		; OBM_CLOSE
+32753 BITMAP resources/obmuparn.bmp		; OBM_UPARROW
+32752 BITMAP resources/obmdnarn.bmp		; OBM_DNARROW
+32751 BITMAP resources/obmrgarn.bmp		; OBM_RGARROW
+32750 BITMAP resources/obmlfarn.bmp		; OBM_LFARROW
+32749 BITMAP resources/obmredun.bmp		; OBM_REDUCE
+32748 BITMAP resources/obmzoomn.bmp		; OBM_ZOOM
+32747 BITMAP resources/obmrestn.bmp		; OBM_RESTORE
+32746 BITMAP resources/obmredud.bmp		; OBM_REDUCED
+32745 BITMAP resources/obmzoomd.bmp		; OBM_ZOOMD
+32744 BITMAP resources/obmrestd.bmp		; OBM_RESTORED
+32743 BITMAP resources/obmupard.bmp		; OBM_UPARROWD
+32742 BITMAP resources/obmdnard.bmp		; OBM_DNARROWD
+32741 BITMAP resources/obmrgard.bmp		; OBM_RGARROWD
+32740 BITMAP resources/obmlfard.bmp		; OBM_LFARROWD
+32739 BITMAP resources/obmmnar.bmp		; OBM_MNARROW
+32738 BITMAP resources/obmcombo.bmp		; OBM_COMBO
+32737 BITMAP resources/obmupari.bmp		; OBM_UPARROWI
+32736 BITMAP resources/obmdnari.bmp		; OBM_DNARROWI
+32735 BITMAP resources/obmrgari.bmp		; OBM_RGARROWI
+32734 BITMAP resources/obmlfari.bmp		; OBM_LFARROWI
+
+#define HATCH_BASE 16384
+
+16384 BITMAP resources/hs_horz.bmp		; HATCH_BASE+HS_HORIZONTAL
+16385 BITMAP resources/hs_vert.bmp		; HATCH_BASE+HS_VERTICAL
+16386 BITMAP resources/hs_fdiag.bmp		; HATCH_BASE+HS_FDIAGONAL
+16387 BITMAP resources/hs_bdiag.bmp		; HATCH_BASE+HS_BDIAGONAL
+16388 BITMAP resources/hs_cross.bmp		; HATCH_BASE+HS_CROSS
+16389 BITMAP resources/hs_dcros.bmp		; HATCH_BASE+HS_DIAGCROSS
+
+SPLASH BITMAP resources/willows.bmp		; 8 bpp Splash screen
+
+#ifdef macintosh
+32512 CURSOR resources/idcarrow_mac.cur		; IDC_ARROW
+32513 CURSOR resources/idcibeam_mac.cur		; IDC_IBEAM
+32514 CURSOR resources/idcwait_mac.cur		; IDC_WAIT
+#else
+32512 CURSOR resources/idcarrow.cur		; IDC_ARROW
+32513 CURSOR resources/idcibeam.cur		; IDC_IBEAM
+32514 CURSOR resources/idcwait.cur		; IDC_WAIT
+#endif
+32515 CURSOR resources/idccross.cur		; IDC_CROSS
+32516 CURSOR resources/idcuparr.cur		; IDC_UPARROW
+32640 CURSOR resources/idcsize.cur		; IDC_SIZE
+32641 CURSOR resources/idcicon.cur		; IDC_ICON
+32642 CURSOR resources/idcsznw.cur		; IDC_SIZENWSE
+32643 CURSOR resources/idcszne.cur		; IDC_SIZENESW
+32644 CURSOR resources/idcszwe.cur		; IDC_SIZEWE
+32645 CURSOR resources/idcszns.cur		; IDC_SIZENS
+32646 CURSOR resources/idcsize.cur		; IDC_SIZEALL
+32648 CURSOR resources/idcno.cur		; IDC_NO
+32650 CURSOR resources/idcappst.cur		; IDC_APPSTARTING
+32651 CURSOR resources/idchelp.cur		; IDC_HELP
+"DRAGCURSOR" CURSOR resources/idcdrag.cur	;
+#ifdef macintosh
+"NULLCURSOR" CURSOR resources/idcnull_mac.cur	;
+#else
+"NULLCURSOR" CURSOR resources/idcnull.cur	;
+#endif
+
+32512 ICON  resources/idiapp.ico		; IDI_APPLICATION
+32513 ICON  resources/idihand.ico		; IDI_HAND
+32514 ICON  resources/question.ico		; IDI_QUESTION
+32515 ICON  resources/exclamtn.ico		; IDI_EXCLAMATION
+32516 ICON  resources/asterisk.ico		; IDI_ASTERISK
+530   ICON  resources/willows.ico		; IDI_WILLOWS
+
+MESSAGEBOX  DIALOG 26,50,100,92
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION ""
+Font 8, "MS Sans Serif"
+BEGIN
+	DEFPUSHBUTTON	"",101, 13,50,35,14
+	PUSHBUTTON	"",102, 70,50,35,14
+	PUSHBUTTON	"",103,133,50,35,14
+	LTEXT		"",104, 25,10,20,20
+	ICON		"",105,  7,10,18,20
+END
+
+TaskList DIALOG DISCARDABLE 0, 0, 185, 92
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Task List"
+Font 8, "MS Sans Serif"
+BEGIN
+	LISTBOX	IDC_TASKLIST, 4, 4, 176, 64, LBS_NOINTEGRALHEIGHT | 
+	          WS_VSCROLL | WS_TABSTOP
+	DEFPUSHBUTTON	"Switch To", IDOK, 7, 72, 50, 14
+	PUSHBUTTON	"End Task", IDABORT, 67, 72, 50, 14
+	PUSHBUTTON	"Cancel", IDCANCEL, 127, 72, 50, 14
+END
+
+
+DRIVES_CFG DIALOG DISCARDABLE  20, 20, 257, 166
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Drives Configuration"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LISTBOX         IDL_DRIVELIST,11,8,174,147,LBS_SORT | LBS_NOINTEGRALHEIGHT | 
+                    LBS_WANTKEYBOARDINPUT | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "&OK",IDOK,197,8,50,14, WS_TABSTOP
+    PUSHBUTTON      "&Cancel",IDCANCEL,197,26,50,14, WS_TABSTOP
+    PUSHBUTTON      "&Map...",IDB_MAP,197,44,50,14, WS_TABSTOP
+    PUSHBUTTON      "&Unmap",IDB_UNMAP,198,62,50,14, WS_TABSTOP
+    CHECKBOX        "Map at &Startup",IDC_MAP, 192,112,58,10,BS_AUTOCHECKBOX | WS_TABSTOP
+END
+
+DRIVES_MAP DIALOG DISCARDABLE  30, 30, 242, 67
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Map Drive"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDE_MAP,24,16,194,12,ES_AUTOHSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON  "&OK",IDOK,66,41,50,14,WS_TABSTOP
+    PUSHBUTTON     "&Cancel",IDCANCEL,126,41,50,14,WS_TABSTOP
+END
+
+SYSMENU MENU 
+BEGIN
+	MENUITEM "&Restore",	   SC_RESTORE,		GRAYED
+	MENUITEM "&Move",	   SC_MOVE,		GRAYED
+	MENUITEM "&Size",	   SC_SIZE,		GRAYED
+	MENUITEM "Mi&nimize",	   SC_MINIMIZE,		GRAYED
+	MENUITEM "Ma&ximize",	   SC_MAXIMIZE,		GRAYED	
+	MENUITEM  SEPARATOR
+	MENUITEM "&Close\tAlt+F4", SC_CLOSE		
+	MENUITEM  SEPARATOR
+	MENUITEM "S&witch To...\tCtrl+Esc", SC_TASKLIST
+	MENUITEM  SEPARATOR
+	MENUITEM "R&un...",			WSYS_RUN
+	MENUITEM "&Drives...",    WSYS_DRIVES
+	MENUITEM "Con&figure...", WSYS_CONFIGURE, GRAYED
+	MENUITEM  SEPARATOR
+	MENUITEM	"&About...",		WSYS_ABOUT
+END
+
+
+CHILDSYSMENU MENU 
+BEGIN
+	MENUITEM "&Restore",	   SC_RESTORE
+	MENUITEM "&Move",	   SC_MOVE
+	MENUITEM "&Size",	   SC_SIZE
+	MENUITEM "Mi&nimize",	   SC_MINIMIZE
+	MENUITEM "Ma&ximize",	   SC_MAXIMIZE
+	MENUITEM  SEPARATOR
+	MENUITEM "&Close\tCtrl+F4", SC_CLOSE		
+	MENUITEM  SEPARATOR
+	MENUITEM "S&witch To...\tCtrl+Esc", SC_TASKLIST
+END
+

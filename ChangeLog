@@ -1,0 +1,1508 @@
+--------------------------------------------------------------------------------
+2001-04-29  Jimen Ching  <jching@core2>
+
+	* README, windows/Release.h: Increase version number.
+
+2001-04-27  Jimen Ching  <jching@core2>
+
+	* include/winbase.h, windows/File32.c:
+	MFC wants HFILE to be an integral type.
+
+	* include/commctrl.h, include/prsht.h: Add new flags.
+
+2001-01-28  Jimen Ching  <jching@core2>
+
+	* intp32/fp87.c: Fix floating point load/store on non-x86 systems.
+
+2001-01-17  Jimen Ching  <jching@core2>
+
+	* samples/bn2demo/binlib.c, samples/cliptext/cliptext.c, samples/ctrldemo/proppage.c, samples/dlldemo/dlldemo.h, samples/mdidemo/mdidemo.c, samples/mdidemo/mdidemo.h, samples/msgdemo/msgdemo.c, samples/bindemo/bindemo.c, samples/bindemo2/binlib2.c:
+	Clean up compile warnings.
+
+	* include/commctrl.h: Add prototype for generic use.
+
+2001-01-16  Jimen Ching  <jching@core2>
+
+	* windows/MessageBox.c, windows/Messages.c, windows/Meta.h, windows/MetaObjects.c, windows/Metafile.c, windows/Metaplay.c, windows/Module.c, windows/PrintManager.c, windows/PrinterGraphics.c, windows/Resources.c, windows/Time.c, windows/WBmp.c, windows/WBmp.h, windows/WImageIO.c, windows/WSysMenu.c, windows/WinMain.c, windows/WindowBytes.c, windows/WindowCreate.c, windows/WindowDC.c, windows/WindowPos.c, windows/WindowProps.c, windows/WindowRedraw.c, windows/lib32.c, if1632/PrintIF.c, if1632/SpecialIF.c, include/Resources.h, include/toolhelp.h, include/winbase.h, include/windef.h, include/windows.h, include/wingdi.h, memory/heap.c, msdos/dos_findfile.c, multimedia/midi.c, multimedia/wave.c, ole/OleSvrIF.c, scheduler/Critical.c, win32/LoadPE.c, win32/Resources32.c, windows/Clipboard.h, windows/DefWnd.c, windows/Dialog.c, windows/DisplayGraphics.c, windows/File32.c, windows/FileSys.c, windows/KrnFileIO.c, windows/LoadDLL.c, windows/MDI.c, windows/MenuAPI.c, windows/MenuProc.c, controls/EditMisc.c, controls/Listbox.c, controls/Static.c, debugger/dbg.y, debugger/debugger.h, dlls/commctrl/WStatusb.c, dlls/commctrl/WToolbar.c, dlls/commdlg/ChooseFont.c, dlls/commdlg/CommdlgIF.c, dlls/commdlg/PrintDlg.c, dlls/ddeml/DdeML.c, dlls/lzexpand/LZExpand.c, dlls/shell/About.c, dlls/shell/Shell.c, dlls/shell/ShellIF.c, dlls/toolhelp/Task.c, dlls/toolhelp/ToolHelp.c, dlls/toolhelp/ToolHelpIF.c, dlls/winsock/WinSock.c, dlls/winsock/WinSockIF.c, graphics/GdiImages.c, graphics/GdiObjects.c, graphics/x11drv/DrvIPC.c, graphics/x11drv/DrvWindows.c, graphics/x11drv/XEvents.c, graphics/x11drv/XICCCM.c, if1632/Callback.c, if1632/CommIF.c, if1632/ConvertMsg.c, if1632/GenericIF.c, if1632/HookIF.c, if1632/MemoryIF.c, if1632/OEMRoutines.c, controls/Button.c, controls/ButtonDraw.c, controls/ComboBox.c, controls/Edit.c:
+	Change handle types to pointers and cleaned up all warnings.
+
+	* include/print.h, include/mmsystem.h:
+	Make prototype consistent with definition.
+
+	* include/io.h: Add prototypes for osfhandle APIs.
+
+	* dlls/commctrl/WTlbCust.c, dlls/commctrl/WTView.c, dlls/commctrl/WTVLBox.c, dlls/commctrl/WProgBar.c:
+	Used wrong cast.
+
+2001-01-14  Jimen Ching  <jching@core2>
+
+	* configure, configure.in: Add w32sys.dll.
+
+	* dlls/Makefile.in: Add w32sys.
+
+	* dlls/w32sys/Makefile.in, dlls/w32sys/w32sys.c, dlls/w32sys/w32sys.def, dlls/w32sys/w32sys.rc, dlls/w32sys/w32sysBin.c:
+	Add w32sys.dll support.  Some binary apps do depend on it.
+
+	* msdos/mfs_fileio.c:
+	Fix problem where mtime was modified when the file was fclose'ed.
+
+2001-01-13  Jimen Ching  <jching@core2>
+
+	* dlls/winsock/WinSock.def: Undo changes in 1.2.
+
+2001-01-07  Jimen Ching  <jching@core2>
+
+	* include/winmapclib.h: Additional C library API.
+
+	* graphics/x11drv/DrvText.c: Remove prototype for ctype API.
+
+	* mfc/Makefile.in:
+	Include -fno-for-scope because MFC still uses pre-ANSI C++ constructs.
+
+2001-01-01  Jimen Ching  <jching@core2>
+
+	* debugger/debugger.h, include/thread.h, include/winmaptypes.h, windows/Process32.h:
+	Remove the use of BOOL32 in TWIN proper.
+
+	* include/windef.h, include/windows.h:
+	Move typedefs from windows.h to windef.h
+
+	* include/winbase.h: Removed macros that were moved into winerror.h.
+
+2000-12-31  Jimen Ching  <jching@core2>
+
+	* tools/rc/rclex.l: Use correct free function.
+
+2000-12-23  Jimen Ching  <jching@core2>
+
+	* graphics/GdiBitmaps.c: Twine merge: support new size.
+
+	* graphics/x11drv/DrvGraphics.c:
+	Twine merge: be more specific on styles mask.
+
+	* graphics/x11drv/DrvImages.c: Twine merge: use default mask.
+
+2000-12-17  Jimen Ching  <jching@core2>
+
+	* graphics/x11drv/DrvWindows.c:
+	Twine merge: immediate refresh after raise.
+
+	* documentation/lib-config.txt, documentation/readme.twinrc, documentation/win.ini:
+	Change FontSubstitutes to Font Alias.
+
+	* graphics/x11drv/DrvText.c: Cleanup logstr.
+	Changed FontSubstitutes to Font Alias.
+
+2000-12-10  Jimen Ching  <jching@core2>
+
+	* dlls/commdlg/GetOpenFileName.c: Twine merge: post result explicitly.
+
+	* debugger/dbg.y, debugger/debugger.h, debugger/expr.c, debugger/glue.c, debugger/registers.c, debugger/sig_context.h, debugger/types.c:
+	Fixed symbol collision.  Removed unused code.
+
+	* windows/ExecSysV.c: Use defined API.
+
+	* dlls/toolhelp/Info.c:
+	TWINE merge: exit TWIN program if TerminateApp is called.
+
+	* dlls/winsock/WinSock.def: Make consistent with other def files.
+
+2000-12-04  Jimen Ching  <jching@core2>
+
+	* controls/Edit.c, controls/Edit.h: Added dwExStyle to Edit control.
+
+	* controls/Button.c, controls/ComboBox.c, controls/Frame.c, controls/Listbox.c, controls/Scroll.c, controls/Static.c:
+	Added CALLBACK attribute to window procedure definitions.
+
+2000-09-19  Jimen Ching  <jching@core2>
+
+	* if1632/SpecialIF.c, include/Net.h, windows/Net.c:
+	Update API signature.
+
+	* windows/Profile.c: When flushing cache, no file is specified.
+
+2000-09-04  Jimen Ching  <jching@core2>
+
+	* windows/KrnTask.c, windows/LoadLibrary.c:
+	Add FreeModule to ExitTask, so apps can be re-entered.
+
+	* windows/ObjEngine.c: Fix apidepth sync.
+
+2000-09-02  Jimen Ching  <jching@core2>
+
+	* windows/LoadLibrary.c, windows/LoadModule.c, windows/WinInit.c:
+	Twine merge: moved class init to startup.
+
+	* windows/LoadDLL.c: TWINE merge: code cleanup.
+
+2000-08-31  Jimen Ching  <jching@core2>
+
+	* debugger/Makefile.in: New glibc requires _GNU_SOURCE to use dladdr.
+
+	* intp32/interp_16_32.c: Formatting cleanup.
+
+2000-05-06  Jimen Ching  <jching@core2>
+
+	* graphics/x11drv/DrvWindows.c, graphics/x11drv/XEvents.c:
+	Tell window manager about colormap during mouse enter/leave notify.
+	Fixes problem with Enlightenment.
+
+2000-04-30  Jimen Ching  <jching@core2>
+
+	* dlls/version/Makefile.in: Typo on filename.
+
+	* dlls/lzexpand/Makefile.in:
+	Use old name for lzexpand.  Haven't fully converted to 32bit yet.
+
+	* configure, configure.in:
+	Sync with new build methodology.  Libraries don't use TWIN_APISIZE any more.
+
+	* dlls/commctrl/WCommCtrl.def:
+	Make keyword consistent with all other copies.
+
+	* intp32/fp87.c: Cleanup compile warnings.
+
+	* configure: See configure.in.
+
+	* configure.in:
+	Don't do tests using long long.  Always define NEED_DBLCOPY_ALIGN for HPUX.
+
+	* scripts/config.sub, scripts/install-sh, scripts/config.guess:
+	Autoconf 2.13.
+
+2000-04-22  Jimen Ching  <jching@core2>
+
+	* configure, configure.in, include/platform.h.in, intp32/fp87.c:
+	Determine if long long needs to be aligned.
+
+	* configure: Cleanup checks.
+
+	* configure.in:
+	Cleanup checks.  Try to use compiler to do shared lib init on HPUX.
+
+	* include/twindll.h: Remove unused TWIN_SUNINIT.
+
+	* include/platform.h.in, intp32/internal.h:
+	Detect byte order via configure.
+
+	* configure, configure.in:
+	Fix problem with shared library loading on HPUX.
+
+2000-04-16  Jimen Ching  <jching@core2>
+
+	* tools/rc/ifyacc.y, tools/rc/rcyacc.y: Fix compile warnings.
+
+	* include/winuser.h:
+	Check for SC_SIZE being defined by system header (for HPUX).
+
+2000-04-15  Jimen Ching  <jching@core2>
+
+	* osdll/DrvDlfcn.c: Clear variable before applying logic operators.
+
+	* graphics/x11drv/DrvGraphics.c, graphics/x11drv/DrvWinSock.c:
+	Fix compile warning.
+
+	* graphics/x11drv/DrvWinSock.c: Cleanup header inclusion.
+
+	* dlls/winsock/WinSock.c, dlls/winsock/WinSockIF.c, include/winsock.h:
+	Removed use of code selecting macro.  Instead, instantiate code where it
+	is needed.
+
+	* configure: Sync with configure.in
+
+	* configure.in:
+	Removed BSD_COMP flag for Solaris.  We use POSIX API, not BSD.
+
+	* intp32/fp87.c: Removed unused code.
+
+2000-03-27  Jimen Ching  <jching@core2>
+
+	* graphics/GdiImages.c:
+	Twine merge: add support for various color conversions.
+
+	* windows/PrintManager.c: Remove unnecessary handle operations.
+
+2000-03-26  Jimen Ching  <jching@core2>
+
+	* dlls/commdlg/ChooseFont.c, dlls/commdlg/ChooseColor.c:
+	Twine merge: code cleanup, use CallWindowProc to call hook.
+
+	* intp32/emu-utils.c: Cleanup compiler warnings.
+
+	* intp32/fp87.c: Fix typo.
+
+2000-03-24  Jimen Ching  <jching@core2>
+
+	* windows/if32.s: Code cleanup.
+
+	* controls/ComboBox.c: Twine merge: code cleanup.
+
+2000-03-13  Jimen Ching  <jching@core2>
+
+	* windows/WindowPos.c:
+	Twine merge: add logging messages, and objeng cleanup.
+
+	* msdos/mfs_core.c: Use consistent types.
+
+2000-03-12  Jimen Ching  <jching@core2>
+
+	* windows/WindowPos.c:
+	Twine merge: code cleanup and fixup some handle searching.
+
+2000-03-09  Jimen Ching  <jching@core2>
+
+	* include/Resources.h, tools/rc/printres.c, tools/rc/resources.c, win32/Resources32.c, windows/ConvertRes.c, windows/Dialog.c:
+	Twine merge: add rc handling of DIALOGEX.
+
+2000-03-06  Jimen Ching  <jching@core2>
+
+	* debugger/break.c, debugger/dbg.y, debugger/debugger.h, debugger/glue.c, debugger/memory.c, debugger/stabs.c, debugger/types.c, if1632/MemoryIF.c, windows/Debug.c, windows/Debug.h:
+	Twine merge and some code cleanup.
+
+2000-03-05  Jimen Ching  <jching@core2>
+
+	* debugger/display.c, debugger/expr.c, debugger/memory.c, debugger/source.c:
+	Code cleanup.
+
+2000-02-17  Jimen Ching  <jching@core2>
+
+	* graphics/x11drv/DrvGraphics.c:
+	jonathan <jonathan@corvu.com.au>: improved handling of arcs.
+
+2000-01-03  Jimen Ching  <jching@core2>
+
+	* CONTRIBUTORS: Added Donn Miller <dmmiller@cvzoom.net>.
+
+	* windows/Execfreebsd.c:
+	Donn Miller <dmmiller@cvzoom.net>: correctly initialize sig mask.
+
+1999-12-25  Jimen Ching  <jching@core2>
+
+	* if1632/MemoryIF.c: Fix global handle retrieval.
+
+	* windows/Dialog.c: Object engine cleanup.
+
+	* windows/WindowRedraw.c: Twine merge: code cleanup.
+
+	* windows/WindowPos.c: Twine merge: log clean, objeng fixes.
+
+	* graphics/GdiRegions.c: Corrected API name in log.
+
+1999-12-24  Jimen Ching  <jching@core2>
+
+	* windows/Resources.c: Twine merge: objeng/log/code cleanup.
+
+	* graphics/GdiObjects.c:
+	OBJENG fix; prevent stock objects from being deleted.
+
+	* windows/MenuAPI.c: More objeng cleanup.
+
+	* dlls/version/Makefile.in, dlls/version/Ver.c, dlls/version/Ver.def, dlls/version/VerBin.c, dlls/version/VerIF.c, dlls/version/version32.d:
+	Twine merge: updated version.dll to win32.
+
+	* windows/LoadLibrary.c:
+	Twine merge:  updated version.dll to win32, objeng cleanup.
+
+	* windows/Kernel.c: Twine merge: objeng cleanup, bin32 sentinels.
+
+	* windows/Module.c: Twine merge: object engine cleanup.
+
+1999-12-23  Jimen Ching  <jching@core2>
+
+	* windows/MenuProc.c: Twine merge: object engine cleanup.
+
+	* windows/user32.d: Updated API support.
+
+	* windows/MenuAPI.c:
+	Twine merge: added InsertMenuItem, removed use of OM_MASK, code cleanup.
+
+	* windows/UsrCursor.c:
+	Twine merge: clean up log messages, verify hWnd before call to GETDRVDATA.
+
+1999-12-22  Jimen Ching  <jching@core2>
+
+	* include/winnt.h, windows/peexe.h: Twine merge: cleanup macros.
+
+	* graphics/x11drv/DrvText.c:
+	Twine merge: code cleanup, added 'terminal' font.
+
+	* Make.rules.in:
+	Undid .def dependency on .rc rule.  Not all .rc depend on .def.
+
+	* graphics/x11drv/DrvInit.c:
+	Use complete list of X error codes.  Include request code in log.
+
+	* graphics/x11drv/DrvRegions.c: Twine merge: code cleanup.
+
+	* documentation/sample.twinrc, graphics/x11drv/DrvInit.c, windows/WinConfig.c, windows/compat.h:
+	Twine merge: fixes to X syncronous mode, and some code cleanup.
+
+	* graphics/x11drv/DrvImages.c: Twine merge: code/object engine cleanup.
+
+	* graphics/GdiImages.c: Twine merge: added 16bit color support.
+
+	* graphics/GdiDC.c: Twine merge: code/object engine cleanup.
+
+	* include/ObjEngine.h: Fixup parenthesis matching.
+
+	* graphics/x11drv/DrvGraphics.c:
+	jonathan <jonathan@corvu.com.au>: speed improvement.
+
+	* graphics/GdiBitmaps.c: Twine merge: bug fix and code cleanup.
+
+1999-12-21  Jimen Ching  <jching@core2>
+
+	* include/ObjEngine.h, windows/WindowDC.c:
+	Added FREEDC, was using FREEGDI on DC.
+
+	* documentation/sample.twinrc, windows/version.c, windows/version.h:
+	Update version information, code cleanup.
+
+1999-12-20  Jimen Ching  <jching@core2>
+
+	* windows/Palette.c: Twine merge: code cleanup.
+
+1999-12-19  Jimen Ching  <jching@core2>
+
+	* windows/DrawText.c: Twine merge: code cleanup, fix infinite loop.
+
+	* windows/DrawFrame.c: Twine merge: cleanup log.
+
+	* controls/ComboBox.c: Twine merge: removed uncessary code.
+
+	* graphics/GdiGraphics.c: Twine merge:  added GdiFlush, code cleanup.
+
+	* windows/user32.d: Added DrawIconEx API.
+
+	* windows/gdi32.d: Added GdiFlush API.
+
+1999-12-18  Jimen Ching  <jching@core2>
+
+	* graphics/GdiDCAttr.c: Twine merge: removed unnecessary code.
+
+	* dlls/toolhelp/ToolHelpIF.c: Twine merge: update comment.
+
+	* dlls/commctrl/commctrl32.d, include/commctrl.h, dlls/commctrl/WCommCtrl.def:
+	Twine merge: remove unused code.
+
+	* Make.rules.in: Make .rc depend on .def, as it should.
+
+1999-12-15  Jimen Ching  <jching@core2>
+
+	* msdos/fat_core.c: Clean-up compiler warnings.
+
+	* dlls/commctrl/WPropsht.c: Clean up compiler warnings.
+
+	* dlls/keyboard/SysKeyboard.c, include/winbase.h, windows/Messages.c:
+	Twine merge:  updated and moved ToAscii to user dll.
+
+1999-12-13  Jimen Ching  <jching@core2>
+
+	* include/debugtools.h, windows/DrawFrame.c:
+	Twine merge: use old style macros.
+
+1999-11-27  Jimen Ching  <jching@core2>
+
+	* windows/Resources.c: Add WINAPI qualifiers.
+
+	* windows/Palette.c: Fix log message call/ret matching.
+
+	* windows/Module.c, windows/MDI.c: Add WINAPI qualifiers.
+
+	* windows/LoadLibrary.c: Code cleanup, log messages.
+
+	* windows/Kernel.c: Code cleanup.
+
+	* windows/DrawText.c: Missing newline.
+
+	* windows/DrawText.c: Fixup log messages.
+
+	* windows/WinHelp.c: Cosmestic change.
+
+	* windows/WinMain.c: Cosmetic change.
+
+--------------------------------------------------------------------------------
+
+Tue Nov 23 06:26:27 1999  Jimen Ching  <jching@core2>
+
+	* include/winbase.h, scheduler/Threads.c:
+	Add some prototypes and cleanup compile warnings.
+
+Mon Nov 15 20:45:48 1999  gilles  <gilles@core2>
+
+	* include/winbase.h, include/windows.h, include/wingdi.h, include/winuser.h, msdos/fat_core.c, msdos/fat_lib.c, msdos/mfs_core.c, msdos/mfs_core.h, samples/ctrldemo/ctrldemo.c, windows/Clipboard.c, windows/Dialog.c, windows/DrawText.c, windows/GdiDC.h, windows/Palette.c, controls/Static.c, dlls/commctrl/WLView.c, dlls/commctrl/WPropsht.c, graphics/GdiDCAttr.c, graphics/GdiImages.c, graphics/GdiText.c, graphics/x11drv/DrvGraphics.c, graphics/x11drv/DrvIPC.c, graphics/x11drv/DrvImages.c, include/commctrl.h:
+	bug fixes and modifications from the vxWorks port
+
+Mon Nov 15 08:38:51 1999  Jimen Ching  <jching@core2>
+
+	* configure.in, configure:
+	Changed technique of determining initialization method, support for HPUX.
+
+Sat Oct 23 10:11:18 1999  Jimen Ching  <jching@core2>
+
+	* intp32/Makefile.in, intp32/emu-utils.c, intp32/fp87.c, intp32/hsw_interp.h, intp32/internal.h, intp32/interp_16_32.c, intp32/interp_32_16.c, intp32/interp_32_32.c, intp32/interp_main.c, intp32/interp_modrm.c, if1632/make_thunk.c:
+	Alberto Vignani <vignani@tin.it>: code update/cleanup, fixes endian problems.
+
+Mon Oct 18 10:03:57 1999  Jimen Ching  <jching@core2>
+
+	* graphics/x11drv/DrvGraphics.c:
+	boutell@boutell.com: follow win32 API specs.
+
+	* controls/Listbox.c:
+	jonathan@corvu.com.au: Pass menubar messages to MenuBarProc.
+
+Sun Oct 17 09:46:11 1999  Jimen Ching  <jching@core2>
+
+	* windows/File32.c, dlls/lzexpand/LZExpand.c, include/winbase.h:
+	Update prototype of DeleteFile to use LPCTSTR.
+
+Thu Oct 14 09:11:07 1999  Jimen Ching  <jching@core2>
+
+	* TODO:
+	A resource leak bug fix introduced objengine problems with calc.exe.
+
+	* graphics/GdiDC.c:
+	jonathan <jonathan@corvu.com.au>: plug up resource leak.
+
+Sun Oct 10 01:39:09 1999  Jimen Ching  <jching@core2>
+
+	* windows/Palette.c:
+	Thomas Boutell <boutell@boutell.com>: follow MS docs.
+
+	* CONTRIBUTORS: Add Thomas Boutell as contributor.
+
+	* graphics/GdiImages.c:
+	Thomas Boutell <boutell@boutell.com>: MS docs are wrong, RGB should be BGR.
+
+--------------------------------------------------------------------------------
+
+Sun Sep 12 04:23:29 1999  Jimen Ching  <jching@core2>
+
+	* include/windef.h, include/windows.h, include/winerror.h, include/wingdi.h, include/winsock.h, include/winuser.h:
+	Twine merge: code cleanup.
+
+	* configure: Error out if -fPIC just gives a warning.
+
+	* configure.in: Error out if -fPIC is just gives a warning.
+
+	* include/winspool.h: Made compilable with C++.
+
+Fri Sep 10 10:03:17 1999  Jimen Ching  <jching@core2>
+
+	* graphics/GdiText.c, windows/Resources.c:
+	More objengine resource cleanup.
+
+	* windows/Resources.c: Add missing logstr for API trace.
+
+	* TODO: Fixed objengine.  The only resource leak is the modinfo one.
+
+	* graphics/GdiImages.c:
+	Unnecessary free's, TWIN_DeleteObject does it for us.
+
+Thu Sep  9 10:10:00 1999  Jimen Ching  <jching@core2>
+
+	* windows/ObjEngine.c:
+	Use direct call to HandleObj instead of macro, using wrong signature.
+
+	* windows/MenuAPI.c: Release resources correctly.
+
+	* if1632/MemoryIF.c:
+	Need to use real handle instead of GlobalAlloc return value.
+
+	* windows/Resources.c:
+	Twine merge: correctly handle GMEM_ options to Global* functions.
+	Correctly Release resources.
+
+Wed Sep  8 09:11:38 1999  Jimen Ching  <jching@core2>
+
+	* CONTRIBUTORS: Added Gilles Depeyrot <Gilles.Depeyrot@wanadoo.fr>.
+
+	* windows/ObjEngine.c:
+	jonathan <jonathan@corvu.com.au>: process free command when lock is removed.
+
+	* windows/WindowPos.c:
+	jonathan <jonathan@corvu.com.au>: plug up resource leak.
+
+Tue Sep  7 01:03:32 1999  Jimen Ching  <jching@core2>
+
+	* graphics/GdiBitmaps.c: Spelling error in call to log function.
+
+Mon Sep  6 23:02:38 1999  Jimen Ching  <jching@core2>
+
+	* dlls/commctrl/WCommCtrl.rc:
+	Twine merge: add new dialog/propsheet resources.
+
+Sat Sep  4 07:14:27 1999  Jimen Ching  <jching@core2>
+
+	* programs/twinview/twinhelp/winmem.c, dlls/commdlg/CommdlgIF.c, if1632/SpecialIF.c, if1632/ConvertMsg.c:
+	Twine merge: use GlobalAlloc constants.
+
+Fri Sep  3 08:46:17 1999  Jimen Ching  <jching@core2>
+
+	* windows/LoadModule.c: Twine merge: use GlobalAlloc constants.
+	Update reference count when loading module descriptions.
+
+	* windows/LoadDLL.c: Twine merge: use GlobalAlloc constants.
+
+	* CONTRIBUTORS: Added jonathan <jonathan@corvu.com.au>.
+
+	* windows/Resources.c:
+	jonathan <jonathan@corvu.com.au>: release object correctly.
+
+Sat Aug 28 23:21:23 1999  Jimen Ching  <jching@core2>
+
+	* win32/LoadPE.c: Twine merge:  use macros instead of constants.
+
+	* windows/LoadLibrary.c: Check filename length before using it.
+	Removed unused code.
+
+--------------------------------------------------------------------------------
+
+Mon Aug 23 08:23:48 1999  Jimen Ching  <jching@core2>
+
+	* Make.rules.in: Get rid of warning about "dummy" not found.
+
+	* configure, configure.in: Explicitly test -fPIC with gcc.
+
+Sun Aug 22 05:58:15 1999  Jimen Ching  <jching@core2>
+
+	* windows/WindowPos.c: Handle ShowWindow flags individually.
+	Correctly check parent of icon title.
+	Do not try to retrieve focus from non-existant handle.
+
+	* osdll/Makefile.in: Temporary fix to remove thread usage in HPUX.
+
+Thu Aug 19 08:09:15 1999  Jimen Ching  <jching@core2>
+
+	* controls/ComboBox.c: DestroyWindow only if not a child.
+
+Wed Aug 18 09:24:07 1999  Jimen Ching  <jching@core2>
+
+	* configure: Added new macro: TYPE_VA_LIST_IS_VOIDP.
+	Check for C++ only if compiling MFC.
+
+	* include/platform.h.in, if1632/SpecialIF.c, configure.in:
+	Added new system dependent macro: TYPE_VA_LIST_IS_VOIDP.
+	Fix for vararg printf functions for system where va_list != void*.
+
+	* if1632/make_thunk.c: Alberto Vignani <vignani@tin.it>: PPC fixes.
+
+	* windows/Debug.c: Initialize lparam if no debugger available.
+
+Sun Aug 15 05:09:48 1999  Jimen Ching  <jching@core2>
+
+	* windows/WindowPos.c: Cleanup SetWindowPos API logging.
+
+	* windows/ObjEngine.c: Added objengine command logging.
+
+Sat Aug 14 23:50:18 1999  Jimen Ching  <jching@core2>
+
+	* windows/utils.c: Update log class/channel comments.
+
+	* memory/memory.c: Remove use of LF_DEBUG log macro.
+
+	* include/Log.h, intp32/internal.h, win32/Resources32.c, windows/Classes.c, windows/Module.c, windows/StubAPI.c, windows/SysMetrics.c, windows/WindowCreate.c, windows/lib32.c, graphics/x11drv/DrvImages.c:
+	Remove LF_DEBUG log macro.
+
+Thu Aug 12 19:38:07 1999  gilles  <gilles@core2>
+
+	* windows/Dialog.c:
+	correction for tabbed dialog items concerning dialog placement
+
+Tue Aug 10 18:47:03 1999  Jimen Ching  <jching@core2>
+
+	* tools/rc/rclex.l:
+	POSTPREPROCESSOR state was not handling comments correctly.
+	Changed ignore_until_brace to restore previous state.
+
+	* tools/rc/rcyacc.y:
+	Use new ignore_until_brace function.  Cleanup compile warning.
+
+Sun Aug  8 01:32:17 1999  Jimen Ching  <jching@core2>
+
+	* tools/rc/rclex.l: Fix lexer bug.  Output line number in debug mode.
+
+	* tools/rc/cmdline.c:
+	Twine merge: Write messages to stderr consistently.
+
+Sat Aug  7 17:18:57 1999  Jimen Ching  <jching@core2>
+
+	* INSTALL: Comments for HPUX.
+
+	* TODO: More stuff added.
+
+Thu Jul 29 20:37:06 1999  gilles  <gilles@core2>
+
+	* windows/Dialog.c:
+	unfinished correction for tabbed dialog items concerning dialog placement
+
+	* controls/ComboBox.c:
+	modified combobox underlying listbox height calculation
+
+Thu Jul 29 06:57:04 1999  Jimen Ching  <jching@core2>
+
+	* osdll/DrvDlfcn.c, osdll/DrvSystem.c:
+	Moved DrvGetShlibExt into DrvDlfcn.c.  Extension now dependent on platform.
+
+Sun Jul 25 15:55:52 1999  gilles  <gilles@core2>
+
+	* controls/ComboBox.c: modified combobox height calculation
+
+Wed Jul 21 07:09:51 1999  Jimen Ching  <jching@core2>
+
+	* intp32/emu-utils.c:
+	Vignani Alberto <a.vignani@CRF.IT>:  display stack trace correctly.
+
+	* windows/System.c:
+	Default to 386 processor unless specified otherwise.
+
+	* ChangeLog:
+	Add log for changes made before 19990717 snapshot, but didn't make snapshot.
+
+	* intp32/internal.h:
+	Vignani Alberto <a.vignani@CRF.IT>: Update log constants.
+
+Sat Jul 17 19:16:46 1999  gilles  <gilles@core2>
+
+	* tools/rc/cmdline.c, tools/rc/rclex.l, tools/rc/rcyacc.y:
+	corrected minor typos/indentation
+	corrected bugs in parser/lexer (this is to replace previous empty log)
+
+Fri Jul 16 17:54:08 1999  gilles  <gilles@core2>
+
+	* tools/rc/rclex.l, tools/rc/rcyacc.y: *** empty log message ***
+
+--------------------------------------------------------------------------------
+
+Fri Jul 16 08:44:32 1999  Jimen Ching  <jching@core2>
+
+	* windows/Makefile.in:
+	Add $(X_LIBS) to link command of xwin32, solaris needs it.
+
+Thu Jul 15 07:12:12 1999  Jimen Ching  <jching@core2>
+
+	* configure, configure.in: Spelling error on HP-UX shl_ API.
+
+Wed Jul 14 09:37:24 1999  gilles  <gilles@core2>
+
+	* tools/rc/rclex.l: Ignore #warning preprocessor directives
+	Added optional 'L' for long integer in #if preprocessor directives
+
+Tue Jul 13 06:38:44 1999  Jimen Ching  <jching@core2>
+
+	* configure, configure.in: Remove -fwritable-strings, don't need it.
+
+Sun Jul 11 01:51:14 1999  Jimen Ching  <jching@core2>
+
+	* msdos/mfs_core.c: Check handle before using it.
+
+Sat Jul 10 05:01:14 1999  Jimen Ching  <jching@core2>
+
+	* configure: Move HP-UX compiler specific lib stuff to non-gcc block.
+
+	* configure.in: Move HP-UX compile specific libs to non-gcc block.
+
+Wed Jul  7 18:36:48 1999  gilles  <gilles@core2>
+
+	* include/winuser.h: added missing WIN32 defines
+
+Tue Jul  6 09:34:21 1999  Jimen Ching  <jching@core2>
+
+	* include/winuser.h, windows/WSprintf.c:
+	Undo variable argument changes.  rc can't find stdarg.h.
+
+Mon Jul  5 21:07:40 1999  Jimen Ching  <jching@core2>
+
+	* if1632/SpecialIF.c: Undid 1.4, causes stack corruption.
+
+	* windows/WSprintf.c: Corrected variable arg function.
+
+	* include/winuser.h:
+	Corrected parameter list for variable arg function.
+
+	* windows/Makefile.in: Remove used libraries.
+
+	* configure: See configure.in.
+
+	* configure.in:
+	Added Alpha Linux, cleaned up library usage and other things.
+
+	* debugger/Makefile.in:
+	Cleaned up library usage (removed direct use of -ldl).
+
+	* osdll/Makefile.in: Added Alpha Linux support.
+
+Sun Jul  4 23:04:29 1999  Jimen Ching  <jching@core2>
+
+	* if1632/SpecialIF.c:
+	Use function pointer instead of direct function call.
+
+	* windows/WSprintf.c, include/winuser.h:
+	Corrected variable length argument.
+
+Fri Jun 25 08:01:50 1999  Jimen Ching  <jching@core2>
+
+	* osdll/Makefile.in: Alphabetized macros, added FreeBSD support.
+
+Thu Jun 24 21:08:11 1999  gilles  <gilles@core2>
+
+	* osdll/DrvSystem_ppc-gcc.s:
+	removed dot '.' before function names to correct link error on LinuxPPC
+
+Wed Jun 23 08:35:47 1999  Jimen Ching  <jching@core2>
+
+	* graphics/x11drv/DrvInit.c, windows/Driver.h, windows/WinInit.c:
+	Use DRVCALL_ macros instead of directly calling driver functions.
+
+	* graphics/x11drv/DrvGraphics.c, tools/rc/mdc.c:
+	Use newer standard C header files.
+
+Mon Jun 21 03:54:53 1999  Jimen Ching  <jching@core2>
+
+	* windows/System.c: Removed unused LF_DEBUG and some code cleanup.
+
+	* graphics/GdiImages.c: Removed use of LF_DEBUG.
+
+	* include/Log.h, include/debug.h, include/debugdefs.h, windows/WinInit.c, windows/utils.c:
+	Twine merge, new logging facility.
+
+Sun Jun 20 21:05:33 1999  Jimen Ching  <jching@core2>
+
+	* samples/dltest/dltest.c: Correctly pass options to dlopen.
+
+Sat Jun 19 23:03:48 1999  Jimen Ching  <jching@core2>
+
+	* windows/Strings.c: Twine merge, new APIs.
+
+	* windows/Profile.c: Twine merge, cleaner code to purse inifile data.
+
+	* windows/WinConfig.c, windows/compat.h: Twine merge, code cleanup.
+
+	* windows/Palette.c: Spelling change.
+
+	* windows/GdiObjects.h: Remove unused macros.
+
+	* windows/GdiDC.h: Removed unused macros.
+
+	* graphics/GdiDC.c, graphics/GdiGraphics.c: Spelling change.
+
+	* msdos/fat_core.c, msdos/fat_lib.c, msdos/mfs_fileio.c, include/commdlg.h, include/kerndef.h, include/mmsystem.h, include/wingdi.h, include/winnt.h:
+	Twine merge, code cleanup.
+
+Fri Jun 18 09:13:26 1999  Jimen Ching  <jching@core2>
+
+	* tools/mksrc.c: Remove unused code.
+
+--------------------------------------------------------------------------------
+
+Thu Jun 17 08:17:23 1999  Jimen Ching  <jching@core2>
+
+	* Makefile.in: Add target to build tarball.
+
+	* dlls/commctrl/WPropsht.c:
+	Korotchenko A.A. <kaa@relex.ru>, generate a message OnGoNext/Back.
+
+	* windows/Dialog.c:
+	Korotchenko A.A. <kaa@relex.ru>, some window size/position changes.
+
+	* intp32/interp_16_32.c, intp32/interp_32_16.c, intp32/interp_32_32.c, intp32/interp_main.c:
+	Alberto V., bug fix for shift instructions.
+
+Wed Jun 16 10:05:45 1999  Jimen Ching  <jching@core2>
+
+	* Makefile.in, programs/Makefile.in, programs/prnsetup/Makefile.in, programs/prnsetup/prnsetup.c, programs/prnsetup/prnsetup.h, programs/prnsetup/prnsetup.rc, programs/prnsetup/resource.h:
+	Add support for building prnsetup.
+	Jacques_Goussard@cimmetry.com, fixes for prnsetup.
+
+	* configure, configure.in: Add support for building prnsetup.
+
+	* Make.rules.in:
+	Always use supplied install script.  If system install not found, the
+	supplied script has wrong path.
+
+Mon Jun 14 10:10:44 1999  Jimen Ching  <jching@core2>
+
+	* README: Updated information.
+
+	* TODO: Updated list.
+
+Sun Jun 13 20:11:42 1999  Jimen Ching  <jching@core2>
+
+	* Make.rules.in, Makefile.in, dlls/Makefile.in, ole/Makefile.in, windows/Makefile.in:
+	Added 'help' and 'install' target to makefile.
+
+	* configure, configure.in: Added check for 'install'.
+
+	* graphics/x11drv/DrvInit.c, graphics/x11drv/DrvInit.h, osdll/Attic/DrvMemory.c, osdll/DrvSystem.c, osdll/DrvThreads.h, osdll/DrvThreads_X386.c, osdll/DrvThreads_generic.c, osdll/DrvThreads_nothreads.c, osdll/Makefile.in, windows/Driver.h, windows/Events.c, windows/Kernel.c:
+	Removed unused driver modules; PSD, memory, etc.
+
+Mon Jun  7 08:04:14 1999  Jimen Ching  <jching@core2>
+
+	* windows/MenuProc.c: Object engine fixes.
+
+Sun Jun  6 19:58:37 1999  Jimen Ching  <jching@core2>
+
+	* windows/WindowPos.c: Bug fix for bad variable use.
+
+	* windows/LoadLibrary.c:
+	Code cleanup and fixed bug with reference count for modinfo.
+
+	* Make.rules.in: Add TWIN32 to RCFLAGS.
+
+	* graphics/x11drv/DrvDC.c, graphics/x11drv/DrvEvents.c, graphics/x11drv/DrvInit.c, graphics/x11drv/DrvPrinting.c, graphics/x11drv/DrvWinSock.c:
+	Twine merge, minor code cleanup.
+
+	* graphics/x11drv/XEvents.c: Twine merge, remove motion detection.
+
+	* graphics/GdiDC.c: Twine merge, DC cleanup changes.
+
+	* graphics/GdiDC.c, windows/WindowDC.c:
+	Twine merge, changed DC cache handling, object engine fixes.
+
+Sat Jun  5 23:44:14 1999  Jimen Ching  <jching@core2>
+
+	* windows/SysMetrics.c: Twine merge, object engine fixes, color change.
+
+	* windows/LoadLibrary.c: Object engine fix.
+
+	* windows/Kernel.h, windows/Resources.c:
+	Twine merge, fix member name clash.
+
+	* graphics/x11drv/DrvText.c: Twine merge, attempt to load sysem font.
+
+	* graphics/GdiObjects.c, graphics/GdiGraphics.c, graphics/GdiBitmaps.c:
+	Twine merge, object engine fixes.
+
+	* graphics/GdiImages.c: Twine merge, correct object engine bug.
+
+	* windows/Comm.c: Twine merge, check for CBAUD.
+
+	* dlls/commdlg/PrintDlg.c, windows/PrintManager.c:
+	<Jacques_Goussard@cimmetry.com>, print to file fixes.
+
+Tue Jun  1 07:58:14 1999  Jimen Ching  <jching@core2>
+
+	* include/windows.h, include/winerror.h:
+	Twine merge, also added PCSTR for MFC.
+
+	* msdos/mfs_config.c: Include sys/types.h for FreeBSD.
+
+	* windows/Dialog.c: Terminate result string.
+
+	* CONTRIBUTORS: Expanded K.A.A's name.
+
+	* controls/Listbox.c:
+	kaa@relex.ru: check for null CREATESTRUCT param pointer.
+
+	* CONTRIBUTORS: Added kaa@relex.ru.
+
+	* windows/Execfreebsd.c: FreeBSD support from kaa@relex.ru.
+
+	* windows/DisplayGraphics.c: Twine merge, with minor object engine fix.
+
+	* windows/WindowDC.c:
+	Twine merge, partical merge (did not include MT_LOCK/etc).
+
+	* graphics/GdiObjects.c, graphics/GdiText.c, include/ObjEngine.h, scheduler/CreateProcess.c, win32/Resources32.c, windows/Events.c, windows/Kernel.c, windows/ObjEngine.c, windows/Palette.c, windows/Resources.c, windows/WindowRedraw.c, graphics/GdiDC.c:
+	Twine merge, object engine fixes.
+
+	* controls/EditMem.c:
+	Fix for object engine, release module info correctly.
+
+Sun May 30 18:59:10 1999  Jimen Ching  <jching@core2>
+
+	* configure, configure.in: Remove CPU version number for hppa.
+
+--------------------------------------------------------------------------------
+
+Sat May 29 21:47:37 1999  Jimen Ching  <jching@core2>
+
+	* CONTRIBUTORS: Added Alberto Vignani.
+
+	* windows/WinConfig.c, windows/compat.h:
+	Added configuration file option to enable intp32 logging.
+
+	* windows/LoadModule.c: Made GetProcName non-static for intp32.
+
+	* intp32/interp_32_32.c, intp32/interp_main.c, intp32/interp_modrm.c, intp32/mod_rm.h, intp32/Attic/gen_modrm.c, intp32/COPYING.LIB, intp32/Makefile.in, intp32/cpu-emu.h, intp32/dis8086.c, intp32/emu-globv.h, intp32/emu-ldt.h, intp32/emu-utils.c, intp32/external.c, intp32/fp87.c, intp32/hsw_interp.h, intp32/internal.h, intp32/interp_16_32.c, intp32/interp_32_16.c:
+	Merging intp32 code with DOSEMU project.
+
+Tue May 18 17:43:51 1999  Jimen Ching  <jching@core2>
+
+	* windows/DisplayGraphics.c: Object engine fix, remove unused code.
+
+	* windows/Messages.c: Object engine fix.
+
+	* graphics/GdiBitmaps.c, windows/KrnTask.c: Fix misspelling.
+
+	* if1632/MemoryIF.c: Fix compiler warning (used uninitialized).
+
+Sun May 16 07:25:16 1999  Jimen Ching  <jching@core2>
+
+	* windows/LoadLibrary.c:
+	Twine merge; object engine fix, don't print proc address.
+
+Sat May 15 10:19:57 1999  Jimen Ching  <jching@core2>
+
+	* if1632/SpecialIF.c:
+	Twine merge, removed warnings due to HKEY definition change.
+
+	* include/shellapi.h:
+	Twine merge, changed HKEY definition and added some prototypes.
+
+	* windows/Makefile.in: Remove xwin32 in 'clean' rule.
+
+	* controls/Listbox.c: Remove unused function.
+
+	* windows/MenuProc.c: Twine merge, object engine fixes.
+
+	* windows/MenuAPI.c: Twine merge, object engine fixes, code cleanup.
+
+	* windows/WindowCreate.c:
+	Twine merge, code cleanup (unused function calls).
+
+	* include/ObjEngine.h:
+	Twine merge, partial.  Get ready to fix object engine w/ menus.
+
+Sun May  9 04:53:22 1999  Jimen Ching  <jching@core2>
+
+	* include/winuser.h: Twine merge, corrected WINAPI prototype.
+
+	* windows/Dialog.c: Twine merge, object engine fixup.
+
+	* tools/rc/buffer.h, tools/rc/cmdline.c, tools/rc/ifyacc.y, tools/rc/rc.h, tools/rc/rcyacc.y, tools/rc/resources.c, tools/rc/util.c:
+	Twine merge, applied patch from Gilles Depeyrot for Mac port.
+
+	* dlls/winsock/WinSock.c: Twine merge, remove unused variables.
+
+Sat May  8 23:55:00 1999  Jimen Ching  <jching@core2>
+
+	* dlls/msvcrt/msvcrt32.d: Twine merge, added srand.
+
+	* windows/WindowBytes.c: Twine merge, change log output to hex.
+
+	* windows/LoadDLL.c: Twine merge, object engine fix, code cleanup.
+
+	* windows/Exec.c:
+	Twine merge, removed double fault detection (debugger handles it now).
+
+	* windows/Execfreebsd.c: Twine merge, add FreeBSD support.
+
+	* windows/Execlinux.c: Twine merge, remove unused function (sigaction).
+
+Fri May  7 09:41:33 1999  Jimen Ching  <jching@core2>
+
+	* graphics/GdiGraphics.c: Twine merge, object engine clean up.
+
+	* windows/System.c:
+	Optimizer might remove second statement in && expression.
+
+	* windows/WindowPos.c: Twine merge, more object engine cleanup.
+
+Thu May  6 08:21:47 1999  Jimen Ching  <jching@core2>
+
+	* controls/ComboBox.c: Twine merge, code cleanup.
+
+	* controls/Listbox.c: Twine merge, object manager fixup.
+
+Fri Apr 30 09:14:39 1999  Jimen Ching  <jching@core2>
+
+	* dlls/shell/Shell.c, dlls/shell/shell32.d, dlls/msvcrt/msvcrt.c, dlls/msvcrt/msvcrt32.d:
+	Twine merge, code cleanup and some new bin apis.
+
+	* controls/Edit.c:
+	Twine merge, clear pointer to internal data structure.
+
+	* FAQ, README, TODO: Change Linux to GNU/Linux.
+
+	* dlls/commctrl/WTView.c, dlls/commctrl/WImgList.c, dlls/commctrl/WTVLBox.c:
+	Twine merge, code cleanup.  Delayed merging all sources because of bugs.
+
+Fri Apr 23 08:56:52 1999  Jimen Ching  <jching@core2>
+
+	* dlls/commctrl/WLView.c, dlls/commctrl/WStatusb.c, dlls/commctrl/WToolbar.c:
+	Twine merge, code cleanup.
+
+	* dlls/commctrl/WCommCtrl.def, dlls/commctrl/commctrl32.d, dlls/commctrl/CommCtrl.c, dlls/commctrl/Makefile.in:
+	Twine merge, add win32 support.
+
+	* dlls/commctrl/WHdr.c, dlls/commctrl/WLVLBox.c, dlls/commctrl/WLView.c, dlls/commctrl/WTVLBox.c, dlls/commctrl/WTView.c, dlls/commctrl/WTab.c, dlls/commctrl/WToolbar.c, dlls/commctrl/WTooltip.c:
+	Call GetTextExtentPoint32 instead of GetTextExtentPoint.
+
+Wed Apr 21 09:03:33 1999  Jimen Ching  <jching@core2>
+
+	* include/shellapi.h, include/windef.h, include/windows.h, include/wingdi.h, include/winspool.h:
+	Twine merge, code cleanup.
+
+Tue Apr 20 22:35:11 1999  Jimen Ching  <jching@core2>
+
+	* dlls/advapi32/advapi32.d: Twine merge, increased highest API ordinal.
+
+	* include/winnls.h, include/winuser.h:
+	Twine merge, moved NLS macros to own header (WINE header file).
+
+	* dlls/ddeml/DdeML.c: Twine merge, output message in stub functions.
+
+Sun Apr 18 11:46:34 1999  Jimen Ching  <jching@core2>
+
+	* samples/windemo/windemo.c:
+	Twine merge, add scroll bar with left mouse button.
+
+	* dlls/shell/Registry.c, dlls/shell/Shell.c, dlls/shell/ShellIF.c, dlls/shell/shell32.d:
+	Twine merge, code cleanup and implement some extended Registry functions.
+
+	* controls/Edit.c: Twine merge, check parameters and clean up code.
+
+	* graphics/GdiObjects.c:
+	Twine merge, make sure we have GDI object before deleting.
+
+	* graphics/GdiTTEngine.c: Twine merge, stub...
+
+	* graphics/GdiText.c: Twine merge, fixed bug in parameter usage.
+
+Tue Apr 13 09:10:10 1999  Jimen Ching  <jching@core2>
+
+	* FAQ: Added answers for Mac port and platform support.
+
+Mon Apr 12 22:06:34 1999  Jimen Ching  <jching@core2>
+
+	* configure.in, configure:
+	sys/statfs.h may require types from sys/types.h.
+
+Sun Apr 11 03:06:46 1999  Jimen Ching  <jching@core2>
+
+	* dlls/commdlg/GetOpenFileName.c:
+	Patch from JOG, code cleanup and support for MULTISEL.
+
+Sat Apr 10 11:59:45 1999  Jimen Ching  <jching@core2>
+
+	* controls/Listbox.c:
+	Patch from JOG: some Listbox bug fixes, some behavioral changes.
+
+	* osdll/DrvDlfcn.c, osdll/DrvTime.c, tools/rc/rcyacc.y, configure, configure.in, include/platform.h.in:
+	Cleanup configure script for non-linux platforms.
+
+	* CONTRIBUTORS: Keep track of volunteers.
+
+	* INSTALL, README: More documentation cleanup.
+
+Fri Apr  9 06:18:23 1999  Jimen Ching  <jching@core2>
+
+	* msdos/mfs_core.c:
+	Filename parameter was modified, added code to restore character.
+
+Wed Apr  7 20:47:13 1999  Jimen Ching  <jching@core2>
+
+	* INSTALL, README, TODO: Clean up documentation.
+
+	* samples/prtdemo/Makefile.in, samples/windemo/Makefile.in, samples/wmfdemo/Makefile.in, samples/dlldemo/Makefile.in, samples/hlpdemo/Makefile.in, samples/mdidemo/Makefile.in, samples/msgdemo/Makefile.in, samples/bn2demo/Makefile.in, samples/cdsdemo/Makefile.in, samples/cliptext/Makefile.in, samples/dlgdemo/Makefile.in, samples/apidemo/Makefile.in, samples/bindemo/Makefile.in, samples/bindemo2/Makefile.in:
+	Added X library path to samples that use it.
+
+	* configure, configure.in:
+	Disable bin32 support for non-Intel platforms for now.
+
+	* tools/rc/rcyacc.y: Missing semicolon.
+
+	* FAQ, WINE-LICENSE: Update documenation.
+
+Tue Apr  6 08:13:17 1999  Jimen Ching  <jching@core2>
+
+	* include/platform.h.in, msdos/fn_36.c, configure, configure.in:
+	Handle *BSD style platforms.
+
+	* osdll/DrvSystem.c: RTLD_GLOBAL is not defined for FreeBSD.
+
+Mon Apr  5 21:15:41 1999  Jimen Ching  <jching@core2>
+
+	* windows/WinInit.c: Added global __environ to remove compile error.
+	Why didn't I get the error before?
+
+	* windows/FileSys.c, windows/KrnFileIO.c, windows/System.c, windows/WinInit.c, graphics/GdiObjects.c, windows/File32.c:
+	Twine 1.0/1.1 merge, more code cleanup.
+
+	* windows/DPMI.h, windows/Execintp.c, windows/Makefile.in, intp32/interp_main.c:
+	Interpreter fix-up's.  Tried to integrate DOSEMU changes, but didn't work.
+
+Thu Apr  1 08:56:50 1999  Jimen Ching  <jching@core2>
+
+	* memory/heap32.h, win32/Resources32.c, windows/Attic/DrawEdge.c, windows/DrawFrame.c, windows/ExecUtl.S, windows/Execlinux.c, windows/LoadLibrary.c, windows/LoadModule.c, windows/Locale.c, windows/Locale.h, windows/MDI.c, windows/Makefile.in, windows/Module.c, windows/WindowBytes.c, windows/WindowRedraw.c, graphics/x11drv/DrvText.c, include/windef.h, memory/heap.c:
+	Twine 1.0/1.1 merge, code cleanup.
+
+Wed Mar 31 08:10:15 1999  Jimen Ching  <jching@core2>
+
+	* configure.in, configure: Removed option to build win16 library.
+
+	* Makefile.in: Added stub install target.  Fix this in a later release.
+
+	* INSTALL, README, TODO: Modified documentation for 3.1.13 release.
+
+Tue Mar 30 22:27:00 1999  Jimen Ching  <jching@core2>
+
+	* configure, configure.in: Added host option for cygwin.
+
+	* tools/rc/cmdline.c: Check for NULL pointer access.
+
+	* scheduler/CreateProcess.c, windows/lib32.c:
+	Move GetCommandLine function into base library, from bin32 module.
+
+	* windows/version.c, include/winbase.h: Prototyped WINAPI functions.
+
+Mon Mar 29 07:23:15 1999  Jimen Ching  <jching@core2>
+
+	* include/tchar.h: Twine 1.0 merge, moved tchar.h.
+
+	* mfc/Attic/tchar.h, include/Attic/Win_Base.h, include/Attic/Win_Clib.h, include/Attic/Win_Gdi.h, include/Attic/Win_Kernel.h, include/Attic/Win_MS.h, include/Attic/Win_NT.h, include/Attic/Win_Reg.h, include/Attic/Win_Thread.h, include/Attic/Win_User.h, include/Attic/Winver.h:
+	Twine 1.0 merge, remove renamed headers.
+
+Sun Mar 28 08:15:58 1999  Jimen Ching  <jching@core2>
+
+	* include/commctrl.h, include/commdlg.h, include/debug.h, include/debugdefs.h, include/platform.h.in, tools/rc/rclex.l, tools/rc/resources.c, windows/lib32.c, dlls/shell/Registry.c, graphics/x11drv/DrvColors.c, graphics/x11drv/DrvDC.c, graphics/x11drv/DrvEvents.c, graphics/x11drv/DrvFloodFill.c, graphics/x11drv/DrvGraphics.c, graphics/x11drv/DrvIPC.c, graphics/x11drv/DrvImages.c, graphics/x11drv/DrvInit.c, graphics/x11drv/DrvKeyboard.c, graphics/x11drv/DrvRegions.c, graphics/x11drv/DrvText.c, graphics/x11drv/DrvUtils.c, graphics/x11drv/DrvWindows.c, graphics/x11drv/XEvents.c, graphics/x11drv/XICCCM.c, dlls/commdlg/GetOpenFileName.c, dlls/libdll/DummyEnviron.c, dlls/msvcrt/msvcrt.c, configure, configure.in:
+	Twine 1.1 merge, locking for x11drv, code cleanup for misc.
+
+Sat Mar 27 18:34:29 1999  Jimen Ching  <jching@core2>
+
+	* Attic/setup:
+	Don't need helper program.  Configure doesn't need parameters by default.
+
+	* include/prsht.h, include/shellapi.h, include/thread.h, include/winbase.h, include/wincon.h, include/windef.h, include/windows.h, include/wingdi.h, include/winmapclib.h, include/winmaptypes.h, include/winnt.h, include/winreg.h, include/winspool.h, include/winuser.h, include/winver.h, scheduler/CreateProcess.c, win32/LoadPE.c, win32/Resources32.c, windows/Process32.h, windows/Strings32.c, windows/dbg_context.h, windows/lib32.c, dlls/commdlg/GetOpenFileName.c, debugger/debugger.h:
+	Twine 1.0 merge, new header files.
+
+Fri Mar 26 22:44:44 1999  Jimen Ching  <jching@core2>
+
+	* tools/rc/buffer.h, tools/rc/rcyacc.y, tools/rc/resources.c:
+	Twine 1.0 merge, renamed extended style variable.
+
+	* memory/virtual.c: Block off bin32 support.
+
+	* memory/heap32.h, memory/memory.c, memory/virtual.c, memory/heap.c:
+	Twine 1.0 merge, code cleanup.
+
+Thu Mar 25 18:06:43 1999  Jimen Ching  <jching@core2>
+
+	* samples/windemo32/Makefile.in, samples/wmfdemo/Makefile.in, samples/msgdemo/Makefile.in, samples/progbar/Makefile.in, samples/progbar/progress.c, samples/prtdemo/Makefile.in, samples/treeview/Makefile.in, samples/windemo/Makefile.in, samples/dlldemo/Makefile.in, samples/hlpdemo/Makefile.in, samples/listview/Makefile.in, samples/mdidemo/Makefile.in, samples/cliptext/Makefile.in, samples/ctrldemo/Makefile.in, samples/dlgdemo/Makefile.in, samples/apidemo/Makefile.in, samples/bindemo/Makefile.in, samples/bindemo2/Makefile.in, samples/bn2demo/Makefile.in, samples/cdsdemo/Makefile.in, Makefile.in:
+	Twine 1.0 merge, directory changes.
+
+	* samples/dltest/dltest.c, samples/dltest/lib2.c, tools/make_debug, tools/mksym, windows/Dialog.c, controls/Frame.c, msdos/dos_error.c, programs/prnsetup/prndc.c:
+	Twine 1.0 merge, code cleanup.
+
+	* include/ObjEngine.h, include/commctrl.h, windows/Clipboard.c, windows/DisplayGraphics.c, windows/DisplayObjects.c, windows/GdiObjects.h, windows/ObjEngine.c, windows/WindowCreate.c, graphics/GdiBitmaps.c, graphics/GdiGraphics.c, graphics/GdiImages.c, graphics/GdiObjects.c, graphics/x11drv/DrvImages.c, dlls/commctrl/WImgList.c:
+	Twine 1.0 merge, renamed internal IMAGEINFO to TWIN_IMAGEINFO.
+
+Wed Mar 24 08:58:08 1999  Jimen Ching  <jching@core2>
+
+	* dlls/win87em/win87emIF.c: Twine 1.0 merge, block out bin16 code.
+
+	* dlls/commdlg/GetOpenFileName.c, dlls/commdlg/Makefile.in, dlls/commdlg/commdlg32.d, windows/System.c, dlls/commdlg/Commdlg.def:
+	Twine 1.0 merge, moved GetFileTitle, and add bin32 support.
+
+	* windows/FormatMessage.c, windows/Resources.c, windows/UsrCursor.c, windows/WinInit.c, windows/WindowPos.c, windows/WindowProps.c, windows/peexe.h:
+	Twine 1.0 merge, code cleanup.
+
+Tue Mar 23 09:04:58 1999  Jimen Ching  <jching@core2>
+
+	* documentation/sample.twinrc: Updated to match source.
+
+Mon Mar 22 23:56:14 1999  Jimen Ching  <jching@core2>
+
+	* msdos/fn_36.c: Typo in header check.
+
+	* dlls/commctrl/Makefile.in, dlls/commctrl/WCommCtrl.h, dlls/commctrl/WCommctl.c, dlls/commctrl/WDragLbx.c, dlls/ddeml/DdeMLBin.c, dlls/keyboard/KeyboardBin.c, dlls/keyboard/KeyboardIF.c, dlls/lzexpand/LZExpandBin.c, dlls/shell/About.def, dlls/shell/DragDrop.c, dlls/shell/Makefile.in, dlls/shell/Registry.c, dlls/shell/Shell.c, dlls/shell/ShellIF.c, dlls/sound/SoundBin.c, dlls/toolhelp/Info.c, dlls/toolhelp/Task.c, dlls/toolhelp/ToolHelp.c, dlls/winsock/WinSockBin.c:
+	Twine 1.0 merge, code cleanup.
+
+	* configure: autoconf sync.
+
+	* debugger/Attic/help.h, debugger/Attic/winetypes.h, debugger/debugger.h, debugger/glue.c, debugger/stabs.c:
+	Twine 1.0 merge, code cleanup and added NOTE as per Wine license.
+
+	* debugger/stack.c, debugger/types.c, debugger/break.c, debugger/db_disasm.c, debugger/db_disasm.h, debugger/dbg.y, debugger/debug.l, debugger/display.c, debugger/expr.c, debugger/expr.h, debugger/hash.c, debugger/info.c, debugger/memory.c, debugger/module.h, debugger/registers.c, debugger/selectors.h, debugger/sig_context.h, debugger/source.c:
+	Twine 1.0 merge, added NOTE as per Wine license.
+
+	* dlls/commdlg/GetOpenFileName.c, graphics/x11drv/DrvColors.c, graphics/x11drv/DrvConfig.c, graphics/x11drv/DrvCursor.c, graphics/x11drv/DrvDC.c, graphics/x11drv/DrvEvents.c, graphics/x11drv/DrvFloodFill.c, graphics/x11drv/DrvGraphics.c, graphics/x11drv/DrvIPC.c, graphics/x11drv/DrvImages.c, graphics/x11drv/DrvInit.c, graphics/x11drv/DrvKeyboard.c, graphics/x11drv/DrvPrinting.c, graphics/x11drv/DrvRegions.c, graphics/x11drv/DrvText.c, graphics/x11drv/DrvWinSock.c, graphics/x11drv/DrvWindows.c, graphics/x11drv/XEvents.c, graphics/x11drv/XICCCM.c, include/mmsystem.h, include/mtlock.h, msdos/mfs_config.c, msdos/mfs_fileio.c, windows/DisplayObjects.c, windows/Kernel.h, windows/KrnTask.c, windows/LoadDLL.c, windows/ObjEngine.c, windows/StubAPI.c, windows/WinConfig.c, windows/WinConfig.h, windows/WinInit.c, windows/compat.h:
+	Changed config mechanism.  LOCK_SECTION is nulled out for now.
+
+Sun Mar 21 12:11:02 1999  Jimen Ching  <jching@core2>
+
+	* windows/Attic/MsgCode.h, windows/Classes.c, windows/MsgCode.c, Make.rules.in, dlls/commctrl/WPropsht.c, include/Log.h, include/MsgCode.h, include/debug.h, include/debugdefs.h, include/debugtools.h:
+	Twine 1.0 merge, updated log mechanism.
+
+	* include/dir.h, include/dos.h, include/io.h:
+	Twine 1.0 merge, minor cleanup.
+
+	* debugger/Makefile.in, dlls/Makefile.in, dlls/advapi32/Makefile.in, dlls/msvcrt/Makefile.in, dlls/shell/About.c, dlls/shell/About.h, dlls/shell/About.rc, dlls/shell/Makefile.in, dlls/winspool/Makefile.in, include/platform.h.in, msdos/fn_36.c, osdll/DrvDlfcn.c, osdll/DrvFiles.c, osdll/DrvSystem.c, osdll/Makefile.in, tools/rc/Makefile.in, tools/rc/cmdline.c, tools/rc/printres.c, tools/rc/rc.h, windows/Attic/About.h, windows/Makefile.in, windows/Release.h, windows/RscData.rc, windows/version.c, windows/version_time.c, Make.rules.in, Makefile.in, configure, configure.in:
+	Versioning changes, new mostlyclean rule for makefiles, About dialog changes.
+
+	* multimedia/MCI.c, multimedia/MMIF.c, multimedia/MultiMedia.c:
+	Twine 1.0 merge, remove unused header includes.
+
+	* graphics/GdiDCAttr.c: Twine 1.0 merge, correct log output.
+
+	* if1632/MemoryIF.c, if1632/SpecialIF.c:
+	Twine 1.0 merge, minor code cleanup.
+
+Sat Mar 20 12:55:33 1999  Jimen Ching  <jching@core2>
+
+	* controls/Button.c, controls/ButtonDraw.c, controls/Listbox.c:
+	Twine 1.0 merge.
+
+	* windows/if32.s: Corrected incorrect use of assembly syntax.
+
+Fri Mar 19 22:46:31 1999  Jimen Ching  <jching@core2>
+
+	* configure, configure.in:
+	Fixup macro definition that is common to GCC and non-GCC systems.
+
+	* ole/Makefile.in, osdll/DrvFiles.c, osdll/DrvTime.c, osdll/Makefile.in, scheduler/Makefile.in, tools/Makefile.in, tools/mksrc.c, tools/rc/Makefile.in, win32/Makefile.in, windows/Attic/gdi32.c, windows/Attic/gdi32.h, windows/Attic/gdi32Bin.c, windows/Attic/gdi32Bin.h, windows/Attic/kernel32.c, windows/Attic/kernel32.h, windows/Attic/kernel32Bin.c, windows/Attic/kernel32Bin.h, windows/Attic/makefile.bin, windows/Attic/user32.c, windows/Attic/user32.h, windows/Attic/user32Bin.c, windows/Attic/user32Bin.h, windows/Dialog.c, windows/LoadDLL.c, windows/LoadModule.c, windows/Makefile.in, windows/RscData.rc, dlls/advapi32/Attic/advapi32.c, dlls/advapi32/Attic/advapi32.h, dlls/advapi32/Attic/advapi32Bin.c, dlls/advapi32/Attic/advapi32Bin.h, dlls/advapi32/Attic/makefile.bin, dlls/advapi32/Makefile.in, dlls/comm/Makefile.in, dlls/commctrl/Makefile.in, dlls/commctrl/WCommCtrl.rc, dlls/commdlg/Commdlg.rc, dlls/commdlg/Makefile.in, dlls/ddeml/Makefile.in, dlls/keyboard/Makefile.in, dlls/libdll/Makefile.in, dlls/lzexpand/Makefile.in, dlls/msvcrt/Attic/makefile.bin, dlls/msvcrt/Attic/msvcrt32.c, dlls/msvcrt/Attic/msvcrt32.h, dlls/msvcrt/Attic/msvcrt32Bin.c, dlls/msvcrt/Attic/msvcrt32Bin.h, dlls/msvcrt/Makefile.in, dlls/shell/Attic/makefile.bin, dlls/shell/Attic/shell32.c, dlls/shell/Attic/shell32.h, dlls/shell/Attic/shell32Bin.c, dlls/shell/Attic/shell32Bin.h, dlls/shell/Makefile.in, dlls/sound/Makefile.in, dlls/system/Makefile.in, dlls/toolhelp/Makefile.in, dlls/version/Makefile.in, dlls/win87em/Makefile.in, dlls/winsock/Makefile.in, dlls/winspool/Attic/makefile.bin, dlls/winspool/Attic/winspool32.c, dlls/winspool/Attic/winspool32.h, dlls/winspool/Attic/winspool32Bin.c, dlls/winspool/Attic/winspool32Bin.h, dlls/winspool/Makefile.in, graphics/Makefile.in, graphics/x11drv/DrvCommon.h, graphics/x11drv/Makefile.in, if1632/Makefile.in, include/kerndef.h, mfc/Makefile.in, msdos/Makefile.in, multimedia/Makefile.in, Make.rules.in, Makefile.in, TODO, configure, configure.in, controls/Edit.h, controls/EditMem.c, controls/Makefile.in, debugger/Makefile.in, dlls/Makefile.in:
+	Updating makefiles, sources to compile with new directory structure.
+
+Tue Mar 16 09:34:20 1999  Jimen Ching  <jching@core2>
+
+	* osdll/DrvThreads.h, osdll/DrvThreads_X386.c, osdll/DrvThreads_generic.c, osdll/DrvThreads_nothreads.c, osdll/DrvTime.c, osdll/Makefile.in, modules/bp.c, modules/bp.h, osdll/DrvDlfcn.c, osdll/DrvFiles.c, osdll/DrvMemory.c, osdll/DrvSystem.c, osdll/DrvSystem_hppa.s, osdll/DrvSystem_mips.s, osdll/DrvSystem_ppc-gcc.s, osdll/DrvSystem_ppc.s, osdll/DrvSystem_sparc.s:
+	Moving remaining PAL files into available directories.
+
+	* windows/Attic/gdi32.c, windows/Attic/gdi32.h, windows/Attic/gdi32Bin.c, windows/Attic/gdi32Bin.h, windows/Attic/kernel32.c, windows/Attic/kernel32.h, windows/Attic/kernel32Bin.c, windows/Attic/kernel32Bin.h, windows/Attic/makefile.bin, windows/Attic/user32.c, windows/Attic/user32.h, windows/Attic/user32Bin.c, windows/Attic/user32Bin.h, windows/WinDefs.h, windows/WinHelp.c, windows/WinHelp.h, windows/WinInit.c, windows/WinMain.c, windows/WinSockUtil.c, windows/WindowBytes.c, windows/WindowBytes.h, windows/WindowCreate.c, windows/WindowCreate.h, windows/WindowDC.c, windows/WindowDC.h, windows/WindowPos.c, windows/WindowProps.c, windows/WindowRedraw.c, windows/commctrlCompileFlags.h, windows/compat.h, windows/gdi32.d, windows/heap.h, windows/if32.h, windows/if32.s, windows/invoke_binary.h, windows/kernel32.d, windows/lib32.c, windows/make_thunk.h, windows/makever.sh, windows/mfs_config.h, windows/mfs_dir.h, windows/mfs_fileio.h, windows/neexe.h, windows/peexe.h, windows/scode.h, windows/user32.d, windows/utils.c, windows/utils.h, windows/version.c, windows/version.h, windows/version_time.c, windows/vsprintf32.c, windows/Attic/About.h, windows/Attic/DrawEdge.c, windows/Attic/MsgCode.h, windows/Beep.c, windows/BinTypes.h, windows/COPYING.LIB, windows/Caret.c, windows/Classes.c, windows/Classes.h, windows/Clipboard.c, windows/Clipboard.h, windows/Comm.c, windows/Comm.h, windows/ConvertArray.c, windows/ConvertRes.c, windows/ConvertRes.h, windows/DPMI.c, windows/DPMI.h, windows/DPMInotify.c, windows/Debug.c, windows/Debug.h, windows/DefWnd.c, windows/DeviceData.c, windows/DeviceData.h, windows/Dialog.c, windows/Dialog.h, windows/Display.h, windows/DisplayClipping.c, windows/DisplayDC.c, windows/DisplayGraphics.c, windows/DisplayObjects.c, windows/DisplayText.c, windows/Dither.c, windows/DrawFrame.c, windows/DrawText.c, windows/Driver.c, windows/Driver.h, windows/Endian.h, windows/Events.c, windows/Exec.c, windows/Exec.h, windows/ExecSysV.c, windows/ExecUtl.S, windows/Execintp.c, windows/Execlinux.c, windows/FancyRgn.c, windows/File32.c, windows/FileSys.c, windows/FileSys.h, windows/FormatMessage.c, windows/Frame.h, windows/GdiDC.h, windows/GdiDCAttr.h, windows/GdiDDK.h, windows/GdiObjects.h, windows/GdiRegions.h, windows/GdiText.h, windows/Hook.c, windows/Hook.h, windows/Hotkey.h, windows/IOEmu.c, windows/Intp.h, windows/IsBinary.c, windows/Kernel.c, windows/Kernel.h, windows/Keyboard.c, windows/KrnAtoms.c, windows/KrnAtoms.h, windows/KrnFileIO.c, windows/KrnTask.c, windows/KrnTask.h, windows/LSDevices.c, windows/Listbox.h, windows/LoadDLL.c, windows/LoadDLL.h, windows/LoadEXE.h, windows/LoadLibrary.c, windows/LoadModule.c, windows/LoadPE.h, windows/Locale.c, windows/Locale.h, windows/MDI.c, windows/MSWinSock.h, windows/Makefile.in, windows/MapMode.c, windows/MenuAPI.c, windows/MenuProc.c, windows/Menus.h, windows/MessageBox.c, windows/Messages.c, windows/Messages.h, windows/Meta.h, windows/MetaGraphics.c, windows/MetaGraphics.h, windows/MetaObjects.c, windows/Metafile.c, windows/Metaplay.c, windows/ModTable.c, windows/Module.c, windows/MsgCode.c, windows/Net.c, windows/ObjEngine.c, windows/Objects.h, windows/Palette.c, windows/PrintManager.c, windows/PrinterBin.h, windows/PrinterDC.c, windows/PrinterDC.h, windows/PrinterGraphics.c, windows/Process32.h, windows/Profile.c, windows/Profile.h, windows/Profile32.c, windows/Rect.c, windows/Resources.c, windows/RscData.def, windows/RscData.h, windows/RscData.rc, windows/RscTable.c, windows/RscTemplate.c, windows/Scroll.h, windows/Strings.c, windows/Strings32.c, windows/Strings32.h, windows/StubAPI.c, windows/SysMetrics.c, windows/SysMetrics.h, windows/SysMisc.c, windows/System.c, windows/TWINPrint.h, windows/Task32.h, windows/Thread32.h, windows/Time.c, windows/TwinRT.def, windows/TwinRT.rc, windows/TwinSock.h, windows/UsrCursor.c, windows/Validate.h, windows/WBmp.c, windows/WBmp.h, windows/WCursor.h, windows/WIcon.h, windows/WImageIO.c, windows/WImageIO.h, windows/WSprintf.c, windows/WSysMenu.c, windows/Willows.h, windows/WinConfig.c, windows/WinConfig.h, windows/WinData.h:
+	Moving main TWIN source files.
+
+	* scheduler/CreateProcess.c, scheduler/Critical.c, scheduler/Hotkey.c, scheduler/Interlock.c, scheduler/ThreadLocal.c, scheduler/Threads.c:
+	Moving scheduler modules.
+
+	* if1632/Bin16.c, if1632/BitmapBin.c, if1632/Callback.c, if1632/CommIF.c, if1632/ConvertMsg.c, if1632/GenericIF.c, if1632/HookIF.c, if1632/KrnCatch.c, if1632/LocalMem.c, if1632/MemoryIF.c, if1632/OEMRoutines.c, if1632/OEMTab.c, if1632/PrintIF.c, if1632/PrinterBin.c, if1632/SpecialIF.c, if1632/ValidateModule.c, if1632/invoke_binary.c, if1632/make_thunk.c:
+	Moving binary support modules.
+
+	* graphics/x11drv/COPYING.LIB, graphics/x11drv/DrvColors.c, graphics/x11drv/DrvColors.h, graphics/x11drv/DrvCommon.h, graphics/x11drv/DrvConfig.c, graphics/x11drv/DrvCursor.c, graphics/x11drv/DrvDC.c, graphics/x11drv/DrvDC.h, graphics/x11drv/DrvDP.h, graphics/x11drv/DrvEvents.c, graphics/x11drv/DrvFloodFill.c, graphics/x11drv/DrvGraphics.c, graphics/x11drv/DrvGraphics.h, graphics/x11drv/DrvIPC.c, graphics/x11drv/DrvIPC.h, graphics/x11drv/DrvImages.c, graphics/x11drv/DrvImages.h, graphics/x11drv/DrvInit.c, graphics/x11drv/DrvInit.h, graphics/x11drv/DrvKeyboard.c, graphics/x11drv/DrvKeyboard.h, graphics/x11drv/DrvPrinting.c, graphics/x11drv/DrvROPCodes.h, graphics/x11drv/DrvRegions.c, graphics/x11drv/DrvRegions.h, graphics/x11drv/DrvText.c, graphics/x11drv/DrvText.h, graphics/x11drv/DrvUtils.c, graphics/x11drv/DrvWinSock.c, graphics/x11drv/DrvWinSock.h, graphics/x11drv/DrvWindows.c, graphics/x11drv/RopCodes.c, graphics/x11drv/XEvents.c, graphics/x11drv/XICCCM.c:
+	Moving X11 dependent graphics driver.
+
+	* graphics/Gdi.h, graphics/GdiBitmaps.c, graphics/GdiBoundsRect.c, graphics/GdiBrute.c, graphics/GdiClipping.c, graphics/GdiDC.c, graphics/GdiDCAttr.c, graphics/GdiGraphics.c, graphics/GdiImages.c, graphics/GdiMath.c, graphics/GdiObjects.c, graphics/GdiPrinter.c, graphics/GdiRegions.c, graphics/GdiTTEngine.c, graphics/GdiText.c:
+	Moving GDI objects.
+
+	* controls/Button.c, controls/Button.h, controls/ButtonDraw.c, controls/ComboBox.c, controls/Edit.c, controls/Edit.h, controls/EditDraw.c, controls/EditKey.c, controls/EditMem.c, controls/EditMemBin.c, controls/EditMisc.c, controls/Editx.h, controls/Frame.c, controls/Listbox.c, controls/Scroll.c, controls/ScrollPaint.c, controls/Static.c, controls/Static.h:
+	Moving windows controls.
+
+Sun Mar 14 11:25:00 1999  Jimen Ching  <jching@core2>
+
+	* resources/asterisk.ico, resources/cdrom.bmp, resources/colorcrosshair.cur, resources/colorcrosshair.ico, resources/crossled.bmp, resources/dir.bmp, resources/dividor.cur, resources/divopen.cur, resources/dragarrw.ico, resources/exclamtn.ico, resources/floppy.bmp, resources/foldersdrives.bmp, resources/handdrag.cur, resources/harddrive.bmp, resources/hlpdemo.hlp, resources/hs_bdiag.bmp, resources/hs_cross.bmp, resources/hs_dcros.bmp, resources/hs_fdiag.bmp, resources/hs_horz.bmp, resources/hs_vert.bmp, resources/icon2.ico, resources/idcappst.cur, resources/idcarrow.cur, resources/idcarrow_mac.cur, resources/idccross.cur, resources/idcdrag.cur, resources/idchelp.cur, resources/idcibeam.cur, resources/idcibeam_mac.cur, resources/idcicon.cur, resources/idcno.cur, resources/idcnull.cur, resources/idcnull_mac.cur, resources/idcsize.cur, resources/idcszne.cur, resources/idcszns.cur, resources/idcsznw.cur, resources/idcszwe.cur, resources/idcuparr.cur, resources/idcwait.cur, resources/idcwait_mac.cur, resources/idiapp.ico, resources/idihand.ico, resources/landscape.ico, resources/luminosity.cur, resources/luminosity.ico, resources/mappeddrive.bmp, resources/networkdrive.bmp, resources/obmbtncn.bmp, resources/obmbtsiz.bmp, resources/obmchbxs.bmp, resources/obmcheck.bmp, resources/obmclose.bmp, resources/obmcombo.bmp, resources/obmcombo.color.bmp, resources/obmdnard.bmp, resources/obmdnari.bmp, resources/obmdnarn.bmp, resources/obmlfard.bmp, resources/obmlfari.bmp, resources/obmlfarn.bmp, resources/obmmnar.bmp, resources/obmredud.bmp, resources/obmredun.bmp, resources/obmrestd.bmp, resources/obmrestn.bmp, resources/obmrgard.bmp, resources/obmrgari.bmp, resources/obmrgarn.bmp, resources/obmsize.bmp, resources/obmupard.bmp, resources/obmupari.bmp, resources/obmuparn.bmp, resources/obmzoomd.bmp, resources/obmzoomn.bmp, resources/oldclose.bmp, resources/olddnar.bmp, resources/oldlfar.bmp, resources/oldredu.bmp, resources/oldrest.bmp, resources/oldrgar.bmp, resources/oldupar.bmp, resources/oldzoom.bmp, resources/opencurrdir.bmp, resources/opendir.bmp, resources/portrait.ico, resources/printer.bmp, resources/question.ico, resources/raiseddown.bmp, resources/raisedleft.bmp, resources/raisedright.bmp, resources/raisedup.bmp, resources/ramdrive.bmp, resources/recessdown.bmp, resources/recessleft.bmp, resources/recessright.bmp, resources/recessup.bmp, resources/stdlarge.bmp, resources/stdsmall.bmp, resources/truetype.bmp, resources/truetypeprinter.bmp, resources/viewlarg.bmp, resources/viewsmll.bmp, resources/willows.bmp, resources/willows.ico:
+	Moving resource files.
+
+	* programs/twinview/twinhelp/secwnd.h, programs/twinview/twinhelp/topicdat.c, programs/twinview/twinhelp/topicdat.h, programs/twinview/twinhelp/twhlprc.h, programs/twinview/twinhelp/twinhelp.def, programs/twinview/twinhelp/twinhelp.ini, programs/twinview/twinhelp/twinhelp.mak, programs/twinview/twinhelp/twinhelp.rc, programs/twinview/twinhelp/winmem.c, programs/twinview/twinhelp/winmem.h, programs/twinview/twinhelp/wnddata.c, programs/twinview/twinhelp/wnddata.h, programs/twinview/twinhelp/wndlist.c, programs/twinview/twinhelp/wndlist.h, programs/twinview/twinhelp/wndpos.c, programs/twinview/twinhelp/wndpos.h, programs/twinview/hlponhlp/twinhelp.hpj, programs/twinview/hlponhlp/twinhelp.rtf, programs/twinview/tvlib/extrbyte.c, programs/twinview/tvlib/files.c, programs/twinview/tvlib/libinfo.c, programs/twinview/tvlib/liblist.c, programs/twinview/tvlib/memory.c, programs/twinview/tvlib/menulist.c, programs/twinview/tvlib/message.c, programs/twinview/tvlib/open.c, programs/twinview/tvlib/tvinfo.c, programs/twinview/tvlib/tvini.c, programs/twinview/tvlib/tvlib.c, programs/twinview/tvlib/tvlib.def, programs/twinview/tvlib/tvlib.h, programs/twinview/tvlib/tvlib.mak, programs/twinview/tvlib/tvlibprv.h, programs/twinview/tvlib/wndinfo.c, programs/twinview/twinhelp/accel.c, programs/twinview/twinhelp/accel.h, programs/twinview/twinhelp/back.c, programs/twinview/twinhelp/back.h, programs/twinview/twinhelp/bmp102.bmp, programs/twinview/twinhelp/btnbar.c, programs/twinview/twinhelp/btnbar.h, programs/twinview/twinhelp/dialogs.c, programs/twinview/twinhelp/dialogs.h, programs/twinview/twinhelp/dispbuff.c, programs/twinview/twinhelp/display.c, programs/twinview/twinhelp/display.h, programs/twinview/twinhelp/elements.c, programs/twinview/twinhelp/elements.h, programs/twinview/twinhelp/filebuff.c, programs/twinview/twinhelp/filebuff.h, programs/twinview/twinhelp/files.c, programs/twinview/twinhelp/files.h, programs/twinview/twinhelp/fontbuff.c, programs/twinview/twinhelp/fontbuff.h, programs/twinview/twinhelp/globals.c, programs/twinview/twinhelp/globals.h, programs/twinview/twinhelp/helplist.c, programs/twinview/twinhelp/helplist.h, programs/twinview/twinhelp/history.c, programs/twinview/twinhelp/history.h, programs/twinview/twinhelp/hlpfile.c, programs/twinview/twinhelp/hlpfile.h, programs/twinview/twinhelp/hlpmacro.c, programs/twinview/twinhelp/hlpmacro.h, programs/twinview/twinhelp/hotspots.h, programs/twinview/twinhelp/inifile.c, programs/twinview/twinhelp/libmain.c, programs/twinview/twinhelp/macroeng.c, programs/twinview/twinhelp/macroeng.h, programs/twinview/twinhelp/menu.c, programs/twinview/twinhelp/menu.h, programs/twinview/twinhelp/msgbox.c, programs/twinview/twinhelp/msgbox.h, programs/twinview/twinhelp/portable.c, programs/twinview/twinhelp/portable.h, programs/twinview/twinhelp/search.c, programs/twinview/twinhelp/search.h, programs/twinview/twinhelp/secwnd.c:
+	Moving twinview application.
+
+	* tools/lzc.c, tools/whead/N3.c, tools/whead/N3.h, tools/whead/apilist.c, tools/whead/apilist.h, tools/whead/resdump.c, tools/whead/whead.c, tools/whead/whead.h, programs/prnsetup/Makefile.in, programs/prnsetup/mp.ico, programs/prnsetup/prndc.c, programs/prnsetup/prnsetup.c, programs/prnsetup/prnsetup.h, programs/prnsetup/prnsetup.rc, programs/prnsetup/resource.h:
+	Moving some misc tools.
+
+	* tools/rc/mac/RCCompileFlags.pch, tools/rc/mac/mac.c, tools/rc/mac/rc.r, tools/rc/Makefile.in, tools/rc/buffer.c, tools/rc/buffer.h, tools/rc/cleanup.c, tools/rc/cmdline.c, tools/rc/define.c, tools/rc/define.h, tools/rc/ifyacc.y, tools/rc/mdc.c, tools/rc/printres.c, tools/rc/rc.c, tools/rc/rc.h, tools/rc/rclex.l, tools/rc/rcyacc.y, tools/rc/resfunc.h, tools/rc/resources.c, tools/rc/restypes.h, tools/rc/util.c:
+	Moving rc program.
+
+	* documentation/rc.1, scripts/Attic/find_debug_channels, scripts/Attic/make_debug, scripts/Attic/mksrc.c, scripts/Attic/mksym, tools/find_debug_channels, tools/make_debug, tools/mksrc.c, tools/mksym:
+	Misc files being moved.
+
+	* documentation/bin-convert.txt, documentation/config.doc, documentation/debugger.1, documentation/dll-binary.txt, documentation/dll-native.txt, documentation/lib-config.txt, documentation/lib-debug.txt, documentation/lib-porting.txt, documentation/lib-qna.txt, documentation/lib-thunk.c, documentation/lib-verify.txt, documentation/src-issues.txt, documentation/twinrc.doc, documentation/wrt-setup.txt:
+	Moving doc directory into documentation.
+
+	* documentation/readme.twinrc, documentation/sample.twinrc, documentation/win.ini:
+	Moving template documentation.
+
+	* win32/LoadPE.c, win32/Makefile.in, win32/PE.def, win32/PE.h, win32/PE.rc, win32/Resources32.c:
+	Moving win32 binary support library.
+
+	* dlls/winsock/Makefile.in, dlls/winsock/WinSock.c, dlls/winsock/WinSock.def, dlls/winsock/WinSock.rc, dlls/winsock/WinSockBin.c, dlls/winsock/WinSockBin.h, dlls/winsock/WinSockIF.c:
+	Moving winsock library.
+
+	* dlls/winspool/Attic/makefile.bin, dlls/winspool/Attic/winspool32.c, dlls/winspool/Attic/winspool32.h, dlls/winspool/Attic/winspool32Bin.c, dlls/winspool/Attic/winspool32Bin.h, dlls/winspool/Makefile.in, dlls/winspool/winspool.c, dlls/winspool/winspool.def, dlls/winspool/winspool.rc, dlls/winspool/winspool32.d:
+	Moving winspool library.
+
+	* dlls/win87em/Makefile.in, dlls/win87em/win87em.c, dlls/win87em/win87em.def, dlls/win87em/win87em.rc, dlls/win87em/win87emIF.c:
+	Moving win87em library.
+
+	* dlls/version/Makefile.in, dlls/version/Ver.c, dlls/version/Ver.def, dlls/version/Ver.rc, dlls/version/VerBin.c, dlls/version/VerIF.c:
+	Moving version library.
+
+	* dlls/toolhelp/Info.c, dlls/toolhelp/Makefile.in, dlls/toolhelp/Task.c, dlls/toolhelp/ToolHelp.c, dlls/toolhelp/ToolHelp.def, dlls/toolhelp/ToolHelp.rc, dlls/toolhelp/ToolHelpIF.c, dlls/toolhelp/debugger.c, dlls/toolhelp/segtab.c:
+	Moving toolhelp library.
+
+	* dlls/system/Makefile.in, dlls/system/System.c, dlls/system/System.def, dlls/system/System.rc, dlls/system/SystemIF.c:
+	Moving system library.
+
+	* dlls/sound/Makefile.in, dlls/sound/Sound.c, dlls/sound/Sound.def, dlls/sound/Sound.doc, dlls/sound/Sound.rc, dlls/sound/SoundBin.c:
+	Moving sound library.
+
+	* dlls/shell/About.c, dlls/shell/About.def, dlls/shell/About.rc, dlls/shell/Attic/makefile.bin, dlls/shell/Attic/shell32.c, dlls/shell/Attic/shell32.h, dlls/shell/Attic/shell32Bin.c, dlls/shell/Attic/shell32Bin.h, dlls/shell/COPYING.LIB, dlls/shell/DragDrop.c, dlls/shell/DragDrop.h, dlls/shell/Makefile.in, dlls/shell/Registry.c, dlls/shell/Shell.c, dlls/shell/ShellIF.c, dlls/shell/shell32.d:
+	Moving shell library.
+
+	* dlls/msvcrt/Attic/makefile.bin, dlls/msvcrt/Attic/msvcrt32.c, dlls/msvcrt/Attic/msvcrt32.h, dlls/msvcrt/Attic/msvcrt32Bin.c, dlls/msvcrt/Attic/msvcrt32Bin.h, dlls/msvcrt/Makefile.in, dlls/msvcrt/msvcrt.bin, dlls/msvcrt/msvcrt.c, dlls/msvcrt/msvcrt.def, dlls/msvcrt/msvcrt.rc, dlls/msvcrt/msvcrt32.d:
+	Moving msvcrt library.
+
+	* multimedia/MCI.c, multimedia/MMBin.c, multimedia/MMIF.c, multimedia/Makefile.in, multimedia/MultiMedia.c, multimedia/MultiMedia.def, multimedia/MultiMedia.rc, multimedia/midi.c, multimedia/mmaux.c, multimedia/mmddk.h, multimedia/mmdrv.c, multimedia/wave.c:
+	Moving mmsystem library.  This directory should be in dlls.
+	Leave it here for now.
+
+	* dlls/lzexpand/LZExpand.c, dlls/lzexpand/LZExpand.def, dlls/lzexpand/LZExpand.rc, dlls/lzexpand/LZExpandBin.c, dlls/lzexpand/Makefile.in:
+	Moving lzexpand library.
+
+	* dlls/keyboard/Keyboard.c, dlls/keyboard/Keyboard.def, dlls/keyboard/Keyboard.rc, dlls/keyboard/KeyboardBin.c, dlls/keyboard/KeyboardIF.c, dlls/keyboard/Makefile.in, dlls/keyboard/SysKeyboard.c:
+	Moving keyboard library.
+
+	* dlls/ddeml/DdeML.c, dlls/ddeml/DdeML.def, dlls/ddeml/DdeML.rc, dlls/ddeml/DdeMLBin.c, dlls/ddeml/DdeMLDefs.h, dlls/ddeml/Makefile.in:
+	Moving DDEML library.
+
+	* dlls/commdlg/COPYING.LIB, dlls/commdlg/ChooseColor.c, dlls/commdlg/ChooseFont.c, dlls/commdlg/Commdlg.c, dlls/commdlg/Commdlg.def, dlls/commdlg/Commdlg.rc, dlls/commdlg/CommdlgIF.c, dlls/commdlg/CommdlgIT.c, dlls/commdlg/CommdlgRC.h, dlls/commdlg/FindReplDlg.c, dlls/commdlg/GetOpenFileName.c, dlls/commdlg/Makefile.in, dlls/commdlg/PrintDlg.c:
+	Moving commdlg library.
+
+	* msdos/fat_core.c, msdos/fat_file.c, msdos/fat_fileio.c, msdos/fat_findfile.c, msdos/fat_lib.c, msdos/fat_main.c, msdos/fat_search.c, msdos/fat_tools.c, msdos/fat_tools.h, msdos/fn_36.c, msdos/fn_36.h, msdos/fn_38.c, msdos/ftype.h, msdos/int_10.c, msdos/int_11.c, msdos/int_12.c, msdos/int_13.c, msdos/int_15.c, msdos/int_1a.c, msdos/int_21.c, msdos/int_25.c, msdos/int_2a.c, msdos/int_2f.c, msdos/int_31.c, msdos/int_3d.c, msdos/int_5c.c, msdos/mfs_config.c, msdos/mfs_core.c, msdos/mfs_core.h, msdos/mfs_fileio.c, msdos/mfs_findfile.c, msdos/mfs_regexp.c, msdos/msclib.c, msdos/xdos.h, msdos/xdosproc.h, msdos/xtime.h, msdos/COPYING.LIB, msdos/Makefile.in, msdos/dos_call.c, msdos/dos_create.c, msdos/dos_date.c, msdos/dos_error.c, msdos/dos_error.h, msdos/dos_findfile.c, msdos/dos_int86.c, msdos/dos_ioctl.c, msdos/dos_timer.c, msdos/dosdefn.h, msdos/fat_access.c:
+	Moving xdos module.
+
+	* dlls/commctrl/COPYING.LIB, dlls/commctrl/CommCtrlRC.h, dlls/commctrl/Makefile.in, dlls/commctrl/WAHDItem.h, dlls/commctrl/WALVColumns.h, dlls/commctrl/WALVItems.h, dlls/commctrl/WCommCtrl.def, dlls/commctrl/WCommCtrl.h, dlls/commctrl/WCommCtrl.rc, dlls/commctrl/WCommctl.c, dlls/commctrl/WControl.h, dlls/commctrl/WDragLbx.c, dlls/commctrl/WDragLbx.h, dlls/commctrl/WHDItem.h, dlls/commctrl/WHdr.c, dlls/commctrl/WHdr.h, dlls/commctrl/WHeader.h, dlls/commctrl/WImgList.c, dlls/commctrl/WImgList.h, dlls/commctrl/WLVColumn.h, dlls/commctrl/WLVHelpr.c, dlls/commctrl/WLVHelpr.h, dlls/commctrl/WLVItem.h, dlls/commctrl/WLVLBox.c, dlls/commctrl/WLVLBox.h, dlls/commctrl/WLView.c, dlls/commctrl/WLView.h, dlls/commctrl/WListView.h, dlls/commctrl/WLists.c, dlls/commctrl/WLists.h, dlls/commctrl/WProgBar.c, dlls/commctrl/WProgBar.h, dlls/commctrl/WPropsht.c, dlls/commctrl/WPropsht.h, dlls/commctrl/WResourc.h, dlls/commctrl/WStatusb.c, dlls/commctrl/WStatusb.h, dlls/commctrl/WTVLBox.c, dlls/commctrl/WTVLBox.h, dlls/commctrl/WTView.c, dlls/commctrl/WTView.h, dlls/commctrl/WTab.c, dlls/commctrl/WTab.h, dlls/commctrl/WTlbCust.c, dlls/commctrl/WTlbCust.h, dlls/commctrl/WToolbar.c, dlls/commctrl/WToolbar.h, dlls/commctrl/WTooltip.c, dlls/commctrl/WTooltip.h, dlls/commctrl/WTrackbr.c, dlls/commctrl/WTrackbr.h, dlls/commctrl/WUpdown.c, dlls/commctrl/WUpdown.h, dlls/commctrl/WWindow.h, dlls/commctrl/custcntl.rc, dlls/commctrl/resource.h:
+	Moving commctrl library.
+
+	* dlls/comm/Comm.def, dlls/comm/Comm.rc, dlls/comm/CommBin.c, dlls/comm/CommDrv.c, dlls/comm/Makefile.in:
+	Moving comm native library.
+
+	* dlls/libdll/COPYING.LIB, dlls/libdll/DefTable.c, dlls/libdll/DummyEnviron.c, dlls/libdll/LibMain.c, dlls/libdll/LibWEP.c, dlls/libdll/Makefile.in, dlls/libdll/ResTable.c, dlls/libdll/linkdll.c:
+	Moving dynamic link library support files.
+
+	* dlls/advapi32/Attic/advapi32.c, dlls/advapi32/Attic/advapi32.h, dlls/advapi32/Attic/advapi32Bin.c, dlls/advapi32/Attic/advapi32Bin.h, dlls/advapi32/Attic/makefile.bin, dlls/advapi32/Makefile.in, dlls/advapi32/advapi.c, dlls/advapi32/advapi32.bin, dlls/advapi32/advapi32.d, dlls/advapi32/advapi32.def, dlls/advapi32/advapi32.rc:
+	Moving advapi32 native library.
+
+	* Attic/CHANGELOG, Attic/Makefile.config.in, ChangeLog.old:
+	Files missed in previous commit (removing used Makefiles).
+
+	* samples/prtdemo/Attic/Makefile, samples/treeview/Attic/Makefile, samples/windemo/Attic/Makefile, samples/windemo32/Attic/Makefile, samples/wmfdemo/Attic/Makefile, debugger/Attic/Makefile, intp32/Attic/Makefile, memory/Attic/Makefile, ole/Attic/Makefile, readline/Attic/Makefile, samples/Attic/Makefile, samples/apidemo/Attic/Makefile, samples/bindemo/Attic/Makefile, samples/bindemo2/Attic/Makefile, samples/bn2demo/Attic/Makefile, samples/cdsdemo/Attic/Makefile, samples/cliptext/Attic/Makefile, samples/ctrldemo/Attic/Makefile, samples/dlgdemo/Attic/Makefile, samples/dlldemo/Attic/Makefile, samples/dltest/Attic/Makefile, samples/hlpdemo/Attic/Makefile, samples/listview/Attic/Makefile, samples/mdidemo/Attic/Makefile, samples/msgdemo/Attic/Makefile, samples/progbar/Attic/Makefile, Attic/Makefile:
+	Removed, configure now generates all makefiles.
+
+Sat Mar 13 07:31:29 1999  Jimen Ching  <jching@core2>
+
+	* configure, configure.in, include/Attic/Win_User.h:
+	Made prototypes conform.  Debugger now defaults to enabled.
+
+Mon Mar  1 22:23:32 1999  Jimen Ching  <jching@core2>
+
+	* samples/treeview/TVDialog.c:
+	Removed call to GetDlgItem, not necessary...
+
+Sun Feb 28 04:53:20 1999  Jimen Ching  <jching@core2>
+
+	* samples/cliptext/cliptext.def, samples/cliptext/cliptext.h, samples/cliptext/cliptext.rc, samples/cliptext/resource.h:
+	Removed ^M's from files.
+
+	* configure, configure.in:
+	Added generation of sample application Makefiles (if directory exists).
+
+Sat Feb 27 22:28:16 1999  Jimen Ching  <jching@core2>
+
+	* samples/Makefile.in, samples/apidemo/Makefile.in, samples/bindemo/Makefile.in, samples/bindemo2/Makefile.in, samples/bn2demo/Makefile.in, samples/cdsdemo/Makefile.in, samples/cliptext/Makefile.in, samples/ctrldemo/Makefile.in, samples/dlgdemo/Makefile.in, samples/dlldemo/Makefile.in, samples/hlpdemo/Makefile.in, samples/listview/Makefile.in, samples/mdidemo/Makefile.in, samples/msgdemo/Makefile.in, samples/progbar/Makefile.in, samples/prtdemo/Makefile.in, samples/treeview/Makefile.in, samples/windemo/Makefile.in, samples/windemo32/Makefile.in, samples/wmfdemo/Makefile.in:
+	Makefile.in's for sample applications.
+
+	* samples/treeview/TVDialog.c: Fixed compile warnings.
+
+	* samples/listview/listview.c: Fixed compile warning.
+
+	* samples/windemo32/resource.h, samples/windemo32/windemo.c, samples/windemo32/windemo.rc:
+	Removed ^M's from files.
+
+Fri Feb 26 08:05:21 1999  Jimen Ching  <jching@core2>
+
+	* samples/apidemo/windemo.c: Use standard win32 API calls.
+
+Tue Feb 23 21:46:01 1999  Jimen Ching  <jching@core2>
+
+	* Make.rules.in, Makefile.in, configure, configure.in:
+	Added option to compile printer setup application.
+
+Fri Feb 19 07:51:42 1999  Jimen Ching  <jching@core2>
+
+	* configure.in, include/platform.h.in, scripts/config.guess, scripts/config.sub:
+	New config.sub/guess versions, moved BSD compatibility macro.
+
+Wed Feb 10 10:01:59 1999  Jimen Ching  <jching@core2>
+
+	* include/commctrl.h: Cleanup prototypes.
+
+	* include/prsht.h: Must use 'u' for union member for non C++ compile.
+
+Tue Feb  9 22:33:31 1999  Jimen Ching  <jching@core2>
+
+	* include/Attic/Win_Base.h:
+	Moved GetCommandLine function around and cleaned up source code.
+
+	* configure, configure.in:
+	Used wrong function name; vfsstat -> statvfs.
+
+	* intp32/Makefile.in: Using wrong name for source file macro.
+
+	* configure, Make.rules.in, configure.in:
+	Do not modify CFLAGS for DLL compile options.
+	Remove check for interpreter on non-Intel processors, no longer true.
+
+Sun Feb  7 03:50:27 1999  Jimen Ching  <jching@core2>
+
+	* mfc/Readme: Directions on how to modify MFC to compile with TWIN.
+
+	* mfc/Attic/tchar.h, mfc/Makefile.in:
+	Support building MFC directly in TWIN makefile.
+
+	* include/windows.h: Code cleanup (unused types).
+
+Fri Feb  5 05:54:55 1999  Jimen Ching  <jching@core2>
+
+	* include/Attic/Win_Reg.h: Code cleanup.
+
+Wed Feb  3 08:33:11 1999  Jimen Ching  <jching@core2>
+
+	* mfc/Makefile.in: Makefile to build MFC native dll.
+
+	* Make.rules.in, Makefile.in, configure, configure.in, debugger/Makefile.in:
+	Cleanup build command.  Added MFC build command.
+
+	* include/prsht.h:
+	Allow both ANSI C and C++ compilation (anonymous union definition).
+
+	* include/commctrl.h: Cleanup some debugging stuff (???).
+
+	* include/Attic/Win_Clib.h:
+	Enable definition of some win32 file access macros.
+
+	* ole/Makefile.in: Wrong extension used for one of the files.
+
+Tue Feb  2 06:48:33 1999  Jimen Ching  <jching@core2>
+
+	* include/cderr.h: Add missing codes.
+
+Sat Jan 30 10:45:50 1999  Jimen Ching  <jching@core2>
+
+	* debugger/Makefile.in, include/platform.h.in, intp32/Makefile.in, memory/Makefile.in, ole/Makefile.in, readline/Makefile.in, Make.rules.in, Makefile.in, configure, configure.in:
+	New build environment to compile sources from another directory.
+
+Sun Jan 24 08:53:17 1999  Jimen Ching  <jching@core2>
+
+	* include/Log.h: Fixed cosmetic problems
+
+Sun Jan 24 04:57:32 1999  cvs  <cvs@core2>
+
+	* samples/Attic/Makefile, samples/apidemo/Attic/Makefile, samples/apidemo/willows.ico, samples/apidemo/windemo.c, samples/apidemo/windemo.def, samples/apidemo/windemo.h, samples/apidemo/windemo.rc, samples/bindemo/Attic/Makefile, samples/bindemo/bindemo.c, samples/bindemo/bindemo.def, samples/bindemo/bindemo.h, samples/bindemo/bindemo.rc, samples/bindemo/willows.ico, samples/bindemo2/Attic/Makefile, samples/bindemo2/bindemo2.c, samples/bindemo2/bindemo2.def, samples/bindemo2/bindemo2.h, samples/bindemo2/bindemo2.rc, samples/bindemo2/binlib2.c, samples/bindemo2/binlib2.def, samples/bindemo2/binlib2.h, samples/bindemo2/binlib2.rc, samples/bindemo2/willows.ico, samples/bn2demo/Attic/Makefile, samples/bn2demo/bindemo.c, samples/bn2demo/bindemo.def, samples/bn2demo/bindemo.h, samples/bn2demo/bindemo.rc, samples/bn2demo/binlib.c, samples/bn2demo/binlib.def, samples/bn2demo/binlib.h, samples/bn2demo/binlib.rc, samples/bn2demo/willows.ico, samples/cdsdemo/Attic/Makefile, samples/cdsdemo/cdsdemo.c, samples/cdsdemo/cdsdemo.def, samples/cdsdemo/cdsdemo.h, samples/cdsdemo/cdsdemo.rc, samples/cdsdemo/willows.ico, samples/cliptext/Attic/Makefile, samples/cliptext/cliptext.c, samples/cliptext/cliptext.def, samples/cliptext/cliptext.h, samples/cliptext/cliptext.mak, samples/cliptext/cliptext.rc, samples/cliptext/mk, samples/cliptext/resource.h, samples/ctrldemo/Attic/Makefile, samples/ctrldemo/ctrldemo.c, samples/ctrldemo/ctrldemo.def, samples/ctrldemo/ctrldemo.rc, samples/ctrldemo/proppage.c, samples/ctrldemo/resource.h, samples/ctrldemo/toolbar.bmp, samples/ctrldemo/willows.ico, samples/dlgdemo/Attic/Makefile, samples/dlgdemo/dlgdemo.c, samples/dlgdemo/dlgdemo.def, samples/dlgdemo/dlgdemo.h, samples/dlgdemo/dlgdemo.rc, samples/dlgdemo/willows.ico, samples/dlldemo/Attic/Makefile, samples/dlldemo/bitmaps.c, samples/dlldemo/bitmaps.def, samples/dlldemo/bitmaps.h, samples/dlldemo/bitmaps.rc, samples/dlldemo/dlldemo.c, samples/dlldemo/dlldemo.def, samples/dlldemo/dlldemo.h, samples/dlldemo/dlldemo.rc, samples/dlldemo/dllres.c, samples/dlldemo/dllres.def, samples/dlldemo/dllres.h, samples/dlldemo/dllres.rc, samples/dlldemo/willows.bmp, samples/dlldemo/willows.ico, samples/dltest/Attic/Makefile, samples/dltest/dltest.c, samples/dltest/lib1.c, samples/dltest/lib2.c, samples/dltest/readme, samples/hlpdemo/Attic/Makefile, samples/hlpdemo/hlpalias.h, samples/hlpdemo/hlpdemo.c, samples/hlpdemo/hlpdemo.def, samples/hlpdemo/hlpdemo.h, samples/hlpdemo/hlpdemo.hlp, samples/hlpdemo/hlpdemo.hpj, samples/hlpdemo/hlpdemo.rc, samples/hlpdemo/hlpdemo.rtf, samples/hlpdemo/mjb1.hlp, samples/hlpdemo/willows.ico, samples/listview/Attic/Makefile, samples/listview/bel.ico, samples/listview/listview.c, samples/listview/listview.h, samples/listview/listview.ico, samples/listview/listview.rc, samples/listview/red.ico, samples/listview/red2.ico, samples/listview/resource.h, samples/listview/sea.ico, samples/mdidemo/Attic/Makefile, samples/mdidemo/mdidemo.c, samples/mdidemo/mdidemo.def, samples/mdidemo/mdidemo.h, samples/mdidemo/mdidemo.rc, samples/mdidemo/willows.ico, samples/msgdemo/Attic/Makefile, samples/msgdemo/msg.c, samples/msgdemo/msgcode.c, samples/msgdemo/msgcode.h, samples/msgdemo/msgdemo.c, samples/msgdemo/msgdemo.def, samples/msgdemo/msgdemo.h, samples/msgdemo/msgdemo.rc, samples/msgdemo/willows.ico, samples/progbar/Attic/Makefile, samples/progbar/progress.c, samples/progbar/progress.h, samples/progbar/progress.ico, samples/progbar/progress.rc, samples/progbar/resource.h, samples/prtdemo/Attic/Makefile, samples/prtdemo/prtdemo.c, samples/prtdemo/prtdemo.def, samples/prtdemo/prtdemo.h, samples/prtdemo/prtdemo.rc, samples/prtdemo/willows.ico, samples/treeview/Attic/Makefile, samples/treeview/TVDialog.c, samples/treeview/TViewApp.c, samples/treeview/TViewApp.h, samples/treeview/TViewApp.rc, samples/treeview/itemstat.bmp, samples/treeview/resource.h, samples/treeview/trview.bmp, samples/treeview/willows.ico, samples/windemo/Attic/Makefile, samples/windemo/willows.ico, samples/windemo/windemo.c, samples/windemo/windemo.def, samples/windemo/windemo.h, samples/windemo/windemo.mak, samples/windemo/windemo.rc, samples/windemo32/Attic/Makefile, samples/windemo32/resource.h, samples/windemo32/willows.ico, samples/windemo32/windemo.c, samples/windemo32/windemo.def, samples/windemo32/windemo.h, samples/windemo32/windemo.mak, samples/windemo32/windemo.rc, samples/wmfdemo/Attic/Makefile, samples/wmfdemo/willows.ico, samples/wmfdemo/wmfdemo.c, samples/wmfdemo/wmfdemo.def, samples/wmfdemo/wmfdemo.h, samples/wmfdemo/wmfdemo.rc:
+	Import of Willows TWIN v 3.1.12
+
+	* samples/Attic/Makefile, samples/apidemo/Attic/Makefile, samples/apidemo/willows.ico, samples/apidemo/windemo.c, samples/apidemo/windemo.def, samples/apidemo/windemo.h, samples/apidemo/windemo.rc, samples/bindemo/Attic/Makefile, samples/bindemo/bindemo.c, samples/bindemo/bindemo.def, samples/bindemo/bindemo.h, samples/bindemo/bindemo.rc, samples/bindemo/willows.ico, samples/bindemo2/Attic/Makefile, samples/bindemo2/bindemo2.c, samples/bindemo2/bindemo2.def, samples/bindemo2/bindemo2.h, samples/bindemo2/bindemo2.rc, samples/bindemo2/binlib2.c, samples/bindemo2/binlib2.def, samples/bindemo2/binlib2.h, samples/bindemo2/binlib2.rc, samples/bindemo2/willows.ico, samples/bn2demo/Attic/Makefile, samples/bn2demo/bindemo.c, samples/bn2demo/bindemo.def, samples/bn2demo/bindemo.h, samples/bn2demo/bindemo.rc, samples/bn2demo/binlib.c, samples/bn2demo/binlib.def, samples/bn2demo/binlib.h, samples/bn2demo/binlib.rc, samples/bn2demo/willows.ico, samples/cdsdemo/Attic/Makefile, samples/cdsdemo/cdsdemo.c, samples/cdsdemo/cdsdemo.def, samples/cdsdemo/cdsdemo.h, samples/cdsdemo/cdsdemo.rc, samples/cdsdemo/willows.ico, samples/cliptext/Attic/Makefile, samples/cliptext/cliptext.c, samples/cliptext/cliptext.def, samples/cliptext/cliptext.h, samples/cliptext/cliptext.mak, samples/cliptext/cliptext.rc, samples/cliptext/mk, samples/cliptext/resource.h, samples/ctrldemo/Attic/Makefile, samples/ctrldemo/ctrldemo.c, samples/ctrldemo/ctrldemo.def, samples/ctrldemo/ctrldemo.rc, samples/ctrldemo/proppage.c, samples/ctrldemo/resource.h, samples/ctrldemo/toolbar.bmp, samples/ctrldemo/willows.ico, samples/dlgdemo/Attic/Makefile, samples/dlgdemo/dlgdemo.c, samples/dlgdemo/dlgdemo.def, samples/dlgdemo/dlgdemo.h, samples/dlgdemo/dlgdemo.rc, samples/dlgdemo/willows.ico, samples/dlldemo/Attic/Makefile, samples/dlldemo/bitmaps.c, samples/dlldemo/bitmaps.def, samples/dlldemo/bitmaps.h, samples/dlldemo/bitmaps.rc, samples/dlldemo/dlldemo.c, samples/dlldemo/dlldemo.def, samples/dlldemo/dlldemo.h, samples/dlldemo/dlldemo.rc, samples/dlldemo/dllres.c, samples/dlldemo/dllres.def, samples/dlldemo/dllres.h, samples/dlldemo/dllres.rc, samples/dlldemo/willows.bmp, samples/dlldemo/willows.ico, samples/dltest/Attic/Makefile, samples/dltest/dltest.c, samples/dltest/lib1.c, samples/dltest/lib2.c, samples/dltest/readme, samples/hlpdemo/Attic/Makefile, samples/hlpdemo/hlpalias.h, samples/hlpdemo/hlpdemo.c, samples/hlpdemo/hlpdemo.def, samples/hlpdemo/hlpdemo.h, samples/hlpdemo/hlpdemo.hlp, samples/hlpdemo/hlpdemo.hpj, samples/hlpdemo/hlpdemo.rc, samples/hlpdemo/hlpdemo.rtf, samples/hlpdemo/mjb1.hlp, samples/hlpdemo/willows.ico, samples/listview/Attic/Makefile, samples/listview/bel.ico, samples/listview/listview.c, samples/listview/listview.h, samples/listview/listview.ico, samples/listview/listview.rc, samples/listview/red.ico, samples/listview/red2.ico, samples/listview/resource.h, samples/listview/sea.ico, samples/mdidemo/Attic/Makefile, samples/mdidemo/mdidemo.c, samples/mdidemo/mdidemo.def, samples/mdidemo/mdidemo.h, samples/mdidemo/mdidemo.rc, samples/mdidemo/willows.ico, samples/msgdemo/Attic/Makefile, samples/msgdemo/msg.c, samples/msgdemo/msgcode.c, samples/msgdemo/msgcode.h, samples/msgdemo/msgdemo.c, samples/msgdemo/msgdemo.def, samples/msgdemo/msgdemo.h, samples/msgdemo/msgdemo.rc, samples/msgdemo/willows.ico, samples/progbar/Attic/Makefile, samples/progbar/progress.c, samples/progbar/progress.h, samples/progbar/progress.ico, samples/progbar/progress.rc, samples/progbar/resource.h, samples/prtdemo/Attic/Makefile, samples/prtdemo/prtdemo.c, samples/prtdemo/prtdemo.def, samples/prtdemo/prtdemo.h, samples/prtdemo/prtdemo.rc, samples/prtdemo/willows.ico, samples/treeview/Attic/Makefile, samples/treeview/TVDialog.c, samples/treeview/TViewApp.c, samples/treeview/TViewApp.h, samples/treeview/TViewApp.rc, samples/treeview/itemstat.bmp, samples/treeview/resource.h, samples/treeview/trview.bmp, samples/treeview/willows.ico, samples/windemo/Attic/Makefile, samples/windemo/willows.ico, samples/windemo/windemo.c, samples/windemo/windemo.def, samples/windemo/windemo.h, samples/windemo/windemo.mak, samples/windemo/windemo.rc, samples/windemo32/Attic/Makefile, samples/windemo32/resource.h, samples/windemo32/willows.ico, samples/windemo32/windemo.c, samples/windemo32/windemo.def, samples/windemo32/windemo.h, samples/windemo32/windemo.mak, samples/windemo32/windemo.rc, samples/wmfdemo/Attic/Makefile, samples/wmfdemo/willows.ico, samples/wmfdemo/wmfdemo.c, samples/wmfdemo/wmfdemo.def, samples/wmfdemo/wmfdemo.h, samples/wmfdemo/wmfdemo.rc:
+	Initial revision
+
+	* readline/Attic/Makefile, readline/COPYING.LIB, readline/README, readline/complete.c, readline/editline.3, readline/editline.c, readline/editline.h, readline/os9.h, readline/sysos9.c, readline/sysunix.c, readline/testit.c, readline/unix.h, readline/version.c, scripts/Attic/find_debug_channels, scripts/Attic/make_debug, scripts/Attic/mksrc.c, scripts/Attic/mksym, scripts/ckspec.c, scripts/config, scripts/config.guess, scripts/config.sub, scripts/fixme, scripts/initvars, scripts/install-sh, scripts/isdefined, scripts/lsapi, scripts/mkdefined:
+	Import of Willows TWIN v 3.1.12
+
+	* readline/Attic/Makefile, readline/COPYING.LIB, readline/README, readline/complete.c, readline/editline.3, readline/editline.c, readline/editline.h, readline/os9.h, readline/sysos9.c, readline/sysunix.c, readline/testit.c, readline/unix.h, readline/version.c, scripts/Attic/find_debug_channels, scripts/Attic/make_debug, scripts/Attic/mksrc.c, scripts/Attic/mksym, scripts/ckspec.c, scripts/config, scripts/config.guess, scripts/config.sub, scripts/fixme, scripts/initvars, scripts/install-sh, scripts/isdefined, scripts/lsapi, scripts/mkdefined:
+	Initial revision
+
+	* include/commdlg.h, include/compobj.h, include/dde.h, include/ddeml.h, include/debug.h, include/debugdefs.h, include/debugtools.h, include/dir.h, include/direct.h, include/dlgs.h, include/dos.h, include/inifile.h, include/initguid.h, include/io.h, include/kerndef.h, include/ldt.h, include/mmsystem.h, include/ole.h, include/ole2ver.h, include/platform.h.in, include/print.h, include/prsht.h, include/share.h, include/shellapi.h, include/toolhelp.h, include/twindlfcn.h, include/twindll.h, include/twinhelp.h, include/twinlog.h, include/twinrt.h, include/win_con.h, include/windows.h, include/windowsx.h, include/windowsx16.h, include/windowsx32.h, include/winnt.h, include/winsock.h, intp32/Attic/Makefile, intp32/COPYING.LIB, intp32/fp87.c, intp32/gen_modrm.c, intp32/hsw_interp.h, intp32/interp_16_32.c, intp32/interp_32_16.c, intp32/interp_32_32.c, intp32/interp_main.c, intp32/interp_modrm.c, intp32/mod_rm.h, memory/Attic/Makefile, memory/heap.c, memory/heap32.h, memory/memory.c, memory/virtual.c, memory/virtual.h, modules/Makefile, modules/README, modules/binfmt_mz.c, modules/mzloader.c, ole/Attic/Makefile, ole/CliBin.c, ole/OleCli.c, ole/OleCliIF.c, ole/OleSvr.c, ole/OleSvrIF.c, ole/SvrBin.c, ole/archive/O2CompObj.c, ole/archive/O2GUID.c, ole/olecli.def, ole/olecli.rc, ole/olesvr.def, ole/olesvr.rc:
+	Import of Willows TWIN v 3.1.12
+
+	* include/commdlg.h, include/compobj.h, include/dde.h, include/ddeml.h, include/debug.h, include/debugdefs.h, include/debugtools.h, include/dir.h, include/direct.h, include/dlgs.h, include/dos.h, include/inifile.h, include/initguid.h, include/io.h, include/kerndef.h, include/ldt.h, include/mmsystem.h, include/ole.h, include/ole2ver.h, include/platform.h.in, include/print.h, include/prsht.h, include/share.h, include/shellapi.h, include/toolhelp.h, include/twindlfcn.h, include/twindll.h, include/twinhelp.h, include/twinlog.h, include/twinrt.h, include/win_con.h, include/windows.h, include/windowsx.h, include/windowsx16.h, include/windowsx32.h, include/winnt.h, include/winsock.h, intp32/Attic/Makefile, intp32/COPYING.LIB, intp32/fp87.c, intp32/gen_modrm.c, intp32/hsw_interp.h, intp32/interp_16_32.c, intp32/interp_32_16.c, intp32/interp_32_32.c, intp32/interp_main.c, intp32/interp_modrm.c, intp32/mod_rm.h, memory/Attic/Makefile, memory/heap.c, memory/heap32.h, memory/memory.c, memory/virtual.c, memory/virtual.h, modules/Makefile, modules/README, modules/binfmt_mz.c, modules/mzloader.c, ole/Attic/Makefile, ole/CliBin.c, ole/OleCli.c, ole/OleCliIF.c, ole/OleSvr.c, ole/OleSvrIF.c, ole/SvrBin.c, ole/archive/O2CompObj.c, ole/archive/O2GUID.c, ole/olecli.def, ole/olecli.rc, ole/olesvr.def, ole/olesvr.rc:
+	Initial revision
+
+	* debugger/Attic/Makefile, debugger/Attic/help.h, debugger/Attic/winetypes.h, debugger/README, debugger/TODO, debugger/break.c, debugger/db_disasm.c, debugger/db_disasm.h, debugger/dbg.y, debugger/debug.l, debugger/debugger.h, debugger/display.c, debugger/expr.c, debugger/expr.h, debugger/glue.c, debugger/hash.c, debugger/info.c, debugger/memory.c, debugger/module.h, debugger/registers.c, debugger/selectors.h, debugger/sig_context.h, debugger/source.c, debugger/stabs.c, debugger/stack.c, debugger/types.c, include/Attic/Win_Base.h, include/Attic/Win_Clib.h, include/Attic/Win_Gdi.h, include/Attic/Win_Kernel.h, include/Attic/Win_MS.h, include/Attic/Win_NT.h, include/Attic/Win_Reg.h, include/Attic/Win_Thread.h, include/Attic/Win_User.h, include/Attic/Winver.h, include/Bin32.h, include/LZExpand.h, include/Log.h, include/ModTable.h, include/Module.h, include/Net.h, include/OEM.h, include/ObjEngine.h, include/Printer.h, include/Resources.h, include/Segment.h, include/System.h, include/Ver.h, include/WSA.h, include/WinMalloc.h, include/WinSockUtil.h, include/WinSocktypes.h, include/cderr.h, include/coguid.h, include/colordlg.h, include/commctrl.h:
+	Import of Willows TWIN v 3.1.12
+
+	* debugger/Attic/Makefile, debugger/Attic/help.h, debugger/Attic/winetypes.h, debugger/README, debugger/TODO, debugger/break.c, debugger/db_disasm.c, debugger/db_disasm.h, debugger/dbg.y, debugger/debug.l, debugger/debugger.h, debugger/display.c, debugger/expr.c, debugger/expr.h, debugger/glue.c, debugger/hash.c, debugger/info.c, debugger/memory.c, debugger/module.h, debugger/registers.c, debugger/selectors.h, debugger/sig_context.h, debugger/source.c, debugger/stabs.c, debugger/stack.c, debugger/types.c, include/Attic/Win_Base.h, include/Attic/Win_Clib.h, include/Attic/Win_Gdi.h, include/Attic/Win_Kernel.h, include/Attic/Win_MS.h, include/Attic/Win_NT.h, include/Attic/Win_Reg.h, include/Attic/Win_Thread.h, include/Attic/Win_User.h, include/Attic/Winver.h, include/Bin32.h, include/LZExpand.h, include/Log.h, include/ModTable.h, include/Module.h, include/Net.h, include/OEM.h, include/ObjEngine.h, include/Printer.h, include/Resources.h, include/Segment.h, include/System.h, include/Ver.h, include/WSA.h, include/WinMalloc.h, include/WinSockUtil.h, include/WinSocktypes.h, include/cderr.h, include/coguid.h, include/colordlg.h, include/commctrl.h:
+	Initial revision
+
+	* Attic/CHANGELOG, Attic/Makefile, Attic/Makefile.config.in, Attic/setup, COPYING.LIB, FAQ, README, TODO, WILLOWS.LIB, configure, configure.in:
+	Import of Willows TWIN v 3.1.12
+
+	* Attic/CHANGELOG, Attic/Makefile, Attic/Makefile.config.in, Attic/setup, COPYING.LIB, FAQ, README, TODO, WILLOWS.LIB, configure, configure.in:
+	Initial revision
+

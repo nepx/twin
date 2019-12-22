@@ -1,0 +1,24 @@
+# Makefile.in for sound dll.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ../..
+curdir          = `pwd`
+
+target          = libsound.$(DLL_EXT)
+
+C_SRCS          = Sound.c SoundBin.c
+RC_SRCS         = Sound.rc
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(CC) $(DLL_LDFLAGS) -o $@ $(OBJS) -L$(blddir)/windows $(DLL_LIBS)
+	$(RM) $(blddir)/windows/$@
+	$(LN_S) $(curdir)/$@ $(blddir)/windows/$@
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

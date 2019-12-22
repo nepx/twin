@@ -1,0 +1,11 @@
+Library	W32SYS
+
+Segments
+
+HEAPSIZE  1024
+
+Exports
+	IsPeFormat @2
+	GetW32SysVersion @5
+	GetPEResourceTable @7
+	GetWin32sInfo @12

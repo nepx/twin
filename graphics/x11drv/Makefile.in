@@ -1,0 +1,27 @@
+# Makefile.in for PAL X11 driver.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ../..
+
+target          = libx11.a
+
+C_SRCS          = DrvGraphics.c DrvImages.c DrvDC.c DrvFloodFill.c \
+                  DrvRegions.c DrvText.c DrvUtils.c DrvIPC.c DrvInit.c \
+                  RopCodes.c DrvWindows.c DrvCursor.c DrvWinSock.c \
+                  DrvColors.c DrvEvents.c XICCCM.c DrvKeyboard.c \
+                  XEvents.c DrvConfig.c DrvPrinting.c
+
+AUX_CFLAGS      = $(X_CFLAGS)
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(AR) $@ $(OBJS)
+	$(RANLIB) $@
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

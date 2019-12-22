@@ -1,0 +1,56 @@
+These are the changes to Borland MFC4.2.  I do not know what are the
+differences between the various MFC distributions, so the differences
+must be extrapolated.
+
+afx.h:
+
+Change the macro TRACE to an empty macro, i.e.
+
+#define TRACE
+
+There are two places where TRACE is defined, one with _DEBUG defined,
+and one with _DEBUG not defined.  Second, change the declaration for
+the two functions below so that it does not use the wchar_t type.  You
+can use WCHAR as the replacement or 'unsigned short'.
+
+_wcstombsz
+_mbstowcsz
+
+filecore.cpp:
+
+There's an '#endif' after the function definition AfxGetInProcServer.
+Move this '#endif' after the function definiton AfxResolveShortcut.
+
+filest.cpp:
+
+The include of types.h and stat.h are using DOS style slashes, change
+them to UNIX style slashes.
+
+strcore.cpp:
+
+Change the function definition of _wcstombsz and _mbstowcsz to match
+the change that was made to afx.h above.
+
+trckrect.cpp:
+
+The static const declaration of 'trackerTerm' must be initialized
+to zero.  I.e. 'static const variable_name = {0};'  The original
+source does not assign to {0}, which is not correct for a const
+object.
+
+wingdix.cpp:
+
+Same as trckrect.cpp, except the variable name is wingdixTerm.
+
+winmini.cpp:
+
+Same as trckrect.cpp, except the variable name is winminiTerm.
+
+That is it.  This should allow the MFC sources to compile with
+the TWIN environment.  Note, there will be lots of 'pragma' warnings
+and other 'undeclared' warnings.  These can be ignored for now.
+
+Any problems or comments, please send them to the TWIN mailing
+lists.  The mailing lists can be found at the Willows web page:
+
+http://www.willows.com/

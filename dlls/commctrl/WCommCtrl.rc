@@ -1,0 +1,195 @@
+/********************************************************************
+
+    @(#)WCommCtrl.rc	1.7
+  
+    Copyright 1997 Willows Software, Inc. 
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Library General Public License as
+published by the Free Software Foundation; either version 2 of the
+License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Library General Public License for more details.
+
+You should have received a copy of the GNU Library General Public
+License along with this library; see the file COPYING.LIB.  If
+not, write to the Free Software Foundation, Inc., 675 Mass Ave,
+Cambridge, MA 02139, USA.
+
+The maintainer of the Willows TWIN Libraries may be reached (Email) 
+at the address twin@willows.com	
+
+********************************************************************/
+
+#include "CommCtrlRC.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+/*
+#undef WINVER
+#define WINVER	0x0400 */
+#include "windows.h"
+#include "commctrl.h"
+#include "WResourc.h"
+#include "WPropsht.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+WPROPSHEETTEMPLATE DIALOG DISCARDABLE  0, 0, 256, 163
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,40,142,50,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,93,142,50,14
+    PUSHBUTTON      "&Apply Now",IDAPPLY,146,142,50,14
+    PUSHBUTTON      "&Help",ID_HELP,199,142,50,14
+    PUSHBUTTON      "&Back",ID_BACK,199,124,50,14
+    PUSHBUTTON      "&Next",ID_NEXT,146,124,50,14
+    PUSHBUTTON      "&Finish",ID_FINISH,93,124,50,14
+    CONTROL         "",ID_PS_TABCONTROL,WWC_TABCONTROL,WS_CHILD | WS_CLIPSIBLINGS | TCS_FOCUSONBUTTONDOWN | TCS_TOOLTIPS,0,0,50,50
+END
+
+WTLBCUSTOMIZETEMPLATE DIALOG DISCARDABLE 0, 0, 358, 125
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Customize Toolbar"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LISTBOX         IDC_LBOX_CUSTOMIZE_LEFT,5,17,119,101,
+                    LBS_OWNERDRAWFIXED | LBS_NOINTEGRALHEIGHT |
+                    LBS_WANTKEYBOARDINPUT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "&Add ->",IDC_BTN_CUSTOMIZE_ADD,130,43,44,14
+    PUSHBUTTON      "<-&Remove",IDC_BTN_CUSTOMIZE_REMOVE,130,64,44,14
+    LISTBOX         IDC_LBOX_CUSTOMIZE_RIGHT,179,17,119,101,
+                    LBS_OWNERDRAWFIXED | LBS_NOINTEGRALHEIGHT | 
+                    LBS_WANTKEYBOARDINPUT | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "&Close",IDOK,307,7,44,14
+    PUSHBUTTON      "R&eset",IDC_BTN_CUSTOMIZE_RESET,307,24,44,14,
+                    WS_DISABLED
+    PUSHBUTTON      "&Help",IDC_BTN_CUSTOMIZE_HELP,307,41,44,14
+    PUSHBUTTON      "Move &Up",IDC_BTN_CUSTOMIZE_MOVEUP,307,75,44,14
+    PUSHBUTTON      "Move &Down",IDC_BTN_CUSTOMIZE_MOVEDOWN,307,92,44,14
+//    LTEXT           "A&vailable buttons",IDC_STATIC,7,6,85,8
+//    LTEXT           "&Toolbar buttons",IDC_STATIC,180,6,85,9
+END
+
+
+/*-----------------------------------------------------------------------------
+**  Provide resources looked for by MFC.
+**---------------------------------------------------------------------------*/
+#define IDD_PROPSHEET	1006
+#define IDD_WIZARD	1020
+
+IDD_PROPSHEET DIALOG 20, 20, 220, 140
+STYLE 0x90c820c4
+CAPTION ""
+FONT 8, "MS Shell Dlg"
+BEGIN
+  DEFPUSHBUTTON "OK", 1, 4, 122, 50, 14, 0x50030001
+  PUSHBUTTON "Cancel", 2, 58, 122, 50, 14, 0x50010000
+  PUSHBUTTON "&Apply", 12321, 112, 122, 50, 14, 0x58010000
+  PUSHBUTTON "Help", 9, 166, 122, 50, 14, 0x50030000
+  CONTROL "", 12320, "SysTabControl32", 0x50030200, 4, 4, 212, 114, 0x50030200
+END
+
+IDD_WIZARD DIALOG 20, 20, 290, 46
+STYLE 0x90c020c4
+CAPTION ""
+FONT 8, "MS Shell Dlg"
+BEGIN
+  CONTROL "", 12320, "SysTabControl32", 0x58020000, 7, 7, 276, 3, 0x58020000
+  LTEXT "", 12326, 7, 17, 276, 1, 0x50001000
+  PUSHBUTTON "< &Back", 12323, 12, 26, 50, 14, 0x50010000
+  DEFPUSHBUTTON "&Next >", 12324, 62, 26, 50, 14, 0x50010001
+  PUSHBUTTON "Finish", 12325, 119, 26, 50, 14, 0x50010000
+  PUSHBUTTON "Cancel", 2, 176, 26, 50, 14, 0x50010000
+  PUSHBUTTON "Help", 9, 233, 26, 50, 14, 0x50030000
+  LTEXT "", 12327, 0, 35, 290, 1, 0x50001000
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+IDC_DIVIDER             CURSOR  DISCARDABLE     "resources/dividor.cur"
+IDC_DIVOPEN             CURSOR  DISCARDABLE     "resources/divopen.cur"
+IDC_CURSOR_DRAG         CURSOR  DISCARDABLE     "resources/handdrag.cur"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_STD_LARGE_COLOR     BITMAP  DISCARDABLE     "resources/stdlarge.bmp"
+IDB_STDSMALLCOLOR       BITMAP  DISCARDABLE     "resources/stdsmall.bmp"
+IDB_VIEW_LARGE_COLOR    BITMAP  DISCARDABLE     "resources/viewlarg.bmp"
+IDB_VIEW_SMALL_COLOR    BITMAP  DISCARDABLE     "resources/viewsmll.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+IDI_DRAGLBX_ARROW	ICON	DISCARDABLE	"resources/dragarrw.ico"
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "CommCtrlRC.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

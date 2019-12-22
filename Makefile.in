@@ -1,0 +1,275 @@
+#############################################################################
+#
+# Makefile for TWIN Library
+#
+# The Willows TWIN Software consists of the Willows TWIN Libraries, and
+# the tools necessary to build the Libraries and Applications.
+# The components are:
+#
+# TOOLS		Tools to build the libraries and applications.
+# PARTS		Subsystems of the library, DOS, multimedia, etc...
+# DRIVER	The platform dependent graphical interface.
+# TWIN		The actual core TWIN library.
+# NATDLLS	Support DLL's for TWIN, Keyboard, WinSock, commdlg...
+# MFC		Native MFC library.
+# SAMPLES	Sample applications.
+#
+#############################################################################
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = .
+
+target          = default
+
+AUX_DEPEND      = aux-depend
+AUX_MOSTLYCLEAN = aux-mostlyclean
+AUX_CLEAN       = aux-clean
+AUX_DISTCLEAN   = aux-distclean
+
+# Make depend needs this macro to work.
+
+C_SRCS          = dummy
+
+#####################################################################
+#
+# Tools necessary to build the library
+#
+#####################################################################
+
+TOOLS           = tools tools/rc
+
+#####################################################################
+#
+# Components built separately
+#
+#####################################################################
+
+PARTS_ALL       = controls if1632 memory msdos osdll scheduler
+
+#####################################################################
+#
+# Optional components
+#
+# Interpreter or native CPU.  We can now use the interpreter on any
+# system, including Intel x86 processors.
+#
+######################################################################
+
+PARTS_INTP_0    = 
+PARTS_INTP_1    = intp32
+
+PARTS           = $(PARTS_INTP_$(TWIN_INTP)) $(PARTS_ALL) 
+
+#####################################################################
+#
+# Platform Abstraction Layer
+#
+# x11 graphics interface, for support for x11 based systems
+#
+#####################################################################
+
+DRIVER          = graphics graphics/x11drv
+
+#####################################################################
+#
+# The twin library itself
+#
+# libtwin.so, the basic library, built-in user, kernel, gdi
+#
+#####################################################################
+
+TWIN            = windows
+
+#####################################################################
+#
+# Native libaries that should be in dlls, but we must follow Twine.
+#
+#####################################################################
+
+DEBUGGER_0      = 
+DEBUGGER_1      = readline debugger
+
+BIN32_0         =
+BIN32_1         = win32
+
+# dlls/libdll.a must be built first, everything depends on it.
+NATDLL1         = dlls ole
+NATDLL2         = $(DEBUGGER_$(TWIN_DEBUGGER)) $(BIN32_$(TWIN_BIN32)) \
+                  multimedia
+
+NATDLLS         = $(NATDLL1) $(NATDLL2)
+
+#####################################################################
+#
+# Build native MFC library
+#
+#####################################################################
+
+MFC             = mfc
+
+#####################################################################
+#
+# Build sample applications
+#
+#####################################################################
+
+SAMPLES         = samples
+
+#####################################################################
+#
+# Build utility applications
+#
+#####################################################################
+
+UTILPROGS       = programs
+
+#####################################################################
+#
+# default target will build rc and the library
+# world will build rc, library and samples
+#
+
+include $(blddir)/Make.rules
+
+default: message tool libtwin xwin
+	@date
+
+world: message tool libtwin native-dll xwin
+	@date
+
+help:
+	@echo "Targets:"
+	@echo
+	@echo "    world ......... libraries and emulator"
+	@echo "    mfc-dll ....... MFC library, must configure with --mfcdir"
+	@echo "    sample-apps ... sample applications"
+	@echo "    util-progs .... utility applications"
+	@echo "    install ....... libraries and emulator"
+	@echo
+
+message:
+	@echo "Build: Willows Library"
+	@echo "Build: $(TWIN)"
+	@date
+
+tool:
+	@echo "========== Tools =========="
+	@for i in $(TOOLS); do ( cd $(blddir)/$$i && $(MAKE) ); done
+	@echo "Build: Willows Tools, complete."
+
+libtwin:
+	@echo "========= LIBTWIN ========="
+	@for i in $(PARTS); do ( cd $(blddir)/$$i && $(MAKE) $(JOBS) ); done
+	@for i in $(DRIVER); do ( cd $(blddir)/$$i && $(MAKE) $(JOBS) ); done
+	@for i in $(TWIN); do ( cd $(blddir)/$$i && $(MAKE) $(JOBS) ); done
+	@echo "Build: Willows Library, complete."
+
+xwin:
+	@echo "========== XWIN ==========="
+	@for i in $(TWIN); do ( cd $(blddir)/$$i && $(MAKE) $(JOBS) xwin$(TWIN_APISIZE) ); done
+	@echo "Build: Willows xwin, complete."
+
+native-dll:
+	@echo "======= Native DLL ========"
+	@for i in $(NATDLLS); do ( cd $(blddir)/$$i && $(MAKE) $(JOBS) ); done
+	@echo "Build: Willows Native DLL Libraries complete."
+
+mfc-dll:
+	@echo "===== Native MFC DLL ======"
+	@for i in $(MFC); do ( cd $(blddir)/$$i && $(MAKE) $(JOBS) ); done
+	@echo "Build: MFC Native DLL Library, complete."
+
+sample-apps:
+	@echo "===== Samples ======"
+	@for i in $(SAMPLES); do ( cd $(blddir)/$$i && $(MAKE) ); done
+	@echo "Build: Library samples, complete."
+
+tarball:
+	@echo "===== Tar ball ======"
+	cd $(top_srcdir)/..; \
+	echo "CVS" > .exclude-files; \
+	echo "Entries" >> .exclude-files; \
+	echo "Repository" >> .exclude-files; \
+	echo "Root" >> .exclude-files; \
+	tar -X .exclude-files -cf twin-$(VERNAME).tar twin; \
+	gzip -9 twin-$(VERNAME).tar; \
+	rm .exclude-files; \
+	echo The snapshot is created at `pwd`.
+
+util-progs:
+	@echo "===== Utilities ======"
+	@for i in $(UTILPROGS); do ( cd $(blddir)/$$i && $(MAKE) ); done
+	@echo "Build: Utility programs, complete."
+
+install:
+	@echo "===== Install ======"
+	@echo
+	@for i in $(NATDLL1); do ( cd $(blddir)/$$i && $(MAKE) install ); done
+	@for i in $(NATDLL2); do ( cd $(blddir)/$$i && $(MAKE) install-lib ); done
+	@for i in $(TWIN); do ( cd $(blddir)/$$i && $(MAKE) install ); done
+	@echo
+	@echo Installation of Willows Twin is complete.
+	@echo
+	@echo Now add $(libdir)
+	@echo to LD_LIBRARY_PATH or /etc/ld.so.conf.  If modifying
+	@echo /etc/ld.so.conf, do not forget to run ldconfig.
+	@echo
+
+###########################################################################
+#
+# Support targets
+#
+# mostlyclean	remove binaries only
+# clean		remove binaries and generated files
+# distclean	remove everything that was built
+# depend 	make sure we can build things
+#
+
+aux-depend:
+	-for i in $(TOOLS); do ( cd $(blddir)/$$i && $(MAKE) depend ); done
+	-for i in $(PARTS); do ( cd $(blddir)/$$i && $(MAKE) depend ); done
+	-for i in $(DRIVER); do ( cd $(blddir)/$$i && $(MAKE) depend ); done
+	-for i in $(TWIN); do ( cd $(blddir)/$$i && $(MAKE) depend ); done
+	-for i in $(NATDLLS); do ( cd $(blddir)/$$i && $(MAKE) depend ); done
+
+#
+#
+#
+
+aux-mostlyclean:
+	-for i in $(TOOLS); do ( cd $(blddir)/$$i && $(MAKE) mostlyclean ); done
+	-for i in $(PARTS); do ( cd $(blddir)/$$i && $(MAKE) mostlyclean ); done
+	-for i in $(DRIVER); do ( cd $(blddir)/$$i && $(MAKE) mostlyclean ); done
+	-for i in $(TWIN); do ( cd $(blddir)/$$i && $(MAKE) mostlyclean ); done
+	-for i in $(NATDLLS); do ( cd $(blddir)/$$i && $(MAKE) mostlyclean ); done
+
+#
+#
+#
+
+aux-clean:
+	-for i in $(TOOLS); do ( cd $(blddir)/$$i && $(MAKE) clean ); done
+	-for i in $(PARTS); do ( cd $(blddir)/$$i && $(MAKE) clean ); done
+	-for i in $(DRIVER); do ( cd $(blddir)/$$i && $(MAKE) clean ); done
+	-for i in $(TWIN); do ( cd $(blddir)/$$i && $(MAKE) clean ); done
+	-for i in $(NATDLLS); do ( cd $(blddir)/$$i && $(MAKE) clean ); done
+
+#
+#
+#
+
+aux-distclean:
+	-for i in $(TOOLS); do ( cd $(blddir)/$$i && $(MAKE) distclean ); done
+	-for i in $(PARTS); do ( cd $(blddir)/$$i && $(MAKE) distclean ); done
+	-for i in $(DRIVER); do ( cd $(blddir)/$$i && $(MAKE) distclean ); done
+	-for i in $(TWIN); do ( cd $(blddir)/$$i && $(MAKE) distclean ); done
+	-for i in $(NATDLLS); do ( cd $(blddir)/$$i && $(MAKE) distclean ); done
+	$(RM) core ctags tags err Make.rules Makefile
+	$(RM) make*.log make*.err
+	$(RM) include/platform.h win/.version
+	$(RM) intp32/Makefile win32/Makefile mfc/Makefile
+	$(RM) config.cache config.log config.status 
+
+symfile:
+	sh $(top_srcdir)/tools/mksym > /tmp/win.sym

@@ -1,0 +1,26 @@
+# Makefile.in for 16bit interpreter.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ..
+
+target          = libintp32.a
+
+C_SRCS          = fp87.c interp_main.c interp_modrm.c interp_16_32.c \
+                  interp_32_16.c interp_32_32.c emu-utils.c external.c \
+		  dis8086.c
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+# do not use these with gcc < 2.95
+#CFLAGS += -O6 -fgcse -fexpensive-optimizations #-DULTRA_DEBUG
+
+$(target): $(OBJS)
+	$(AR) $@ $(OBJS)
+	$(RANLIB) $@
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

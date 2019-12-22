@@ -1,0 +1,44 @@
+# Makefile.in for ole client/server dll.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ..
+curdir          = `pwd`
+
+target          = ole
+
+SVR_C_SRCS      = OleSvr.c SvrBin.c OleSvrIF.c
+SVR_RC_SRCS     = olesvr.rc
+SVR_OBJS        = $(SVR_C_SRCS:.c=.o) \
+                  $(SVR_RC_SRCS:.rc=.res.o)
+
+CLI_C_SRCS      = OleCli.c CliBin.c OleCliIF.c
+CLI_RC_SRCS     = olecli.rc
+CLI_OBJS        = $(CLI_C_SRCS:.c=.o) \
+                  $(CLI_RC_SRCS:.rc=.res.o)
+
+C_SRCS          = $(SVR_C_SRCS) $(CLI_C_SRCS)
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+ole: libolesvr.$(DLL_EXT) libolecli.$(DLL_EXT)
+
+libolesvr.$(DLL_EXT): $(SVR_OBJS)
+	$(CC) $(DLL_LDFLAGS) -o $@ $(SVR_OBJS) -L$(blddir)/windows $(DLL_LIBS)
+	$(RM) $(blddir)/windows/$@
+	$(LN_S) $(curdir)/$@ $(blddir)/windows/$@
+
+libolecli.$(DLL_EXT): $(CLI_OBJS)
+	$(CC) $(DLL_LDFLAGS) -o $@ $(CLI_OBJS) -L$(blddir)/windows $(DLL_LIBS)
+	$(RM) $(blddir)/windows/$@
+	$(LN_S) $(curdir)/$@ $(blddir)/windows/$@
+
+install:
+	$(INSTALL) libolesvr.$(DLL_EXT) $(libdir)/libolesvr.$(DLL_EXT)
+	$(INSTALL) libolecli.$(DLL_EXT) $(libdir)/libolecli.$(DLL_EXT)
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

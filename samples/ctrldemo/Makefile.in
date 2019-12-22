@@ -1,0 +1,21 @@
+# Makefile.in for ctrldemo sample application.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ../..
+
+target          = ctrldemo
+
+C_SRCS          = ctrldemo.c proppage.c
+RC_SRCS         = ctrldemo.rc
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(CC) -o $@ $(OBJS) -L$(blddir)/windows -lshell -lcomctl32
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

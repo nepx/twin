@@ -1,0 +1,16 @@
+
+Library	OLECLI
+
+Segments
+
+Exports
+	OleLoadFromStream	@4
+	OleQueryLinkFromClip	@9 
+	OleQueryCreateFromClip	@10
+	OleRegisterClientDoc	@41
+	OleRevokeClientDoc	@42
+	OleRenameClientDoc	@43
+	OleRevertClientDoc	@44
+	OleSavedClientDoc	@45
+	OleEnumObjects		@47
+	OleQueryClientVersion	@59

@@ -1,0 +1,15 @@
+Library	VERSION
+
+Segments
+
+Win32
+
+Exports
+	GetFileResourceSize @2
+	GetFileResource @3
+	GetFileVersionInfoSize @6
+	GetFileVersionInfo @7
+	VerFindFile @8
+	VerInstallFile @9
+	VerLanguageName @10
+	VerQueryValue @11

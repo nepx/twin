@@ -1,0 +1,26 @@
+#!/bin/sh
+
+base=$1
+
+echo "fixing $1.d" >fixme.log
+cat ${base}.d |while read type count api ordinal
+do
+	if [ "$type" = "stub" ]
+	then
+		ordstr=$api
+		apistr=$count
+		
+		if grep -w $apistr twin32.defined >>fixme.log
+		then
+			echo "# added $apistr"
+			./ckspec ./wine/${base}.spec $apistr $ordstr
+		else
+			echo $type $count $api $ordinal
+		fi
+		continue
+	fi
+	echo $type $count $api $ordinal
+
+done
+
+

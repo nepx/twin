@@ -1,0 +1,161 @@
+Installation of the Willows TWIN software
+
+This document describes the procedures for installing the Willows TWIN
+libraries and emulator.  Though TWIN is at version 3.X.X, it should
+still be considered beta software.  Thus, the standard disclaimer
+applies, and take any necessary precautions to recover from potential
+problems.
+
+
+Building the TWIN libraries
+
+The steps to build the TWIN libraries and emulator is to run the
+following commands from the shell prompt:
+
+	step 1.  mkdir <build_dir>
+	step 2.  cd <build_dir>
+	step 3.  <source_dir>/configure
+	step 4.  make depend [2> make-dep.log
+	step 5.  make [world] [2> make-world.log]
+	step 6.  make install
+	step 7.  make sample
+
+Replace words in angle brackets ('<', '>') with your choice of names.
+The 'source_dir' in step 3 is the full path to the top of the TWIN
+source directory.  In step 5, the target 'world' is optional.  Typing
+'make' by itself will make the base library and the emulator.  To build
+the native libraries listed below, specify the 'world' target.
+
+To verify that the libraries are built correctly and work properly, you
+can also build the sample applications that come with the distribution.
+Step 7 will build all of the sample applications in one command.  But
+this command does not execute the applications.  You will have to run
+each application individually.  All of them are graphics based, so they
+require human intervention.
+
+Each of the steps above follow the standard GNU conventions.  For
+example, to specify your own compiler flags, type:
+
+	CFLAGS="-O4" <source_dir>/configure
+
+This assumes you're using a shell that allows you to do this, bash is
+one such shell.
+
+A list of configure options can be displayed by executing 'configure'
+with the '--help' parameter.  A short description of each option is
+also given.  The options listed are the non-default options.  For
+instance, the option for bin32 support is --disable-bin32.  This is
+used to disable bin32 support because bin32 support is enabled by
+default.
+
+The component libraries that will be built are:
+
+	libtwin32.so		functions for USER, KERNEL and GDI
+	libadvapi32.so		all functions from ADVAPI32.DLL
+	libcomctl32.so		all functions from COMMCTRL.DLL
+	libcomm.so		all functions from COMM.DRV
+	libcommdlg.so		all functions from COMMDLG.DLL
+	libddeml.so		all functions from DDEML.DLL
+	libkeyboard.so		all functions from KEYBOARD.DLL
+	liblz32.so		all functions from LZEXPAND.DLL
+	libmmsystem.so		all functions from MMSYSTEM.DLL
+	libmsvcrt.so		all functions from MSVCRT.DLL
+	libolecli.so		all functions from OLECLI.DLL
+	libolesvr.so		all functions from OLESVR.DLL
+	libshell.so		all functions from SHELL.DLL
+	libsound.so		all functions from SOUND.DLL
+	libsystem.so		all functions from SYSTEM.DLL
+	libtoolhelp.so		all functions from TOOLHELP.DLL
+	libver.so		all functions from VER.DLL
+	libwin87em.so		all functions from WIN87EM.DLL
+	libwinsock.so		all functions from WINSOCK.DLL
+	libwinspool.so		all functions from WINSPOOL.DLL
+
+and support libraries:
+
+	libdebug.so		the debugging library
+	libpe32.so		the win32 binary loader
+
+Some of these libraries are built only when certain options are
+enabled.  For example, libdebug.so is built only when the
+--enable-debugger option is supplied to configure.
+
+
+Running the TWIN emulator
+
+Once the compile is done, the libraries and emulator program will be
+left in <build_dir>/windows.  It is not necessary to install the TWIN
+libraries to run the TWIN emulator.  If you do not install the
+libraries, you must setup the environment [*] to allow the OS to find
+them.  Type the following at the shell prompt to setup the environment:
+
+	set LD_LIBRARY_PATH=<complete path to build_dir>/windows
+	export LD_LIBRARY_PATH
+
+or
+
+	setenv LD_LIBRARY_PATH <complete path to build_dir>/windows
+
+[*] On HPUX, the environment variable is SHLIB_PATH.  You may need to
+run the program 'chatr' on xwin32 to enable this search path.
+
+If you decide to install the libraries and emulator program, you must
+update the path environment variable and re-run the ldconfig program
+to update the dynamic linker cache.
+
+The TWIN emulator program requires a configuration file.  A sample
+configuration file is provided in the <source_dir>/documentation
+directory.  The following is a minimal example of the .twinrc file:
+
+		[boot]
+		openpath=/willows/bin/win:/willows/bin/demo
+		temp=/tmp
+		windows=/willows/twin/windows
+
+This file is a standard windows .ini file, with one required section,
+the [boot] section.  This section allows you to set the following:
+
+	openpath	This colon separated list is equivalent to
+			the PATH variable under windows and unix.
+			This path is where we should search to find 
+			applications that are not given fully 
+			qualified pathname.
+
+	temp		This variable specifies the directory used for
+			temporary files.
+
+	windows		This variable points to where the microsoft
+			WINDOWS directory is located, this is the
+			same as the C:\WINDOWS directory.  This is
+			where we will search for .ini files.  This
+			directory will contain the windows SYSTEM
+			directory containing windows binary dll's.
+
+Place a copy of this file in your home directory named ~/.twinrc.  You
+can now run Windows binary applications by executing the following
+command:
+
+	xwin32 <appname>
+
+xwin32 will search for the Windows application using the openpath
+variable from ~/.twinrc.  You can run xwin32 by itself to bring up an
+open dialog box and search for the binary manually.
+
+
+Reporting problems/bugs
+
+If you get an error while compiling, please send the full output of the
+compile command to the mailing list.  The full output is the 'make'
+output that is stored in the log file if you add '2> make-x.log' to the
+commands.
+
+If you get an error while running a binary application, please send
+information on how to obtain that binary application.  It may be very
+hard to debug these problems without the application.  You can also
+send the run-time log file created by xwin32 when you set WIN_OPENLOG.
+
+	setenv WIN_OPENLOG app.log
+
+Also provide information about your platform, such as; processor,
+operating system, compiler, etc.  Your contribution is greatly
+appreciated.  Thank you.

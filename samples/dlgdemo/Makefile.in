@@ -1,0 +1,21 @@
+# Makefile.in for dlgdemo sample application.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ../..
+
+target          = dlgdemo
+
+C_SRCS          = dlgdemo.c
+RC_SRCS         = dlgdemo.rc
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(CC) -o $@ $(OBJS) $(X_LIBS) -L$(blddir)/windows -ltwin32
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

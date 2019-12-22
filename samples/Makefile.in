@@ -1,0 +1,42 @@
+# Makefile.in for samples sub-directory.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ..
+
+AUX_CLEAN       = aux-clean
+AUX_DISTCLEAN   = aux-distclean
+
+# Common to both win16 and win32
+COMMON          = windemo cdsdemo dlgdemo mdidemo msgdemo cliptext dlldemo \
+                  wmfdemo hlpdemo prtdemo apidemo
+
+# Win16 only
+WIN16_0         =
+WIN16_1         = bindemo bindemo2 bn2demo
+WIN16           = $(WIN16_$(TWIN_BIN16))
+
+# Win32 only
+WIN32_0         =
+WIN32_1         = ctrldemo listview progbar treeview windemo32
+WIN32           = $(WIN32_$(TWIN_BIN32))
+
+# Helper macro to access all samples.
+ALL_DIRS        = $(COMMON) $(WIN16_$(TWIN_BIN16)) $(WIN32_$(TWIN_BIN32))
+
+#
+# Rules for samples
+#
+
+include $(blddir)/Make.rules
+
+all:
+	@echo "========== Samples =========="
+	@for i in $(ALL_DIRS); do ( cd $(blddir)/samples/$$i && $(MAKE) ); done
+	@echo "Build: samples complete."
+
+aux-clean:
+	@for i in $(ALL_DIRS); do ( cd $(blddir)/samples/$$i && $(MAKE) clean ); done
+
+aux-distclean:
+	@for i in $(ALL_DIRS); do ( cd $(blddir)/samples/$$i && $(MAKE) distclean ); done

@@ -1,0 +1,182 @@
+#
+# Make.rules.in
+#
+# Each sub-directory Makefile.in should define the following macros:
+# (all are optional)
+#
+# top_srcdir      top source directory
+# srcdir          source directory
+# blddir          top build directory 'relative' to current directory
+#
+# target          default target to build
+#
+# C_SRCS          .c source files
+# CXX_SRCS        .cxx source fiels (xx=pp for C++)
+# S_SRCS          .S source files
+# s_SRCS          .s source files
+# RC_SRCS         .rc source files
+#
+# AUX_C_SRCS      generated .c source files
+# AUX_CXX_SRCS    generated .cxx source files (xx=pp for C++)
+# AUX_S_SRCS      generated .S source files
+# AUX_s_SRCS      generated .s source files
+# AUX_RC_SRCS     generated .rc source files
+#
+# AUX_CFLAGS      auxiliary C compiler flags
+# AUX_CXXFLAGS    auxiliary C++ compiler flags
+# AUX_RCFLAGS     auxiliary rc flags
+# AUX_DEPEND      rule to generate dependency file
+# AUX_CLEAN       rule to clean generated files
+# AUX_DISTCLEAN   rule to clean generated files
+
+# Install directories.
+
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+bindir = @bindir@
+libdir = @libdir@
+mandir = @mandir@
+
+# Define system macros.
+
+TARGET    = @TARGET@
+TWIN_CPU  = @TWIN_CPU@
+TWIN_INTP = @TWIN_INTP@
+
+# TWIN_APISIZE=   implies 16bit library
+# TWIN_APISIZE=32 implies 32bit library
+#
+# TWIN_BIN32=1    implies bin32 support
+# TWIN_BIN32=0    implies no bin32 support
+#
+# TWIN_DEBUGGER=1 implies builtin debugger
+# TWIN_DEBUGGER=0 implies no builtin debugger
+#
+# TWIN_TRACE=1	  implies tracing support included
+# TWIN_TRACE=0	  implies tracing support not included
+#
+# TWIN_DBMALLOC=1 implies alternate malloc library
+# TWIN_DBMALLOC=0 implies no alternate malloc library
+
+TWIN_APISIZE  = @TWIN_APISIZE@
+TWIN_BIN16    = @TWIN_BIN16@
+TWIN_BIN32    = @TWIN_BIN32@
+TWIN_DEBUGGER = @TWIN_DEBUGGER@
+TWIN_TRACE    = @TWIN_TRACE@
+TWIN_DBMALLOC = @TWIN_DBMALLOC@
+
+TWIN_CFLAGS_TRACE_0 = -DNO_DEBUG_MSGS -DNO_TRACE_MSGS
+TWIN_CFLAGS_TRACE_1 = -DDEBUG
+
+TWIN_CFLAGS   = @TWIN_CFLAGS@ -D@TWIN_CPU@ -D@TARGET@ \
+                $(TWIN_APISIZE:32=-DTWIN32) \
+                $(TWIN_CFLAGS_TRACE_$(TWIN_TRACE)) \
+                -I$(top_srcdir)/include \
+                -I$(top_srcdir)/windows \
+                -I$(blddir)/include \
+                -I.
+
+TWIN_CXXFLAGS = -D@TWIN_CPU@ -D@TARGET@ \
+                $(TWIN_APISIZE:32=-DTWIN32) \
+                -I$(top_srcdir)/include \
+                -I$(top_srcdir)/windows \
+                -I$(blddir)/include \
+                -I.
+
+TWIN_RCFLAGS  = $(TWIN_APISIZE:32=-DTWIN32) \
+                -I$(top_srcdir)/include \
+                -I$(blddir)/include
+
+# DLL (native library) building macros (FIXME: should be using libtool).
+
+DLL_EXT       = @DLL_EXT@
+DLL_LDFLAGS   = @DLL_LDFLAGS@
+DLL_LIBS      = -ltwin$(TWIN_APISIZE) $(blddir)/dlls/libdll/libdll.a -lc
+
+# Standard macros from autoconf.
+
+SHELL         = /bin/sh
+CC            = @CC@
+CXX           = @CXX@
+CFLAGS        = @CFLAGS@ $(AUX_CFLAGS)
+CXXFLAGS      = @CXXFLAGS@ $(AUX_CXXFLAGS)
+RCFLAGS       = @RCFLAGS@ $(AUX_RCFLAGS)
+LDFLAGS       = @LDFLAGS@
+X_LIBS        = @X_LIBS@
+X_CFLAGS      = @X_CFLAGS@
+LIBS          = @LIBS@
+CDEP          = @CDEP@
+CXXDEP        = @CXXDEP@
+RANLIB        = @RANLIB@
+YACC          = @YACC@
+LEX           = @LEX@
+RC            = $(blddir)/tools/rc/rc
+LN_S          = @LN_S@
+RM            = rm -f
+AR            = ar rc
+INSTALL       = $(top_srcdir)/scripts/install-sh -c
+@SET_MAKE@
+
+# Helper macro for object files.
+
+OBJS          = $(AUX_C_SRCS:.c=.o) \
+                $(AUX_CXX_SRCS:.cpp=.o) \
+                $(AUX_S_SRCS:.S=.o) \
+                $(AUX_s_SRCS:.s=.o) \
+                $(AUX_RC_SRCS:.rc=.res.o) \
+                $(C_SRCS:.c=.o) \
+                $(CXX_SRCS:.cpp=.o) \
+                $(S_SRCS:.S=.o) \
+                $(s_SRCS:.s=.o) \
+                $(RC_SRCS:.rc=.res.o)
+
+# Implicit rules.
+
+.SUFFIXES:
+
+%.o: %.c
+	$(CC) $(TWIN_CFLAGS) $(CFLAGS) -c $< -o $@
+
+%.o: %.cpp
+	$(CXX) $(TWIN_CXXFLAGS) $(CXXFLAGS) -c $< -o $@
+
+%.o: %.S
+	$(CC) $(TWIN_CFLAGS) $(CFLAGS) -c $< -o $@
+
+%.o: %.s
+	$(CC) $(TWIN_CFLAGS) $(CFLAGS) -c $< -o $@
+
+%.res.c: %.rc
+	$(RC) $(TWIN_RCFLAGS) $(RCFLAGS) $< -o $@
+
+all: $(target)
+
+install-lib: $(AUX_INSTALL)
+	$(INSTALL) $(target) $(libdir)/$(target)
+
+depend dep: clean-dep $(AUX_DEPEND)
+	if test "$(C_SRCS)" != "dummy"; \
+	then \
+		for i in $(C_SRCS); \
+		do \
+			( $(CDEP) $(TWIN_CFLAGS) $(CFLAGS) $(srcdir)/$$i >> .depend ) || true; \
+		done; \
+	fi
+
+mostlyclean: $(AUX_MOSTLYCLEAN)
+	$(RM) *.o $(target)
+	$(RM) *.a *.$(DLL_EXT) *.$(DLL_EXT)*
+
+clean-dep:
+	$(RM) .depend
+
+clean: $(AUX_CLEAN)
+	$(RM) *.o $(target) *.res.c
+	$(RM) *.a *.$(DLL_EXT) *.$(DLL_EXT)*
+
+distclean: $(AUX_DISTCLEAN)
+	$(RM) *.o $(target) *.res.c
+	$(RM) *.a *.$(DLL_EXT) *.$(DLL_EXT)*
+	$(RM) *.bak *.rej *.orig .#* .depend Makefile core
+
+# End of file.

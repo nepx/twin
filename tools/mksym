@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# make a symbol table...
+# this is suitable to import into the twin debugger
+# this effectively allows user defined functions by
+# providing them in a 'source' file.
+
+declare -i hex
+
+lib=./win/libtwin32.so
+echo "#symbols from $lib"
+nm $lib |grep -i " t " |grep -v gcc2_compiled |while read a t f
+do 
+	hex=0x$a
+	hex=$hex+0x4000b000
+	printf "0x%x T $f\n" $hex
+done
+	
+#lib="./win/xwin32"
+#echo "#symbols from $lib"
+#nm ./win/xwin32 |grep " T " |while read a t f
+#do 	
+#	hex=0x$a
+#	printf "0x%x T $f\n" $hex
+#done

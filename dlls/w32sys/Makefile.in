@@ -1,0 +1,26 @@
+# Makefile.in for w32sys dll.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ../..
+curdir          = `pwd`
+
+target          = libw32sys.$(DLL_EXT)
+
+C_SRCS          = w32sys.c w32sysBin.c
+RC_SRCS         = w32sys.rc
+
+AUX_RCFLAGS     = -I$(top_srcdir)
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(CC) $(DLL_LDFLAGS) -o $@ $(OBJS) -L$(blddir)/windows $(DLL_LIBS)
+	$(RM) $(blddir)/windows/$@
+	$(LN_S) $(curdir)/$@ $(blddir)/windows/$@
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

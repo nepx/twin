@@ -1,0 +1,21 @@
+# Makefile.in for bindemo sample application.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ../..
+
+target          = bindemo
+
+C_SRCS          = bindemo.c
+RC_SRCS         = bindemo.rc
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(CC) -o $@ $(OBJS) $(X_LIBS) -L$(blddir)/windows -lshell
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

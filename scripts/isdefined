@@ -1,0 +1,5 @@
+
+grep stub $1 |while read  a b c
+do
+	grep $b twin32.defined
+done

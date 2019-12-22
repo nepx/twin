@@ -1,0 +1,153 @@
+ 
+    If we understand correctly, the distinguishing feature of the XPDK,
+    and where it gets the name "Twin", is from the support for both
+    native-recompiled source and emulated Intel binary approaches to the
+    cross-platform portability problem.  The seam between these two modes--
+    particularly run-time switching--would seem to be very complex and
+    defect-prone.  What is the nature of how this is handled?  How are
+    endian and bitness problems handled?  Are thunk layers necessary?
+
+Twin is as in fraternal twin, as opposed to maternal twin.  Our software
+contains no Microsoft code, so is not in fact an identical twin.  It can
+run the same existing code, and ported code that Microsoft Windows 3.x
+supports, so it is at least a fraternal twin.
+
+A distinguishing feature of the XPDK is both the support for source and
+binaries with one shared library, and the implementation on multiple, and
+diverse platforms, not just Unix.  We in fact have our library running on 
+the Macintosh today, running very small sample code, but it is windows code.
+
+The seam between them is very complex, yet at the same time elegant.  From
+10,000 feet up, we can be viewed as 1 monolithic library, on closer inspection
+we are infact 4.  There is the the Willows Library, and Driver, for two, the
+XDOS Library for a third, and the BinaryInterface Library for the fourth. The
+Willows Library and Driver appear to be one library, but it is very important
+to note that the library has absolutely no X, or platform dependent code in it,
+and uses the same source code for both the X11 and Macintosh versions.  The 
+library has NO concept of binary emulation or intel addressing, or intel CPU
+instructions.
+
+The Driver has a well defined interface, and we have today versions for both 
+the the Mac and X11. The XDOS Library is a DOS emulator, that is optionally 
+linked to applications, and provides support for the standard DOS calls, AND 
+DEVICES, like a:, b: and lpt:, so that a Twin Ported application, can actually 
+access files using syntax like, _lopen("a:\autoexec.bat",0);
+
+The BinaryInterface Library contains all the support for Windows 3.x binaries.
+This includes a loader, to load .exe, .dll and .drv code,  a hook into the
+XDOS Library for DOS support, a DPMI Module to implement support for DOS 
+Protected Memory Model, and finally, an extensible thunking layer to switch
+between binary mode and native mode.  We believe that our solution is 1)
+platform independent, the same code runs on intel and risc, 2) superior to
+the Universal Thunk that Microsoft uses, in that it is also extensible to
+support Windows 32[cs], and user provided thunks.  The switch on an intel
+platform from running in 16bit space to 32bit space is very quick, and can
+range from just a few dozen assembly instructions, to hundreds to handle more
+complex transitions.  As far as defect-prone, from a purely software bug fixing
+ratio, the library has over 40 times the amount of code, but over 100 times
+the number of bugs.  An average thunk has on the average about 10-20 lines
+of C code, with a common assembler gate of about 20 instructions.  All issues
+of addressing, and byte order are handled in this layer, as the library handles
+only native addressing and pointers.  
+
+There are four rationales to provide about why we support this dual mode.
+1) As a way to get applications to test the library.  I am currently running
+   Microsoft Office Applications, Word, Excel and Project.  These are the best
+   ways for us to verify the library, other than to use small 100 line programs
+   that don't reflect what developers really do.
+2) Printer Drivers.  We realized early on that we could not write enough printer
+   drivers for the world to test, so we wrote 4.  The first was our own, roll
+   your own postscript printer driver, the second was/is, (we haven't finished
+   it, and may not) PCL driver, the third is our universal driver, ala unidrv,
+   that should work for a whole range of printers,  and the fourth is our
+   universal binary driver, which should run with any printer driver that works
+   for Windows 3.x.  A binary printer driver interfaces to our library just like
+   any other Windows DLL, and is presented with the same run time environment 
+   that it has under Windows.
+3) Third party VBX, and DLL's.  We saw early on in porting some applications,
+   that they were dependent on third party VBX, and custom controls, that they
+   only had in binary form, and that the vendor is/was not likely to port in
+   a reasonable time, hence we should.
+4) Similar to #1, we run many games, that are very easy to test, and in fact
+   we like to say we have the best games available for Unix.  (They happen to
+   be small, silly things, but where is the equivalent of WinMine and Solitaire
+   on Unix.)
+
+ 
+    There is a statement in the FAQ regarding Windows/95 that appears to
+    say that Windows/95 is one of the target platforms for the Twin XPDK
+    product.  It's not clear to us what this means.
+
+From above, I mentioned that the main Willows Library is actually two, the
+Library proper, and a driver.  We believe that the deployment of applications
+using our technology may actually be done with the application running on an
+application server, (ala Unix), while the display is run remotely, without the
+application even being aware this is happening.  This remote display model does
+conjure up an image on X running on a PC, but we envision running a very small
+application under Windows/95, that takes all the graphic requests coming over
+an RPC style protocol, and translating them to local graphics requests.  This
+is similar to, but richer than, running GDI over a wire.  The memory footprint 
+and CPU requirements, and cost are significantly less than trying to run a X
+server locally.  From the users perspective, the application appears as a local
+desktop application, running at the native speed of the backend server.
+
+ 
+    http://www.willows.com/Twin/prodover.html says: "Current API support
+    is for the Win 16 interface, Windows 95 support due later this year."
+    Particularly in light of the confusion over Windows/95 as a target
+    platform, this statement would be clearer if it were changed to read
+    "Win 32", if that is what is meant here.
+
+Yes.  We have mixed the API used by the ported application, with the idea
+of running on a particular platform.  While it is true that we should say
+Win 32, with an optional [c or s], we don't necessarily intend to support
+Win 32, (ala NT), in that it is both a Window Application API and OS API.
+Our own suspicion is that users will end up focusing on Win 32c, as the 
+dialect of choice, (excluding MFC from the discussion).  It seems that 
+no one really considers Win 32s to be significant, and that Win 32, when
+you add the console api's, the security api's etc, is being used for very
+specialized purposes.  So, we mean Win 32c, which is why/how it turned into
+Windows/95, both the platform, and API.
+
+ 
+	What does Twin on OS/2 get you that OS/2's Windows support doesn't?
+
+From the binary angle, nothing.  From serious applications, you get 32
+support and better integration.  For the next generation, Win 32xxx, it
+means that developers can use the Windows API on OS/2.  We/I don't know
+how many people will make the revolutionary approach and code to PM, but
+we believe the evolutionary approach, could actually persuade developers
+to try OS/2.  Even on Unix, I no longer code anything to X or Motif.
+
+ 
+    Can Twin run Visual Basic applications, or does it just support
+    using VBXes in C++ applications?
+
+We have tested a small number of VB applications using our binary approach,
+but intend to focus now on VBX support for C and C++.
+
+ 
+    Does Twin provide full OLE 2.0 support?  If not, what parts of OLE
+    are supported at this time?
+
+No.  None.  We started, and went down the design path, of a OLE 1.x 
+implementation using the OLE 2.x interface.  The idea is that we could have
+an OLE 2.x application link to another application, but think that it is only
+OLE 1.x compliant. Both applications proceed as if they were OLE 1.x enabled,
+even though one or both might actuall be OLE 2.x enabled.
+
+Where we are today is in discussions with members of the OpenDoc consortium,
+Sun, Lotus and CIL to come up with a common object interface, so that all 
+applications can interoperate, rather than only those that use our API.  We
+can obviously instrument it so that Willows Based Applications can communicate
+with each other, but the trick is to have a standard implementation. 
+
+ 
+    What automated test support is there for Twin XPDK?  Can tools like
+    Microsoft Test or QA Partner be used with Twin?
+
+We have looked at tools that are specific to Unix, but we ourselves agree, 
+that running windows versions would be more appropriate.  Our intention is
+that Microsoft Test would be supported, and are looking to have summer interns
+bootstrap that effort.  Another good reason to provide binary support.
+

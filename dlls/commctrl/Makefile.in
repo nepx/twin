@@ -1,0 +1,43 @@
+# Makefile.in for comctl32 dll.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ../..
+curdir          = `pwd`
+
+target          = libcomctl32.$(DLL_EXT)
+
+C_SRCS          = WCommctl.c WDragLbx.c WHdr.c WImgList.c \
+                  WLVHelpr.c WLView.c WLists.c WProgBar.c \
+                  WPropsht.c WStatusb.c WTVLBox.c WTView.c \
+                  WTab.c WTlbCust.c WToolbar.c WTooltip.c \
+                  WTrackbr.c WUpdown.c WLVLBox.c CommCtrl.c
+RC_SRCS         = WCommCtrl.rc
+
+AUX_C_SRCS      = commctrl32.c commctrl32Bin.c
+
+AUX_RCFLAGS     = -I$(top_srcdir) -ECommctrl_LibMain
+
+AUX_CLEAN       = aux-clean
+AUX_DISTCLEAN   = aux-distclean
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(CC) $(DLL_LDFLAGS) -o $@ $(OBJS) -L$(blddir)/windows $(DLL_LIBS) -lm
+	$(RM) $(blddir)/windows/$@
+	$(LN_S) $(curdir)/$@ $(blddir)/windows/$@
+
+commctrl32.c commctrl32Bin.c: commctrl32.d
+	$(blddir)/tools/mksrc $< commctrl32 COMCTL32
+
+aux-clean:
+	$(RM) commctrl32.[ch] commctrl32Bin.[ch]
+
+aux-distclean: aux-clean
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

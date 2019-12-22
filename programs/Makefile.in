@@ -1,0 +1,42 @@
+# Makefile.in for utility programs.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ..
+
+AUX_DEPEND      = aux-depend
+AUX_MOSTLYCLEAN = aux-mostlyclean
+AUX_CLEAN       = aux-clean
+AUX_DISTCLEAN   = aux-distclean
+
+C_SRCS          = dummy
+
+#####################################################################
+#
+# all the known utility programs.
+#
+#####################################################################
+
+UTILPROGS       = prnsetup
+
+#####################################################################
+
+include $(blddir)/Make.rules
+
+all:
+	@for i in $(UTILPROGS); do ( cd $(blddir)/programs/$$i && $(MAKE) ); done
+
+install:
+	@for i in $(UTILPROGS); do ( cd $(blddir)/programs/$$i && $(MAKE) install ); done
+
+aux-depend:
+	-for i in $(UTILPROGS); do ( cd $(blddir)/programs/$$i && $(MAKE) depend ); done
+
+aux-mostlyclean:
+	-for i in $(UTILPROGS); do ( cd $(blddir)/programs/$$i && $(MAKE) mostlyclean ); done
+
+aux-clean:
+	-for i in $(UTILPROGS); do ( cd $(blddir)/programs/$$i && $(MAKE) clean ); done
+
+aux-distclean:
+	-for i in $(UTILPROGS); do ( cd $(blddir)/programs/$$i && $(MAKE) distclean ); done

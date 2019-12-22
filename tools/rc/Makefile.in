@@ -1,0 +1,54 @@
+# Makefile.in for rc resource compiler.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ../..
+
+target          = rc
+
+# Set version macros.
+
+C_SRCS          = define.c resources.c util.c rc.c printres.c cmdline.c \
+                  buffer.c cleanup.c mdc.c
+AUX_C_SRCS      = rc.y.tab.c rc.z.tab.c lex.yy.c
+
+AUX_DEPEND      = aux-depend
+AUX_CLEAN       = aux-clean
+AUX_DISTCLEAN   = aux-distclean
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(CC) $(LDFLAGS) -o $@ $(OBJS)
+
+lex.yy.c: rclex.l
+	$(LEX) -i $<
+
+rc.y.tab.c rc.y.tab.h: rcyacc.y
+	$(YACC) -d $<
+	@mv y.tab.c rc.y.tab.c
+	@mv y.tab.h rc.y.tab.h
+
+rc.z.tab.c rc.z.tab.h: ifyacc.y
+	$(YACC) -d $<
+	@sed -e "s/yy/zz/g" -e "s/YY/ZZ/g" y.tab.c >rc.z.tab.c
+	@sed -e "s/yy/zz/g" -e "s/YY/ZZ/g" y.tab.h >rc.z.tab.h
+	@rm y.tab.?
+
+aux-depend: $(AUX_C_SRCS)
+	for i in $(AUX_C_SRCS); do ( $(CDEP) $(TWIN_CFLAGS) $(CFLAGS) $$i >> .depend ); done
+
+aux-clean:
+	$(RM) rc.y.tab.c rc.y.tab.h lex.yy.c rc.z.tab.c rc.z.tab.h rc
+
+aux-distclean: aux-clean
+
+rc.y.tab.o: rc.y.tab.c
+rc.z.tab.o: rc.z.tab.c
+lex.yy.o: lex.yy.c
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

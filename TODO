@@ -1,0 +1,62 @@
+This is a list of tasks for contributors and current developers.  The
+list is separated into long term tasks and short term tasks.  Short
+term tasks are important changes that should/must be made as soon as
+possible.  Long term tasks are not as urgent, but are still important. 
+Wishlist is what TWIN should try to attain.
+
+Short term tasks
+
+	graphics/GdiDC.c rev 1.6 introduced a problem with calc.exe.
+	This might be a problem with either calc.exe or the binary
+	support.  There's nothing wrong with the changes to GdiDC.c.
+
+	Some of the sample applications are getting X errors.  If the
+	main window is moved, and the About menu is selected, an X
+	error (invalid handle) occurs.
+
+	modinfo is not being freed when an application exits.  I.e.
+	when WM_QUIT is returned, the message loop is gone, but modinfo
+	is still allocated.  Is the task still around?  Or is it that
+	when the program is WinExec'ed again, we should do more than
+	just look-up the handle of the module?
+
+Long term tasks
+
+	Back port the thread support of Twine to use the existing Drv
+	Hook architecture.  Twine got the great idea of removing the
+	hook interface. The hook interface is better than the osdll
+	interface.  Though moving the source to the osdll directory was
+	a good idea.
+
+	Clean up include directory such that it can be installed into
+	the system include directory for application development.  The
+	non-Windows header files should be moved to twin/windows.
+
+	Build the TWIN software on untested platforms.  Try the various
+	options to configure, i.e. bin16/bin32 support, interpreter,
+	etc.  This doesn't take much effort, only lots of CPU cycles. 
+	If errors arise, just send the output to the development
+	mailing list.
+
+	Build native applications using TWIN libraries.  Some Win32
+	API's will need to be stubbed or implemented.  Here is a list
+	of some source code.  I haven't checked these links in a while.
+
+		V library
+		wxWindows
+		GNU Chess
+		ftp://ftp.ksc.nasa.gov/pub/winvm/
+		http://hp.vector.co.jp/authors/VA002416/teraterm.html
+		http://www.chiark.greenend.org.uk/~sgtatham/putty.html
+		http://www.cyclic.com/ (wincvs)
+
+	Implement more Win32 API.  They must be portable, thus copying
+	WINE code may not be possible.  I don't know if Twine is
+	considering the side effects, as they seem to be developing on
+	GNU/Linux only.
+
+	Write documentation on how to debug binary applications.
+
+Wishlist
+
+	Add new objects to the resource compiler.

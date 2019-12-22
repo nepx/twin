@@ -1,0 +1,23 @@
+# Makefile.in for prnsetup (printer setup) tool.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ../..
+
+target          = prnsetup
+
+C_SRCS          = prnsetup.c prndc.c
+RC_SRCS         = prnsetup.rc
+
+AUX_RCFLAGS     = -I$(top_srcdir)
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(CC) -o $@ $(OBJS) -L$(blddir)/windows -ltwin32
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

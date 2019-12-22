@@ -1,0 +1,24 @@
+# Makefile.in for X11 PAL driver.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ..
+
+target          = libgdi.a
+
+C_SRCS          = GdiObjects.c GdiBitmaps.c GdiClipping.c \
+                  GdiDC.c GdiBoundsRect.c GdiDCAttr.c GdiGraphics.c \
+                  GdiImages.c GdiBrute.c GdiMath.c GdiText.c \
+                  GdiRegions.c GdiPrinter.c GdiTTEngine.c
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(AR) $@ $(OBJS)
+	$(RANLIB) $@
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

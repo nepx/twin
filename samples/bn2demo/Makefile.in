@@ -1,0 +1,37 @@
+# Makefile.in for bn2demo sample application.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ../..
+
+target          = bindemo
+
+BINLIB_SRCS     = binlib.c
+BINLIB_RC_SRCS  = binlib.rc
+BINLIB_RCFLAGS  = -n table
+BINLIB_OBJS     = $(BINLIB_SRCS:.c=.o) $(BINLIB_RC_SRCS:.rc=.res.o)
+
+C_SRCS          = bindemo.c
+RC_SRCS         = bindemo.rc
+
+AUX_CLEAN       = aux-clean
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): binlib $(OBJS)
+	$(CC) -o $@ $(OBJS) $(X_LIBS) -L$(blddir)/windows -lshell libbinlib.$(DLL_EXT)
+
+binlib:
+	$(MAKE) AUX_RCFLAGS="$(BINLIB_RCFLAGS)" libbinlib.$(DLL_EXT)
+
+libbinlib.$(DLL_EXT): $(BINLIB_OBJS)
+	$(CC) $(DLL_LDFLAGS) -o $@ $(BINLIB_OBJS) -L$(blddir)/windows $(DLL_LIBS)
+
+aux-clean:
+	$(RM) *.so
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

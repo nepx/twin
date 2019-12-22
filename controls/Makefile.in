@@ -1,0 +1,25 @@
+# Makefile.in for MS-Windows controls.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ..
+
+target          = libctl.a
+
+BIN_C_SRCS_0    =
+BIN_C_SRCS_1    = EditMemBin.c
+C_SRCS          = Listbox.c ComboBox.c Frame.c Button.c ButtonDraw.c \
+                  Static.c Scroll.c ScrollPaint.c Edit.c EditKey.c \
+                  EditDraw.c EditMem.c EditMisc.c $(BIN_C_SRCS_$(TWIN_BIN16))
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(AR) $@ $(OBJS)
+	$(RANLIB) $@
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

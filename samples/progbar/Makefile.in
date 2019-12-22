@@ -1,0 +1,23 @@
+# Makefile.in for progbar sample application.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ../..
+
+target          = progbar
+
+C_SRCS          = progress.c
+RC_SRCS         = progress.rc
+
+AUX_CFLAGS      = -I$(top_srcdir)/commctrl
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(CC) -o $@ $(OBJS) -L$(blddir)/windows -lshell -lcomctl32
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif

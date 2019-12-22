@@ -1,0 +1,60 @@
+# Makefile.in for OS services driver.
+
+top_srcdir      = @top_srcdir@
+srcdir          = @srcdir@
+blddir          = ..
+
+target          = libosdll.a
+
+THREAD_alpha_linux	= DrvThreads_nothreads.c
+THREAD_alpha_freebsd	= DrvThreads_nothreads.c
+THREAD_alpha_osf 	= DrvThreads_nothreads.c
+THREAD_arm_linux	= DrvThreads_nothreads.c
+#THREAD_hppa_hpux 	= DrvThreads_generic.c FIXME: temporary fix.
+THREAD_hppa_hpux 	= DrvThreads_nothreads.c
+THREAD_mips_irix	= DrvThreads_generic.c
+THREAD_ppc_aix 		= DrvThreads_nothreads.c
+THREAD_ppc_linux 	= DrvThreads_generic.c
+THREAD_sparc_solaris 	= DrvThreads_generic.c
+THREAD_sparc_sunos	= DrvThreads_generic.c
+THREAD_X386_freebsd	= DrvThreads_X386.c
+THREAD_X386_linux	= DrvThreads_X386.c
+THREAD_X386_sco		= DrvThreads_X386.c
+THREAD_X386_solaris 	= DrvThreads_X386.c
+THREAD_SRCS             = $(THREAD_$(TWIN_CPU)_$(TARGET))
+
+SYSTEM_alpha_linux 	=
+SYSTEM_alpha_freebsd 	=
+SYSTEM_alpha_osf 	=
+SYSTEM_arm_linux	=
+#SYSTEM_hppa_hpux 	= DrvSystem_hppa.s FIXME: bad assembly code.
+SYSTEM_hppa_hpux 	=
+SYSTEM_mips_irix	= DrvSystem_mips.s
+SYSTEM_ppc_aix 		= DrvSystem_ppc.s
+SYSTEM_ppc_linux 	= DrvSystem_ppc-gcc.s
+SYSTEM_sparc_solaris 	= DrvSystem_sparc.s
+SYSTEM_sparc_sunos	= DrvSystem_sparc.s
+SYSTEM_X386_freebsd	=
+SYSTEM_X386_linux	=
+SYSTEM_X386_sco		=
+SYSTEM_X386_solaris 	=
+SYSTEM_SRCS             = $(SYSTEM_$(TWIN_CPU)_$(TARGET))
+
+C_SRCS          = DrvSystem.c DrvTime.c DrvDlfcn.c \
+                  DrvFiles.c $(THREAD_SRCS)
+s_SRCS          = $(SYSTEM_SRCS)
+
+VPATH           = @srcdir@
+
+include $(blddir)/Make.rules
+
+$(target): $(OBJS)
+	$(AR) $@ $(OBJS)
+	$(RANLIB) $@
+
+DrvSystem_$(TWIN_CPU).o: DrvSystem_$(TWIN_CPU).s
+	$(CC) $(GFLAG) -c $<
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif
