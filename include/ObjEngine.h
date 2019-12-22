@@ -144,7 +144,7 @@ DWORD TWIN_CheckObject(int);
 			{ 						\
 			    (DWORD) HandleObj(HM_UNLOCKHND,0,	\
 				(LPVOID)((LPOBJHEAD) (h32))->hObj); 	\
-			    (h32) = NULL;                               \
+			    *((void**)h32) = NULL;                               \
 			}
 
 #define	CREATEHWIN(h)	(LPWININFO) \
