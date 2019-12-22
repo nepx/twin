@@ -125,8 +125,8 @@ static DCINFO DCTemplate =
     },
 };
 
-static DCCACHE *TWIN_DCCache = NULL;
-static int TWIN_DCCacheSize = 0;
+DCCACHE *TWIN_DCCache = NULL;
+int TWIN_DCCacheSize = 0;
 
 static BOOL TWIN_AllocDCCache(int nGrowSize)
 {
