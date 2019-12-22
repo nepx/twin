@@ -5429,7 +5429,7 @@ $as_echo "$twin_cv_gcc_fpic" >&6; }
 fi
 
 
-TWIN_CFLAGS=
+TWIN_CFLAGS=-m32
 LIBTWIN_LDFLAGS=-shared
 DLL_LDFLAGS="-shared -Wl,-Bsymbolic"
 DLL_EXT=so

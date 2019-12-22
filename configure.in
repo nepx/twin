@@ -267,7 +267,7 @@ dnl Set compiler and linker flags.
 dnl
 
 dnl Default to using GCC values...
-TWIN_CFLAGS=
+TWIN_CFLAGS=-m32
 LIBTWIN_LDFLAGS=-shared
 DLL_LDFLAGS="-shared -Wl,-Bsymbolic"
 DLL_EXT=so
