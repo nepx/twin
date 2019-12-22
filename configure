@@ -5847,6 +5847,9 @@ case "$target_cpu" in
     i*86 )
 	TWIN_CPU=X386
     ;;
+    linux )
+	TWIN_CPU=X386
+    ;;
 
     powerpc )
 	TWIN_CPU=ppc

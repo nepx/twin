@@ -419,8 +419,12 @@ fi
 
 dnl **** Normalize the TWIN_INTP and other CPU dependent variables ****
 
+dnl The "linux" section below looks strange, but the config parser can't handle modern Linux unames properly. 
 case "$target_cpu" in
     i*86 )
+	TWIN_CPU=X386
+    ;;
+    linux )
 	TWIN_CPU=X386
     ;;
 
