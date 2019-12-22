@@ -3279,7 +3279,10 @@ void set_position(int first_line, int last_line, int first_column, int last_colu
 
 void rcyacc_debug_level(int level)
 {
-#ifdef YYDEBUG
+// http://lists.infradead.org/pipermail/b43-dev/2013-February/002877.html
+// With bison 2.7 YYDEBUG will be set to 0 if it was not set, then #ifdef
+// YYDEBUG returns true, but bison 2.7 treets YYDEBUG 0 as not set.
+#if YYDEBUG // Change from #ifdef to #if
   extern int yydebug;
     
   yydebug = level;
