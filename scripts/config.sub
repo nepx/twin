@@ -80,6 +80,8 @@ case $maybe_os in
     ;;
 esac
 
+echo $maybe_os
+
 ### Let's recognize common machines as not being operating systems so
 ### that things like config.sub decstation-3100 work.  We also
 ### recognize some manufacturers as not being operating systems, so we
@@ -185,6 +187,9 @@ case $basic_machine in
 	i[34567]86)
 	  basic_machine=$basic_machine-pc
 	  ;;
+    x86_64-*)
+	  basic_machine=$basic_machine-pc
+      ;;
 	# Object if more than one company name word.
 	*-*-*)
 		echo Invalid configuration \`$1\': machine \`$basic_machine\' not recognized 1>&2

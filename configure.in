@@ -150,6 +150,10 @@ case "$host" in
    i*86-*-linux* )
 	TARGET=linux
 	;;
+   
+   linux-* )
+    TARGET=linux
+    ;;
 
    i*86-*-cygwin* )
 	TARGET=cygwin

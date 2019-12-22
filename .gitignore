@@ -2,3 +2,15 @@
 confdefs.h
 config.cache
 config.log
+Makefile
+config.status
+Make.rules
+
+# Ignore all build files
+.depend
+*.a 
+*.o
+
+include/platform.h
+
+autom4te.cache/*

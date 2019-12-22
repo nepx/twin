@@ -1,0 +1,50 @@
+
+#include "Bin32.h"
+
+extern MAPTABLE MapTableCOMCTL32[];
+
+void MenuHelp();
+void DrawStatusText();
+void CreateStatusWindow();
+void CreateMappedBitmap();
+void CreatePropertySheetPage();
+void MakeDragList();
+void DrawInsert();
+void InitCommonControls();
+void CreatePropertySheetPageA();
+void CreatePropertySheetPageW();
+void CreateToolbarEx();
+void DestroyPropertySheetPage();
+void ImageList_Add();
+void ImageList_AddMasked();
+void ImageList_BeginDrag();
+void ImageList_Create();
+void ImageList_Destroy();
+void ImageList_DragEnter();
+void ImageList_DragLeave();
+void ImageList_DragMove();
+void ImageList_DragShowNolock();
+void ImageList_Draw();
+void ImageList_DrawEx();
+void ImageList_EndDrag();
+void ImageList_GetBkColor();
+void ImageList_GetDragImage();
+void ImageList_GetIcon();
+void ImageList_GetIconSize();
+void ImageList_GetImageCount();
+void ImageList_GetImageInfo();
+void ImageList_LoadImage();
+void ImageList_LoadImage();
+void ImageList_LoadImageW();
+void ImageList_Merge();
+void ImageList_Remove();
+void ImageList_Replace();
+void ImageList_ReplaceIcon();
+void ImageList_SetBkColor();
+void ImageList_SetDragCursorImage();
+void ImageList_SetIconSize();
+void ImageList_SetOverlayImage();
+void PropertySheet();
+void PropertySheetA();
+void PropertySheetW();
+void Commctrl32End();

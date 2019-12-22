@@ -1,0 +1,19 @@
+
+unsigned long __getmainargs();
+unsigned long TWIN__isascii();
+unsigned long __p__acmdln();
+unsigned long __p__commode();
+unsigned long __p__fmode();
+unsigned long __set_app_type();
+unsigned long _acmdln();
+unsigned long _controlfp();
+unsigned long _initterm();
+unsigned long __dllonexit();
+unsigned long TWINexit();
+unsigned long rand();
+unsigned long srand();
+unsigned long malloc();
+unsigned long TWINmemset();
+unsigned long strncpy();
+unsigned long IT32_msvcrt32End();
+unsigned long msvcrt32End();
