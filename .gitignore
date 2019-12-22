@@ -1,0 +1,4 @@
+# Ignore all files created as part of the configuration process
+confdefs.h
+config.cache
+config.log
