@@ -89,12 +89,12 @@ changes for use with dosemu-0.99 1998/12/13 vignani@tin.it
  */
 static inline void TDBLCPY(const void *de, const void *sr)
 {
-	__asm__ ("
-		movl	(%0),%%eax
-		movl	%%eax,(%1)
-		movl	4(%0),%%eax
-		movl	%%eax,4(%1)
-		movw	8(%0),%%ax
+	__asm__ ("\n\
+		movl	(%0),%%eax\n\
+		movl	%%eax,(%1)\n\
+		movl	4(%0),%%eax\n\
+		movl	%%eax,4(%1)\n\
+		movw	8(%0),%%ax\n\
 		movw	%%ax,8(%1)"
 		:
 		: "r"((char *)sr), "r"((char *)de)
@@ -107,10 +107,10 @@ static inline void TDBLCPY(const void *de, const void *sr)
 static inline int L_ISZERO(const void *sr)
 {
 	int _res;
-	__asm__ ("
-		movw	8(%1),%w0
-		shll	$17,%0
-		orl	(%1),%0
+	__asm__ ("\n\
+		movw	8(%1),%w0\n\
+		shll	$17,%0\n\
+		orl	(%1),%0\n\
 		orl	4(%1),%0"
 		: "=&r"(_res)
 		: "r"((char *)sr)
