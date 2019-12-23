@@ -10,6 +10,7 @@ Make.rules
 .depend
 *.a 
 *.o
+*.so
 
 include/platform.h
 

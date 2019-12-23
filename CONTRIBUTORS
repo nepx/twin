@@ -3,6 +3,9 @@ fixes or additional functionality.  Contributors who provide comments,
 suggestions, and bug reports should be mentioned somewhere, but maybe
 not this file.
 
+nepx
+    Fixes for x86-64 systems
+
 Jacques-Olivier Goussard <Jacques_Goussard@cimmetry.com>
 	Lots of bug fixes and enhancements.
 
