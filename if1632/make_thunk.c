@@ -39,6 +39,9 @@ To send email to the maintainer of the Willows Twin Libraries.
 #include "Driver.h"
 #include "make_thunk.h"
 
+// To make memory areas executable
+#include <sys/mman.h>
+
 #define	TRANS_ADDR	0x3c
 
 struct BIN_THUNK_HASH{
@@ -458,6 +461,9 @@ make_native_thunk(DWORD targ, DWORD conv)
 #endif
 
 		add_native_thunk_hash((DWORD)thunk, targ);
+        DWORD length = THUNK_SIZE * sizeof(long), pbase = (DWORD)thunk, mprotect_length = 4096;
+        if((pbase ^ (length + pbase)) > 4095) mprotect_length <<= 1; // Spans two pages, so must protect more. 
+        mprotect((LPVOID)(pbase & ~0xFFF), mprotect_length, PROT_READ | PROT_WRITE | PROT_EXEC);
 		return (DWORD)thunk;
 	}
 	return 0;
