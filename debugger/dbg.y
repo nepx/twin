@@ -403,7 +403,8 @@ void DEBUG_Main( int signal )
     char SymbolTableFile[256];
     int newmode;
     BOOL32 ret_ok;
-#ifdef YYDEBUG
+    // See tools/rc
+#if YYDEBUG
     yydebug = 0;
 #endif
 
