@@ -1,0 +1,74 @@
+Unless you have GCC 3.0 on an virtual machine running an outdated Linux 
+distribution on a VM somewhere, the TWIN sources provided in 
+twin-src-3.1.14.tar.gz are not going to compile out of the box. This repository
+contains the fixes required to get the emulator to compile, link, and run. 
+
+To preserve the original architecture of TWIN, very little source code has been 
+modified. Most of the changes are in configuration files -- Willows TWIN 
+predates the creation of the x86-64 architecture, and thus the config files 
+were tweaked to allow cross-compilation from 64-bit to 32-bit (there are a 
+number of places in TWIN that assume that sizeof(LPVOID) == sizeof(DWORD), 
+which is simply not true for x64-64). 
+
+HOW DO I COMPILE TWIN? 
+
+Configure TWIN by running the configure script. Include the x86 interpreter -- 
+I got a segfault whenever the emulator tried switching to a 16-bit code 
+segment (this, presumably, would not have been a problem in 1997). The 
+interpreter works decently well with most software anyways. 
+
+ ./configure --enable-intp
+
+Run make exactly as the configure script tells you to. Don't be tempted to 
+just type in "make" and let it run for a while -- it won't compile 
+everything that you need. 
+
+ make depend world 
+
+DO NOT INCLUDE THE "-j" FLAG! You encounter frustrating errors about file 
+sizes being truncated. 
+
+Make may complain about access being denied. 
+
+Do NOT type in "make install" if you're planning to mess around with the 
+source. 
+
+If all goes well, you will have an executable called "xwin32" in the "windows"
+directory. You should also have a set of shared libraries in the same folder. 
+
+Copy documentation/win.ini to the project root. 
+
+Create a file called .twinrc in your home directory and copy-and-paste the 
+following lines:
+
+[boot]
+display=:0.0
+windows=
+temp=/tmp
+openpath=
+nochangecase=1
+
+That last line is especially vital because TWIN will change the case of file 
+paths if that option is not set. 
+
+To run xwin32, you will need to tell the dynamic linker that libtwin.so is in 
+this directory. From the project root, run 
+
+LD_LIBRARY_PATH=./windows/ ./windows/xwin32
+
+If you want to run a program, then simply append it to the end of the command 
+line: 
+
+LD_LIBRARY_PATH=./windows/ ./windows/xwin32 winver.exe
+
+If the program segfaults and you don't know why, try running 
+
+LD_LIBRARY_PATH=./windows/ gdb --args ./windows/xwin32 winver.exe
+
+and investigate for yourself why TWIN crashed. 
+
+WHAT DO I RUN ON TWIN?
+
+I ran a full install of Windows 3.1, Windows 95, and Windows XP in Halfix and
+took out a few apps from the disk installations. Nothing seems to work. 32-bit
+apps hang TWIN
