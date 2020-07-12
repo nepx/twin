@@ -584,7 +584,12 @@ static FONTALIAS facemap[] = {
 	{ 0,"MS Sans Serif","Helvetica",0, 0, 	FF_SWISS|VARIABLE_PITCH },
 	{ 0,"MS Serif","Charter",	0, 0,  	FF_SWISS|VARIABLE_PITCH },
 	{ 0,"Fixedsys","Fixed",         0, 0,   FF_ROMAN|VARIABLE_PITCH },
+#if 0
 	{ 0,"Helv","Helvetica", 	0, 0,  	FF_SWISS|VARIABLE_PITCH },
+#else
+	// Change "Clean" as needed. 
+	{ 0,"Helv","Clean", 	0, 0,  	FF_SWISS|VARIABLE_PITCH },
+#endif
 	{ 0,"Terminal","Courier", 	0, 0,  	FF_MODERN|FIXED_PITCH },
 	{ 0, 0, 0, 			0, 0,   0 }
 };
@@ -810,8 +815,10 @@ DrvInitFonts(LPDRIVERDC lpddc)
 	fontlist = XListFonts(lpddc->dp->display,fontstring,512,&nfonts);
     	UNLOCK_SECTION( _MTLOCK_VIDEO);
 
-	for (fs = fontlist, i = 0;   i < nfonts;   i++, fs++)
+	for (fs = fontlist, i = 0;   i < nfonts;   i++, fs++) {
+        //printf(" Font: %s\n", *fs);
 	       DrvParseFont(*fs, 1);
+    }
 	XFreeFontNames(fontlist);
 
         /*
@@ -1660,7 +1667,7 @@ DrvRealizeFont(LPDRIVERDC lpddc, LSDE_REALIZEFONT *lpRealizeFont, DWORD dwMapper
 	/********************************************************/
 	/* did we get a pointer to last realized font 		*/
 	/********************************************************/
-
+	
 	if (lpMagic) {
 
 	        if (abs(lpRealizeFont->LogFont.lfHeight) == 
@@ -1701,6 +1708,9 @@ DrvRealizeFont(LPDRIVERDC lpddc, LSDE_REALIZEFONT *lpRealizeFont, DWORD dwMapper
 	/* get the alias for the font */
     	DrvFontAlias((LPLOGFONT)&lpRealizeFont->LogFont, facealias, 
 		&minsize, &maxsize);
+	
+	//__asm__("int3");
+		
 
 	/********************************************************/
 	/* search the font family list, 			*/
@@ -1711,6 +1721,7 @@ DrvRealizeFont(LPDRIVERDC lpddc, LSDE_REALIZEFONT *lpRealizeFont, DWORD dwMapper
 	found = 0;
 	for (;found <= 0;) {
 		for (fplist = systemfont.fontinfo; fplist; fplist = fplist->fontnext) {
+		//printf("%s\n", fplist->fontface);
 	    		if (strcasecmp(facealias, fplist->fontface) == 0) {
 				found = 1;
 	       			break;
@@ -1746,7 +1757,8 @@ DrvRealizeFont(LPDRIVERDC lpddc, LSDE_REALIZEFONT *lpRealizeFont, DWORD dwMapper
 		strcpy(facealias,systemfont.fontface);
 		found = -1;
 	}
-
+	
+	//printf("Found: %d\n", found);
 	if(found < 0)
 		return 0;
 

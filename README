@@ -1,8 +1,17 @@
+ The updated readme file is README-NEW. This old one is kept for posterity and 
+ completeness. 
+~ nepx
+
 This is the README file for the Willows TWIN library source
 distribution.  For instructions on how to install the TWIN libraries
 and the emulator, please see the INSTALL file.  For a list of changes
 since the last release, please see the ChangeLog file.  This is the
 official release of the Willows TWIN Library version 3.1.14.
+
+IMPORTANT NOTE: 
+The Willows TWIN libraries were last updated sometime in 1997. I 
+added a number of quick hacks to get the emulator to compile on a 
+modern Ubuntu x86-64 system. Refer to "COMPILING" for more details.
 
 What is Willows TWIN?
 

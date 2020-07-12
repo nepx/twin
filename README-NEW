@@ -1,0 +1,30 @@
+Make sure you have all the dependencies! You need a Linux system (I'm using 
+Ubuntu), X development libraries, a modern version of GCC (haven't tried Clang
+yet), Flex, Bison, and make. 
+
+Grab a copy of the repository: 
+
+ git clone https://github.com/nepx/twin
+
+Autoconf has already been run for you, so simply run ./configure with 
+interpreter support: 
+
+ ./configure --enable-intp
+
+Theoretically, disabling the interpreter and letting applications run natively
+should work, but winver-win95 simply segfaults. 
+
+Run "make depend world" without any additional flags. Don't try anything fancy.
+The TWIN build system is not meant to be executed in parallel or with other 
+options. Subsequent compiles can simply use "make," without the "depend world"
+slowing you down. 
+
+Then, when you're done, run the following: 
+
+ LD_LIBRARY_PATH=./windows/ ./windows/xwin32
+ 
+This allows the dynamic linker to find all the libraries that TWIN needs. It's 
+a clunky invocation, but it allows you to run xwin32 without having to mess 
+around with the system PATH or running "sudo make install." 
+
+

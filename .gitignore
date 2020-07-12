@@ -15,3 +15,12 @@ Make.rules
 include/platform.h
 
 autom4te.cache/*
+
+xwin32
+
+# idk where these files came from 
+XDG_VTNR=7Bin.c
+XDG_VTNR=7Bin.h
+XDG_VTNR=7.c
+XDG_VTNR=7.h
+hModule
