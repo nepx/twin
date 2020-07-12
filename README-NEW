@@ -27,4 +27,20 @@ This allows the dynamic linker to find all the libraries that TWIN needs. It's
 a clunky invocation, but it allows you to run xwin32 without having to mess 
 around with the system PATH or running "sudo make install." 
 
+FAQ 
 
+ Q: "The window's super small and when I resize it, I can't see anything!" 
+ A: That's a problem with the font driver, most likely. Find a system font that
+    you like and fix the following line in graphics/x11drv/DrvText.c: 
+    
+    { 0,"Helv","Clean", 	0, 0,  	FF_SWISS|VARIABLE_PITCH },
+    
+    Replace "Clean" with the name of your new font. 
+    
+    If you don't know what system fonts you have, uncomment the following line:
+    
+    //printf("%s\n", fplist->fontface);
+    
+    and it will list all the system font faces that TWIN recognizes. 
+ Q: I get a segmentation fault when I try to run <app>
+ A: I know, I'm working on that. 
