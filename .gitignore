@@ -24,3 +24,5 @@ XDG_VTNR=7Bin.h
 XDG_VTNR=7.c
 XDG_VTNR=7.h
 hModule
+
+*.TMP
